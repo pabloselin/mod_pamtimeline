@@ -5,7 +5,7 @@
  * @author     Pablo Selín Carrasco - APie <pablo@apie.cl>
  * @copyright  APie
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
- * @link       [AUTHOR_URL]
+ * @link       https://apie.cl
  */
 
 defined('_JEXEC') or die;
