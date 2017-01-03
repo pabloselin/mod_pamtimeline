@@ -6,15 +6,22 @@
 	<authorEmail>pablo@apie.cl</authorEmail>
 	<authorUrl>https://apie.cl</authorUrl>
 	<copyright>APie</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>1.0</version>
+	<license>MIT</license>
+	<version>0.3</version>
 	<description>MOD_PAMTIMELINE_XML_DESCRIPTION</description>
 
 	<files>
+		<filename>mod_pamtimeline.xml</filename>
 		<filename module="mod_pamtimeline">mod_pamtimeline.php</filename>
 		<folder>tmpl</folder>
 		<folder>language</folder>
-		<filename>mod_pamtimeline.xml</filename>
+		<filename>helper.php</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+		<filename>js/pamtimeline.js</filename>
+		<filename>js/timeline.js</filename>
+		<filename>css/pamtimeline.css</filename>
+		<filename>css/timeline.css</filename>
 	</files>
 
 	<!-- Update servers -->
@@ -25,15 +32,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field
-					name="domain"
-					type="url"
-					label="MOD_PAMTIMELINE_URL_LABEL"
-					description="MOD_PAMTIMELINE_URL_DESCRIPTION"
-					hint="https://www.example.com"
-					filter="url"
-					validate="url"
-				/>
+				<field name="layoutChoice" type="list" default="timeline" label="Tipo de funcionalidad" description="mod_layout_choice_description" >
+				    <option value="timeline">Línea de Tiempo</option>
+				    <option value="relations">Relaciones</option>
+				</field>
 			</fieldset>
 			<fieldset
 					name="advanced">
@@ -43,6 +45,7 @@
 						label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 						description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>
+			
 		</fields>
 	</config>
 </extension>

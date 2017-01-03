@@ -1,0 +1,26 @@
+{
+  "name": "mod_pamtimeline",
+  "authors": [
+    "Pablo Selín Carrasco Armijo <pabloselin@gmail.com>"
+  ],
+  "description": "TimelineJS Joomla Module from K2 Fields",
+  "main": "mod_pamtimeline.php",
+  "keywords": [
+    "timeline",
+    "joomla"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "timelinejs": "^2.27.0",
+    "sigma.js": "*"
+  }
+}

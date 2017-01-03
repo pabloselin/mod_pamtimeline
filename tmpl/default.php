@@ -10,10 +10,4 @@
 
 defined('_JEXEC') or die;
 
-// Access to module parameters
-$domain = $params->get('domain', 'https://www.joomla.org');
-?>
-
-<a href="<?php echo $domain; ?>">
-	<?php echo 'Visualizaciones PAM'; ?>
-</a>
+echo '<p>Necesitas escoger algún tipo de funcionalidad en las opciones del módulo para ver algo aquí</p>';

@@ -10,6 +10,9 @@
 
 defined('_JEXEC') or die;
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+require_once dirname(__FILE__) . '/helper.php';
 
-require JModuleHelper::getLayoutPath('mod_pamtimeline', $params->get('layout', 'default'));
+$layout = $params->get('layoutChoice');
+$persons = ModPamTimelineHelper::getPersons();
+
+require JModuleHelper::getLayoutPath('mod_pamtimeline', $layout);
