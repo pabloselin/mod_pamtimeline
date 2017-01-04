@@ -12,36 +12,38 @@ defined('_JEXEC') or die;
 
 //Scripts and styles
 $document = JFactory::getDocument();
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/timeline.js');
+//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/timeline.js');
+$document->addScript( 'https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js' );
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamtimeline.js');
-$document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/timeline.css');
+$document->addStyleSheet( 'https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css' );
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/pamtimeline.css');
+
+$timeline_json = ModPamTimelineHelper::prepareEventsForTimeline(ModPamTimelineHelper::$pammilestonecat);
 
 ?>
 
-<div class="pam-timeline">
-	<?php 
+<div id="pam-timeline" style="width:100%; height:600px;">
 
-		foreach($persons as $person) {
-
-			$years = ModPamTimelineHelper::getPersonYears($person['id']);
-			$image = ModPamTimelineHelper::getPersonImageUrl($person['id']);
-
-			echo '<h2>' . $person['title'] . '</h2>';
-			echo '<p> <img src="' . $image .'" alt="' . $person['title'] . '"></p>';
-			
-			if($years) {
-
-				foreach($years as $year) {
-
-					echo '<p>' . $year . '</p>';
-
-				}
-
-			}
-
-			
-		}
-
-	?>
 </div>
+
+<script>
+	var json_content = '<?php echo $timeline_json;?>' ;
+	var timeline_json = JSON.parse(json_content, function(key, value) {
+		if(key == 'text' && typeof value == 'string') {
+
+			return decodeEntities(value);
+			console.log(value);
+
+		} else {
+
+			return value;	
+
+		}
+		
+	});
+	var timeline_options = {
+		debug: false,
+		language: 'es'
+	}
+	window.timeline = new TL.Timeline('pam-timeline', timeline_json, timeline_options);
+</script>

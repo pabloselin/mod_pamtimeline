@@ -71,20 +71,37 @@ class ModPamTimelineHelper
 
 	}
 
-	public static function getPersonImageUrl( $person_id, $size = 'S' ) {
+	public static function getItems( $catid ) {
+		
+		$db = JFactory::getDbo();
 
-		return Juri::base() . 'media/k2/items/cache/' . md5('Image' . $person_id ) . '_' . $size . '.jpg';
+		$query = $db->getQuery(true)
+					->select($db->quoteName( array('id', 'title', 'alias', 'catid', 'extra_fields', 'introtext')))
+					->from($db->quoteName( self::$pamitemstable))
+					->where($db->quoteName('catid')) . ' LIKE ' . $db->quote( $catid );
+
+		$db->setQuery($query);
+
+		$result = $db->loadAssocList();
+
+		return $result;
 
 	}
 
-	public static function getPersonFields( $person_id ) {
+	public static function getItemImageUrl( $item_id, $size = 'S' ) {
+
+		return Juri::base() . 'media/k2/items/cache/' . md5('Image' . $item_id ) . '_' . $size . '.jpg';
+
+	}
+
+	public static function getItemFields( $item_id ) {
 
 		$db = JFactory::getDbo();
 		
 		$query = $db->getQuery(true)
 					->select($db->quoteName( 'extra_fields'))
 					->from($db->quoteName(self::$pamitemstable))
-					->where($db->quoteName('id') . ' LIKE ' . $db->quote( $person_id ));
+					->where($db->quoteName('id') . ' LIKE ' . $db->quote( $item_id ));
 
 		$db->setQuery($query);
 
@@ -95,13 +112,11 @@ class ModPamTimelineHelper
 
 	}
 
-	public static function getPersonYears( $person_id ) {
+	public static function getItemYears( $item_id ) {
 
-		$fields = self::getPersonFields( $person_id );
+		$fields = self::getItemFields( $item_id );
 
 		$decoded = json_decode( $fields );
-
-
 
 		//var_dump($decoded);
 		foreach($decoded as $decode) {
@@ -114,7 +129,7 @@ class ModPamTimelineHelper
 
 		}
 
-		if( count($years) > 1 ) {
+		if( count($years) >= 1 ) {
 
 			foreach($years as $year) {
 
@@ -202,7 +217,68 @@ class ModPamTimelineHelper
 		return $fieldname;
 	}
 
+	public static function prepareEventsForTimeline( $events_cat ) {
+
+		/**
+		 * Devuelve un string Json para el timeline
+		 */
+
+		$timeline_array = [];
+
+		$timeline_array['title'] = array(
+			'text' => array(
+				'headline' => 'Línea de Tiempo test',
+				'text' => 'Description'
+				)
+			);
+
+		$ranges = array(
+					'S XX Primera Mitad' => array(1900, 1945),
+					'S XX Segunda Mitad' => array(1946, 1970),
+					'S XX Masificación Computadores - Internet' => array(1971, 2017)
+				);
+
+		foreach($ranges as $key=>$range) {
+
+			$timeline_array['eras'][] = array(
+				'start_date' => array( 'year' => $range[0] ),
+				'end_date' => array( 'year' => $range[1] ),
+				'text'	=> array(
+							'headline' => $key
+							)
+				);
+
+		}
+
+		$events = self::getItems($events_cat);
+
+		foreach($events as $event) {
+
+			$title = $event['title'];
+			$introtext = htmlentities($event['introtext']);
 
 	
+			$timeline_array['events'][] = array(
+											'media'		 => array(
+												'url' => self::getItemImageUrl( $event['id'])
+												),
+											'start_date' => array(
+												'year' => self::getItemYears( $event['id'] )
+												),
+											'text'		 => array(
+												'headline'	=> $title,
+												'text'	=> $introtext
+												),
+											'autolink' => false
+											);
+	
+		}
+
+		$json = json_encode( $timeline_array, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP );
+
+		return $json;
+
+	}
+
 
 }
