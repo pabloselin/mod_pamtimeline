@@ -112,6 +112,36 @@ class ModPamTimelineHelper
 
 	}
 
+	public static function getItemField( $item_id, $fieldfromassoc ) {
+
+		$itemFields = self::getItemFields( $item_id );
+
+		$decoded = json_decode( $itemFields );
+		$values = [];
+
+		foreach( $decoded as $decode ) {
+
+			if( $decode->id == self::$pamfieldassocs[$fieldfromassoc]) {
+
+				//$values[$fieldfromassoc] = $decode->value;	
+
+				foreach($decode->value as $fieldvalue) {
+
+					$values[$fieldfromassoc][] = array(
+						'fieldvaluename' => self::valuesToNames( $fieldvalue, $fieldfromassoc ),
+						'fieldvalueid'   => $fieldvalue
+						);
+
+				}
+				
+			}
+
+		}
+
+		return $values;
+
+	}
+
 	public static function getItemYears( $item_id ) {
 
 		$fields = self::getItemFields( $item_id );

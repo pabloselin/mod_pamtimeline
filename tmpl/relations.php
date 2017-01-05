@@ -20,7 +20,31 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 	
 	<?php 
 		$article_id = JFactory::getApplication()->input->get('id');
-		echo 'Relations GRAPH para: ' . $article_id;
+	
+		$persons = ModPamTimelineHelper::getPersons();
+		$persons_array = [];
+
+		foreach($persons as $person) {
+
+			//$personFields = ModPamTimelineHelper::getItemFields( $person['id'] );
+
+			$languages = ModPamTimelineHelper::getItemField( $person['id'], 'languages' );
+			$themes = ModPamTimelineHelper::getItemField( $person['id'], 'themes' );
+			
+			$persons_array[] = array(
+				'person_id' => $person['id'],
+				'person_name' => $person['title'],
+				'person_languages' => $languages,
+				'person_themes' => $themes
+				);
+
+		}
+
+
+		$json_persons = json_encode($persons_array);
+
+		echo $json_persons;
+		
 	?>
 
 </div>
