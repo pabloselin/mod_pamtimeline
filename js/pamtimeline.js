@@ -18,6 +18,26 @@ var decodeEntities = (function() {
   return decodeHTMLEntities;
 })();
 
+var cleanJson = (function() {
+  function cleanJsonString( json_string ) {
+
+    json_string = json_string.replace(/\\n/g, "\\n")  
+                             .replace(/\\'/g, "\\'")
+                             .replace(/\\"/g, '\\"')
+                             .replace(/\\&/g, "\\&")
+                             .replace(/\\r/g, "\\r")
+                             .replace(/\\t/g, "\\t")
+                             .replace(/\\b/g, "\\b")
+                             .replace(/\\f/g, "\\f");
+
+    json_string = json_string.replace(/[\u0000-\u0019]+/g,""); 
+
+    return json_string;
+  }
+
+  return cleanJsonString;
+})();
+
 jQuery(document).ready(function($) {
 	console.log('Timeline Init');
 });

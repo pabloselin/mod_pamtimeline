@@ -247,7 +247,7 @@ class ModPamTimelineHelper
 		return $fieldname;
 	}
 
-	public static function prepareEventsForTimeline( $events_cat ) {
+	public static function prepareEventsForTimeline( $events_cat, $timeline_title, $timeline_description ) {
 
 		/**
 		 * Devuelve un string Json para el timeline
@@ -257,8 +257,8 @@ class ModPamTimelineHelper
 
 		$timeline_array['title'] = array(
 			'text' => array(
-				'headline' => 'Línea de Tiempo test',
-				'text' => 'Description'
+				'headline' => $timeline_title,
+				'text' => htmlentities($timeline_description)
 				)
 			);
 
@@ -286,6 +286,7 @@ class ModPamTimelineHelper
 
 			$title = $event['title'];
 			$introtext = htmlentities($event['introtext']);
+			//$introtext = 'debug';
 
 	
 			$timeline_array['events'][] = array(

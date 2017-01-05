@@ -18,7 +18,7 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamtimeline.js'
 $document->addStyleSheet( 'https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css' );
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/pamtimeline.css');
 
-$timeline_json = ModPamTimelineHelper::prepareEventsForTimeline(ModPamTimelineHelper::$pammilestonecat);
+$timeline_json = ModPamTimelineHelper::prepareEventsForTimeline(ModPamTimelineHelper::$pammilestonecat, $params->get('timeline_title'), $params->get('timeline_description'));
 
 ?>
 
@@ -27,12 +27,13 @@ $timeline_json = ModPamTimelineHelper::prepareEventsForTimeline(ModPamTimelineHe
 </div>
 
 <script>
-	var json_content = '<?php echo $timeline_json;?>' ;
+	var json_content = cleanJson('<?php echo $timeline_json;?>');
+	
 	var timeline_json = JSON.parse(json_content, function(key, value) {
-		if(key == 'text' && typeof value == 'string') {
+		
+		if(key === 'text' && typeof value === 'string') {
 
-			return decodeEntities(value);
-			console.log(value);
+			return decodeEntities(value);			
 
 		} else {
 
