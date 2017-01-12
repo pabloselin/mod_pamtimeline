@@ -37,7 +37,7 @@
 				    <option value="relations">Relaciones</option>
 				</field>
 				<field name="timeline_title" type="text" label="Título para la línea de Tiempo" description="Una línea de texto"></field>
-				<field name="timeline_description" type="editor" label="Descripción para la línea de Tiempo" description="Una línea de texto"></field>
+				<field name="timeline_description" type="editor" label="Descripción para la línea de Tiempo" description="Una línea de texto" filter="safehtml"></field>
 			</fieldset>
 			<fieldset
 					name="advanced">
