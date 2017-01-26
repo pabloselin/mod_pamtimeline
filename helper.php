@@ -27,7 +27,7 @@ class ModPamTimelineHelper
 	 *  32 Tipo de Video
 	 *  33 Tipo de Publicación
 	 *  34 Sitio web Persentaciones
-	 *  
+	 *  35 ID Persona
 	 */
 
 	static $pamfieldstable = '#__k2_extra_fields';
@@ -44,6 +44,7 @@ class ModPamTimelineHelper
 								'livingplace'		=> 22,
 								'languages'			=> 23,
 								'themes'			=> 24,
+								'tools'				=> 25,
 								'website'			=> 26,
 								'persontype'		=> 27,
 								'milestonetype'		=> 29,
@@ -51,7 +52,8 @@ class ModPamTimelineHelper
 								'place'				=> 31,
 								'videotype'			=> 32,
 								'pubtype'			=> 33,
-								'presentationweb'	=> 34 
+								'presentationweb'	=> 34,
+								'personid'			=> 35
 								);
 
 	public static function getPersons( ) {
@@ -123,22 +125,49 @@ class ModPamTimelineHelper
 
 			if( $decode->id == self::$pamfieldassocs[$fieldfromassoc]) {
 
-				//$values[$fieldfromassoc] = $decode->value;	
+				//$values[$fieldfromassoc] = $decode->value;
+				if(is_array($decode->value)) {
 
-				foreach($decode->value as $fieldvalue) {
+					foreach($decode->value as $fieldvalue) {
 
-					$values[$fieldfromassoc][] = array(
-						'fieldvaluename' => self::valuesToNames( $fieldvalue, $fieldfromassoc ),
-						'fieldvalueid'   => $fieldvalue
-						);
+						$values[$fieldfromassoc][] = array(
+							'fieldvaluename' => self::valuesToNames( $fieldvalue, $fieldfromassoc ),
+							'fieldvalueid'   => $fieldvalue
+							);
+
+					}
+
+				} else {
+
+					$values = $decode->value; 
 
 				}
+
+				
 				
 			}
 
 		}
 
 		return $values;
+
+	}
+
+	public static function getFieldIdByName( $field_name ) {
+
+		$db = JFactory::getDbo();
+		
+		$query = $db->getQuery(true)
+					->select($db->quoteName( 'id'))
+					->from($db->quoteName(self::$pamfieldstable))
+					->where($db->quoteName('name') . ' LIKE ' . $db->quote( $field_name ));
+
+		$db->setQuery($query);
+
+		$fieldcontents = $db->loadResult();
+
+		return $fieldcontents;
+
 
 	}
 

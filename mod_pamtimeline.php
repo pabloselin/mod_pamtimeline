@@ -12,6 +12,15 @@ defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/helper.php';
 
+
 $layout = $params->get('layoutChoice');
 
+if($layout) {
+
 require JModuleHelper::getLayoutPath('mod_pamtimeline', $layout);
+
+} else {
+
+require JModuleHelper::getLayoutPath('mod_pamtimeline', 'relations');  
+
+}
