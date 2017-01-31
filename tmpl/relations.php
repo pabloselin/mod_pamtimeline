@@ -9,11 +9,12 @@
  */
 
 defined('_JEXEC') or die;
-
+error_reporting(0);
 //Scripts and styles
 $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamtimeline.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/pamtimeline.css');
 ?>
@@ -63,17 +64,22 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/pamtimelin
 		$json_current_person = json_encode($current_person_data, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 		
 		echo '<p>ID:' . $current_person_id . '</p>';
-		
 	?>
 
+	<div class="pam-relaciones">
+	
 	<div id="relations-select">
 		<select name="select_tax">
 			<option value="languages">Lenguajes</option>
-			<option value="themes">Temas</option>
+			<option value="themes">Temáticas</option>
 			<option value="tools">Herramientas</option>
 		</select>
 	</div>
-	<div id="relations-container">
+	<div id="relations-highlight"></div>
+	<div id="relations-subhighlight"></div>
+	<div id="relations-container" data-highlight="relations-highlight" data-select="relations-select" data-subhighlight="relations-subhighlight">
+	</div>
+
 	</div>
 
 	<script>
@@ -91,6 +97,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/pamtimelin
 			
 			var value = this.value;
 			console.log( this.value );
+			
 			pamsigmaReload(value, json_relations, current_person, current_person_data, 'relations-container');
 
 		});

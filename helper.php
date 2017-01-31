@@ -34,7 +34,7 @@ class ModPamTimelineHelper
 	static $pamitemstable = '#__k2_items';
 
 	static $pamworkscat = 6;
-	static $pampersonscat = 7;
+	static $pampersonscat = 31;
 	static $pameventscat = 19;
 	static $pammilestonecat = 18;
 
@@ -53,7 +53,7 @@ class ModPamTimelineHelper
 								'videotype'			=> 32,
 								'pubtype'			=> 33,
 								'presentationweb'	=> 34,
-								'personid'			=> 35
+								'personid'			=> 38
 								);
 
 	public static function getPersons( ) {
@@ -61,9 +61,9 @@ class ModPamTimelineHelper
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select($db->quoteName( array('id', 'title', 'alias', 'catid', 'extra_fields') ))
+					->select($db->quoteName( array('id', 'title', 'alias', 'catid', 'extra_fields', 'trash') ))
 					->from($db->quoteName( self::$pamitemstable))
-					->where($db->quoteName('catid') . ' LIKE ' . $db->quote( self::$pampersonscat ));
+					->where($db->quoteName('catid') . ' LIKE ' . $db->quote( self::$pampersonscat ) . ' AND ' . $db->quoteName('trash') . ' NOT LIKE ' . $db->quote( 1 ) );
 
 		$db->setQuery($query);
 
