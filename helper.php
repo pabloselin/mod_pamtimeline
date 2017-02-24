@@ -36,7 +36,8 @@ class ModPamTimelineHelper
 	static $pamworkscat = 6;
 	static $pampersonscat = 31;
 	static $pameventscat = 19;
-	static $pammilestonecat = 18;
+	static $pamlatameventscat = 18;
+	static $pamglobaeventscat = 39;
 
 	static $pamfieldassocs = array(
 								'typedoc' 			=> 7,
@@ -340,5 +341,96 @@ class ModPamTimelineHelper
 
 	}
 
+
+	public static function prepareEventsForGroupedTimeline( $timeline_title, $timeline_description ) {
+
+		/**
+		 * Devuelve un string Json para el timeline agrupado en distintas instancias para distintas ERAS y grupos para arte global y latinoamericano
+		 */
+
+		$timeline_array = [];
+
+		$timeline_array['title'] = array(
+			'text' => array(
+				'headline' => $timeline_title,
+				'text' => htmlentities($timeline_description)
+				)
+			);
+
+		$ranges = array(
+					'S XX Primera Mitad' => array(1900, 1945),
+					'S XX Segunda Mitad' => array(1946, 1970),
+					'S XX Masificación Computadores - Internet' => array(1971, 2017)
+				);
+				
+
+		foreach($ranges as $key=>$range) {
+
+			$timeline_array['eras'][] = array(
+				'start_date' => array( 'year' => $range[0] ),
+				'end_date' => array( 'year' => $range[1] ),
+				'text'	=> array(
+							'headline' => $key
+							)
+				);
+
+		}
+
+		$events_global = self::getItems(self::$pamglobaeventscat);
+		$events_latam = self::getItems(self::$pamlatameventscat);
+
+		foreach($events_global as $event_global) {
+
+			$title = $event_global['title'];
+			$introtext = htmlentities($event_global['introtext']);
+			//$introtext = 'debug';
+
+	
+			$timeline_array['events'][] = array(
+											'media'		 => array(
+												'url' => self::getItemImageUrl( $event_global['id'])
+												),
+											'start_date' => array(
+												'year' => self::getItemYears( $event_global['id'] )
+												),
+											'text'		 => array(
+												'headline'	=> $title,
+												'text'	=> $introtext
+												),
+											'autolink' => false,
+											'group' => 'Eventos Globales'
+											);
+	
+		}
+
+		foreach($events_latam as $event_latam) {
+
+			$title = $event_latam['title'];
+			$introtext = htmlentities($event_latam['introtext']);
+			//$introtext = 'debug';
+
+	
+			$timeline_array['events'][] = array(
+											'media'		 => array(
+												'url' => self::getItemImageUrl( $event_latam['id'])
+												),
+											'start_date' => array(
+												'year' => self::getItemYears( $event_latam['id'] )
+												),
+											'text'		 => array(
+												'headline'	=> $title,
+												'text'	=> $introtext
+												),
+											'autolink' => false,
+											'group' => 'Eventos Latinoamérica'
+											);
+	
+		}
+
+		$json = json_encode( $timeline_array, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP );
+
+		return $json;
+
+	}
 
 }

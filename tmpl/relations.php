@@ -16,7 +16,7 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamtimeline.js'
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
-$document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/pamtimeline.css');
+$document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 ?>
 
 <div class="pam-relations">

@@ -20,7 +20,9 @@
     "tests"
   ],
   "dependencies": {
-    "timelinejs": "^2.27.0",
     "sigma.js": "*"
+  },
+  "devDependencies": {
+    "TimelineJS3": "https://github.com/NUKnightLab/TimelineJS3.git#3.4.7"
   }
 }
