@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 //Scripts and styles
 $document = JFactory::getDocument();
 
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/timeline.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamtimeline.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/lineatiempo.css');

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 error_reporting(0);
 //Scripts and styles
 $document = JFactory::getDocument();
-//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamtimeline.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
