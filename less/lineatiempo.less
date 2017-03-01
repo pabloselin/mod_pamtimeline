@@ -11,6 +11,65 @@
 
 /* Includes 
 ================================================== */
+@rojo: #ff0000;
+
 @import "timeline/customtlvariables.less"; 			// Variables (easy way to make style changes) 
 
-@import "../bower_components/TimelineJS3/source/less/TL.Timeline.Base.less"; 		// Base Less File
+@import "timeline/timeline-base.less"; 		// Base Less File
+
+#pam-timeline {
+
+    max-width:1200px;
+    margin:0 auto;
+    max-height:560px;
+    height:560px;
+
+    .era-tab {
+        height:400px;
+    }
+
+    .era-nav {
+        height:60px;
+        
+        ul {
+            margin:0;
+            padding:0;
+            display:flex;
+            justify-content:space-between;
+        }
+
+        ul li {
+            display:inline-block;
+            list-style:none;
+            margin:0;
+            padding:0;
+            flex-grow:1;
+            
+            a {
+                color:white;
+                display:block;
+                padding:8px 6px;
+                margin:16px 4px 0 4px;
+                text-transform:uppercase;
+                background-color:#333;
+                font-family:'Dosis', sans-serif;
+                border-right:3px solid white;
+                
+                &:hover, &.active {
+                    background-color:@rojo;
+                    
+                }
+            }
+            
+        }
+    }
+
+    .tl-slide-content-container h2.tl-headline {
+        font-family:'Dosis', sans-serif !important;
+        color:darken(#FF0000, 10%);
+    }
+
+    .tl-slidenav-icon {
+        color:#ff0000;
+    }
+}

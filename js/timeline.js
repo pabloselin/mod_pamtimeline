@@ -10629,7 +10629,9 @@ TL.TimeNav = TL.Class.extend({
 				}
 
 				this._groups[i].setRowPosition(group_y, this._calculated_row_height + this.options.marker_padding/2);
-				this._groups[i].setAlternateRowColor(TL.Util.isEven(i), group_hide);
+				this._groups[i].setAlternateRowColor(TL.Util.isEven(i), group_hide, i);
+				//PATCH: Add index attr
+				//this._groups[i].setIdxRowClass(i);
 
 				group_rows += this._groups[i].data.rows;    // account for groups spanning multiple rows
 			}
@@ -11736,8 +11738,9 @@ TL.TimeGroup = TL.Class.extend({
 		
 	},
 	
-	setAlternateRowColor: function(alternate, hide) {
-		var class_name = "tl-timegroup";
+	setAlternateRowColor: function(alternate, hide, idx) {
+		//PATCH: Añade una clase para índice del grupo
+		var class_name = "tl-timegroup tl-timegroup-" + idx;
 		if (alternate) {
 			class_name += " tl-timegroup-alternate";
 		}
@@ -11746,7 +11749,8 @@ TL.TimeGroup = TL.Class.extend({
 		}
 		this._el.container.className = class_name;
 	},
-	
+	//PATCH:IDX row class
+
 	/*	Events
 	================================================== */
 

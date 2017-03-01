@@ -33,7 +33,8 @@ gulp.task('watch', function() {
 		proxy: 'localhost'
 	});
 	gulp.watch([
-		'less/*.less'
+		'less/*.less',
+		'less/timeline/*.less'
 		], 
 		[
 		'less-timeline',
