@@ -16,6 +16,9 @@
  *	 - Separar por tabs cada era 
  */  
 
+//K2 Route para los links
+require_once JPATH_SITE.'/components/com_k2/helpers/route.php';
+
 class ModPamTimelineHelper 
 {	
 	/**
@@ -98,6 +101,15 @@ class ModPamTimelineHelper
 		$result = $db->loadAssocList();
 
 		return $result;
+
+	}
+
+	public static function getItemLink( $itemid, $alias, $catid) {
+
+		$link = K2HelperRoute::getItemRoute($itemid . ':' . $alias, $catid);
+		$seflink = JRoute::_($link);
+
+		return $seflink;
 
 	}
 
@@ -232,7 +244,7 @@ class ModPamTimelineHelper
 
 		}
 
-		if( count($years) >= 1 ) {
+		if( isset($years) && count($years) >= 1 ) {
 
 			foreach($years as $year) {
 
@@ -391,6 +403,20 @@ class ModPamTimelineHelper
 		 * Devuelve un string Json para el timeline agrupado en distintas instancias para distintas ERAS y grupos para arte global y latinoamericano
 		 */
 
+		$timeline_array['era1']['title'] = array(
+			'headline' => '1900-1945',
+			'text' => 'S XX Primera Mitad'
+		);
+
+		$timeline_array['era2']['title'] = array(
+			'headline' => '1946-2000',
+			'text' => 'S XX Segunda Mitad'
+		);
+
+		$timeline_array['era3']['title'] = array(
+			'headline' => '2000-presente',
+			'text' => 'S XXI Masificación Computadores - Internet'
+		);
 		$events_global = self::getItems(self::$pamglobaeventscat);
 		$events_latam = self::getItems(self::$pamlatameventscat);
 
@@ -408,7 +434,16 @@ class ModPamTimelineHelper
 				
 				$eventyear = self::getItemYears( $event_artist['id']);
 				$startyear = $eventyear[0];
-				$endyear = array_pop($eventyear);
+				$endyear = ($eventyear ? array_pop($eventyear) : false);
+				
+				$seflink = self::getItemLink($event_artist['id'], $event_artist['alias'], $event_artist['catid']);
+				//var_dump($seflink);
+
+				$artist_text = '<p>' . $artist_cat['name'] . '</p>';
+				$artist_text .= '<p><a href="' . $seflink . '">Link</a></p>';
+				
+				
+				$artist_text = htmlspecialchars($artist_text);
 				
 				//Elementos para timeline separados por rangos de años
 				//Falta meter los artistas
@@ -426,7 +461,7 @@ class ModPamTimelineHelper
 												),
 												'text'		 => array(
 													'headline'	=> $title,
-													'text'	=> $artist_cat['name']
+													'text'	=> $artist_text
 													),
 												'autolink' => false,
 												'group' => $artist_cat['name']
@@ -446,7 +481,7 @@ class ModPamTimelineHelper
 												),
 												'text'		 => array(
 													'headline'	=> $title,
-													'text'	=> $artist_cat['name']
+													'text'	=> $artist_text
 													),
 												'autolink' => false,
 												'group' => $artist_cat['name']
@@ -466,7 +501,7 @@ class ModPamTimelineHelper
 												),
 												'text'		 => array(
 													'headline'	=> $title,
-													'text'	=> $artist_cat['name']
+													'text'	=> $artist_text
 													),
 												'autolink' => false,
 												'group' => $artist_cat['name']
@@ -643,8 +678,10 @@ class ModPamTimelineHelper
 		Devuelve Una versión acortada del texto de un evento
 		*/
 
-		$fulltext = htmlspecialchars(self::trim_text($event['fulltext'], 250, true, true, '<p><strong>'));
-		$fulltext .= htmlspecialchars('<a href="#">Seguir leyendo</a>');
+		$fulltext = htmlspecialchars(self::trim_text($event['fulltext'], 200, true, true, '<p><strong>'));
+		$link = self::getItemLink($event['id'], $event['alias'], $event['catid']);
+
+		$fulltext .= htmlspecialchars('<p><a target="_blank" href="' . $link . '">Link</a></p>');
 
 		return $fulltext;
 		

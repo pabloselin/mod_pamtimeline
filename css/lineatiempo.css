@@ -3080,3 +3080,8 @@
 #pam-timeline .tl-slidenav-icon {
   color: #ff0000;
 }
+#pam-timeline .tl-text-content,
+#pam-timeline .tl-text-content p {
+  font-size: 14px;
+  color: #000;
+}
