@@ -71,18 +71,18 @@ class ModPamTimelineHelper
 								);
 	static $eras = array(
 								'era1' => array(
-									'title' => 'S XX Primera Mitad',
-									'range' => array(1900, 1945),
+									'title' => '1900-1950',
+									'range' => array(1900, 1950),
 									'events' => array()
 								),
 								'era2' => array(
-									'title' => 'S XX Segunda Mitad',
-									'range' => array(1946, 1999),
+									'title' => '1951-1990',
+									'range' => array(1951, 1990),
 									'events' => array()
 								),
 								'era3' => array(
-									'title' => 'S XX Masificación computadores - internet',
-									'range' => array(2000, 2017),
+									'title' => '1991-2030',
+									'range' => array(1991, 2030),
 									'events' => array()
 								)
 						);
@@ -404,18 +404,18 @@ class ModPamTimelineHelper
 		 */
 
 		$timeline_array['era1']['title'] = array(
-			'headline' => '1900-1945',
-			'text' => 'S XX Primera Mitad'
+			'headline' => '1900-1950',
+			'text' => '1900-1950'
 		);
 
 		$timeline_array['era2']['title'] = array(
-			'headline' => '1946-2000',
-			'text' => 'S XX Segunda Mitad'
+			'headline' => '1951-1990',
+			'text' => '1951-1990'
 		);
 
 		$timeline_array['era3']['title'] = array(
-			'headline' => '2000-presente',
-			'text' => 'S XXI Masificación Computadores - Internet'
+			'headline' => '1991-2030',
+			'text' => '1991-2030'
 		);
 		$events_global = self::getItems(self::$pamglobaeventscat);
 		$events_latam = self::getItems(self::$pamlatameventscat);
@@ -504,7 +504,7 @@ class ModPamTimelineHelper
 													'text'	=> $artist_text
 													),
 												'autolink' => false,
-												'group' => $artist_cat['name']
+												'group' => 'Obras'
 												);
 
 				}
@@ -542,7 +542,7 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_global)
 												),
 											'autolink' => false,
-											'group' => 'Eventos Globales'
+											'group' => 'Hitos Mundiales'
 											);
 
 			} elseif($startyear > self::$eras['era2']['range'][0] && $startyear < self::$eras['era2']['range'][1]) {
@@ -562,7 +562,7 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_global)
 												),
 											'autolink' => false,
-											'group' => 'Eventos Globales'
+											'group' => 'Hitos Mundiales'
 											);
 
 			} elseif( $startyear > self:: $eras['era3']['range'][0]) {
@@ -582,7 +582,7 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_global)
 												),
 											'autolink' => false,
-											'group' => 'Eventos Globales'
+											'group' => 'Hitos Mundiales'
 											);
 
 			}
@@ -617,7 +617,7 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_latam)
 												),
 											'autolink' => false,
-											'group' => 'Eventos Latinoamericanos'
+											'group' => 'Hitos Latinoamericanos'
 											);
 
 			} elseif($startyear > self::$eras['era2']['range'][0] && $startyear < self::$eras['era2']['range'][1]) {
@@ -637,7 +637,7 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_latam)
 												),
 											'autolink' => false,
-											'group' => 'Eventos Latinoamericanos'
+											'group' => 'Hitos Latinoamericanos'
 											);
 
 			} elseif( $startyear > self:: $eras['era3']['range'][0]) {
@@ -657,7 +657,7 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_latam)
 												),
 											'autolink' => false,
-											'group' => 'Eventos Latinoamericanos'
+											'group' => 'Hitos Latinoamericanos'
 											);
 
 			}

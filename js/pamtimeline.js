@@ -33,12 +33,13 @@ jQuery(document).ready(function($) {
   //Tab control para eras
   var eratab = $('.era-tab');
   var erabtn = $('.erabtn');
-  var firsteracontainer = $('#era-1').attr('data-eracontainer');
-  var firsteracontent = json_content[$('#era-1').attr('data-dataId')];
+  var firsteracontainer = $('#era1').attr('data-eracontainer');
+  var firsteracontent = json_content[$('#era1').attr('data-dataid')];
+
 
   eratab.hide();
   
-  $('#era-1').show().addClass('active');
+  $('#era1').show().addClass('active');
   $('.erabtn-1').addClass('active');
   
   startTimeline(firsteracontainer, firsteracontent);
@@ -48,11 +49,10 @@ jQuery(document).ready(function($) {
   erabtn.on('click', function(event) {
 
     event.preventDefault();
-    var thiseracontainerplain = $(this).attr('data-target');
+    var thiseracontainerplain =  $(this).attr('data-target');
     var thiseracontainer = $( '#' + thiseracontainerplain);
     var thiseratimelinecontainer = thiseracontainer.attr('data-eracontainer');
-    var thiseradata = json_content[thiseracontainer.attr('data-dataId')];
-    console.log(thiseracontainer);
+    var thiseradata = json_content[thiseracontainer.attr('data-dataid')];
 
     if($(this).hasClass('active')) {
       

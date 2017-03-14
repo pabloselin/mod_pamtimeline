@@ -21,30 +21,41 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/lineatiemp
 //$timeline_json = ModPamTimelineHelper::prepareEventsForTimeline(ModPamTimelineHelper::$pammilestonecat, $params->get('timeline_title'), $params->get('timeline_description'));
 
 $timeline_json = ModPamTimelineHelper::prepareEventsForGroupedTimeline($params->get('timeline_title'), $params->get('timeline_description'));
-
 //var_dump($timeline_json);
 
 ?>
 
 <div id="pam-timeline" style="width:100%;">
-	
-	<div class="era-tab" id="era-1" data-eracontainer="eracontainer-1" data-dataId="era1">
-		<div class="timeline-interior" id="eracontainer-1" height="400"></div>		
-	</div>
-	
-	<div class="era-tab" id="era-2" data-eracontainer="eracontainer-2"  data-dataId="era2">
-		<div class="timeline-interior" id="eracontainer-2" height="400"></div>		
-	</div>
 
-	<div class="era-tab" id="era-3" data-eracontainer="eracontainer-3" data-dataId="era3">
-		<div class="timeline-interior" id="eracontainer-3" height="400"></div>		
-	</div>
+	<?php 	$timeline = new ModPamTimelineHelper;  
+			$taberas = $timeline::$eras;
+			$idx = 1;
+		
+	foreach ($taberas as $key=>$tabera) {
+		$curidx = $idx++;
+		?>
+
+		<div class="era-tab" id="<?php echo $key;?>" data-eracontainer="eracontainer-<?php echo $curidx;?>" data-dataId="<?php echo $key;?>">
+		<div class="timeline-interior" id="eracontainer-<?php echo $curidx;?>" height="400"></div>		
+		</div>
+
+		<?php
+	}
+	?>
 
 	<div class="era-nav">
 		<ul>
-			<li><a class="erabtn erabtn-1" href="#" data-target="era-1" ><span>S XX Primera Mitad</span></a></li>
-			<li><a class="erabtn erabtn-2" href="#" data-target="era-2"><span>S XX Segunda Mitad</span></a></li>
-			<li><a class="erabtn erabtn-3" href="#" data-target="era-3"><span>S XX Masificación Computadores - Internet</span></a></li>
+			<?php	
+				$idx = 1;		
+				foreach($taberas as $key=>$tabera) { 
+					$curidx = $idx++;
+					?>
+
+					<li><a class="erabtn erabtn-<?php echo $curidx;?>" href="#" data-target="<?php echo $key;?>" ><span><?php echo $tabera['title'];?></span></a></li>
+
+				<?php 
+					}
+				?>
 		</ul>
 	</div>
 </div>
