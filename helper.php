@@ -289,7 +289,15 @@ class ModPamTimelineHelper
 
 		}
 
-		return $field_name;
+		if(isset($field_name)):
+
+			return $field_name;
+		
+		else: 
+
+			return false;
+
+		endif;
 
 	}
 	
@@ -442,7 +450,6 @@ class ModPamTimelineHelper
 				$artist_text = '<p>' . $artist_cat['name'] . '</p>';
 				$artist_text .= '<p><a href="' . $seflink . '">Link</a></p>';
 				
-				
 				$artist_text = htmlspecialchars($artist_text);
 				
 				//Elementos para timeline separados por rangos de años
@@ -464,7 +471,7 @@ class ModPamTimelineHelper
 													'text'	=> $artist_text
 													),
 												'autolink' => false,
-												'group' => $artist_cat['name']
+												'group' => 'Obras'
 												);
 
 				} elseif($startyear > self::$eras['era2']['range'][0] && $startyear < self::$eras['era2']['range'][1]) {
@@ -484,7 +491,7 @@ class ModPamTimelineHelper
 													'text'	=> $artist_text
 													),
 												'autolink' => false,
-												'group' => $artist_cat['name']
+												'group' => 'Obras'
 												);
 
 				} elseif( $startyear > self:: $eras['era3']['range'][0]) {
@@ -523,6 +530,11 @@ class ModPamTimelineHelper
 			$startyear = $eventyear[0];
 			$endyear = array_pop($eventyear);
 			
+			$mstone_type = self::getItemField( $event_global['id'],'milestonetype');
+			$mstone_typename = $mstone_type['milestonetype'][0]['fieldvaluename'];
+			$evclass = 'tipohito-' . $mstone_type['milestonetype'][0]['fieldvalueid'];
+			//xdebug_break();
+			
 			//Elementos para timeline separados por rangos de años
 			//Falta meter los artistas
 			if($startyear > self::$eras['era1']['range'][0] && $startyear < self::$eras['era1']['range'][1]) {
@@ -542,7 +554,9 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_global)
 												),
 											'autolink' => false,
-											'group' => 'Hitos Mundiales'
+											'group' => 'Hitos Mundiales',
+											'evtype' => $mstone_typename,
+											'evclass' => $evclass
 											);
 
 			} elseif($startyear > self::$eras['era2']['range'][0] && $startyear < self::$eras['era2']['range'][1]) {
@@ -562,7 +576,9 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_global)
 												),
 											'autolink' => false,
-											'group' => 'Hitos Mundiales'
+											'group' => 'Hitos Mundiales',
+											'evtype' => $mstone_typename,
+											'evclass' => $evclass
 											);
 
 			} elseif( $startyear > self:: $eras['era3']['range'][0]) {
@@ -582,7 +598,9 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_global)
 												),
 											'autolink' => false,
-											'group' => 'Hitos Mundiales'
+											'group' => 'Hitos Mundiales',
+											'evtype' => $mstone_typename,
+											'evclass' => $evclass
 											);
 
 			}
@@ -598,6 +616,10 @@ class ModPamTimelineHelper
 			$eventyear = self::getItemYears( $event_latam['id']);
 			$startyear = $eventyear[0];
 			$endyear = array_pop($eventyear);
+
+			$mstone_type = self::getItemField( $event_latam['id'],'milestonetype');
+			$mstone_typename = $mstone_type['milestonetype'][0]['fieldvaluename'];
+			$evclass = 'tipohito-' . $mstone_type['milestonetype'][0]['fieldvalueid'];
 
 			//Elementos para timeline1
 			if($startyear > self::$eras['era1']['range'][0] && $startyear < self::$eras['era1']['range'][1]) {
@@ -617,7 +639,9 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_latam)
 												),
 											'autolink' => false,
-											'group' => 'Hitos Latinoamericanos'
+											'group' => 'Hitos Latinoamericanos',
+											'evtype' => $mstone_typename,
+											'evclass' => $evclass
 											);
 
 			} elseif($startyear > self::$eras['era2']['range'][0] && $startyear < self::$eras['era2']['range'][1]) {
@@ -637,7 +661,9 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_latam)
 												),
 											'autolink' => false,
-											'group' => 'Hitos Latinoamericanos'
+											'group' => 'Hitos Latinoamericanos',
+											'evtype' => $mstone_typename,
+											'evclass' => $evclass
 											);
 
 			} elseif( $startyear > self:: $eras['era3']['range'][0]) {
@@ -657,7 +683,9 @@ class ModPamTimelineHelper
 												'text'	=> self::prepareFullTextforTimeline($event_latam)
 												),
 											'autolink' => false,
-											'group' => 'Hitos Latinoamericanos'
+											'group' => 'Hitos Latinoamericanos',
+											'evtype' => $mstone_typename,
+											'evclass' => $evclass
 											);
 
 			}
@@ -678,9 +706,14 @@ class ModPamTimelineHelper
 		Devuelve Una versión acortada del texto de un evento
 		*/
 
-		$fulltext = htmlspecialchars(self::trim_text($event['fulltext'], 200, true, true, '<p><strong>'));
+		
 		$link = self::getItemLink($event['id'], $event['alias'], $event['catid']);
+		
+		$mtype = self::getItemField($event['id'], 'milestonetype');
+		//xdebug_break();
+		$fulltext = htmlspecialchars('<span class="mtype">' . $mtype['milestonetype'][0]['fieldvaluename'] . '</span>');
 
+		//$fulltext .= htmlspecialchars(self::trim_text($event['fulltext'], 200, true, true, '<p><strong>'));
 		$fulltext .= htmlspecialchars('<p><a target="_blank" href="' . $link . '">Link</a></p>');
 
 		return $fulltext;

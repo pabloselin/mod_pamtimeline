@@ -18,8 +18,8 @@ function startTimeline(container, timeline_content) {
 		debug: false,
 		language: 'es',
 		timenav_position: 'bottom',
-    height: 400,
-    timenav_height: 200,
+    //height: 500,
+    timenav_height: 300,
     scale_factor: 1
 	}
   

@@ -11207,7 +11207,7 @@ TL.TimeMarker = TL.Class.extend({
 
 	setActive: function(is_active) {
 		this.active = is_active;
-
+		console.log(this.data.evclass);
 		if (this.active && this.has_end_date) {
 			this._el.container.className = 'tl-timemarker tl-timemarker-with-end tl-timemarker-active';
 		} else if (this.active){
@@ -11217,6 +11217,10 @@ TL.TimeMarker = TL.Class.extend({
 		} else {
 			this._el.container.className = 'tl-timemarker';
 		}
+		
+		//PATCH PAM: Añado el tipo de hito para cambiar colores
+		this._el.container.className = this._el.container.className + ' ' + this.data.evclass;
+
 	},
 
 	addTo: function(container) {

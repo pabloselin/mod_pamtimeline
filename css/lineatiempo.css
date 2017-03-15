@@ -1521,6 +1521,15 @@
 ================================================== */
 /* Mobile, iPhone and skinny
 ================================================== */
+/*Colores para Tipo de Hito */
+.tipohito-3 .tl-icon-image:after {
+  color: blue;
+  background-color: blue;
+}
+.tipohito-2 .tl-icon-image:after {
+  color: green;
+  background-color: green;
+}
 /* TL.TimeMarker
 ================================================== */
 .tl-timeera {
@@ -1688,6 +1697,14 @@
   text-transform: uppercase;
   color: #ff0000;
   background-color: #f2f2f2;
+}
+.tl-timegroup.tl-timegroup-1 {
+  background-color: #e5e5e5;
+}
+.tl-timegroup.tl-timegroup-1 .tl-timegroup-message {
+  text-transform: uppercase;
+  color: #ff0000;
+  background-color: #e5e5e5;
 }
 .tl-timegroup.tl-timegroup-hidden {
   display: none;
