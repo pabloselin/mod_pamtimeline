@@ -16,11 +16,13 @@ function startTimeline(container, timeline_content) {
 
 	var timeline_options = {
 		debug: false,
-		language: 'es',
 		timenav_position: 'bottom',
+    language: 'es',
     //height: 500,
     timenav_height: 300,
-    scale_factor: 1
+    scale_factor: 1,
+    start_at_slide: 1,
+    zoom_sequence: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 	}
   
   window.timeline = new TL.Timeline(container, timeline_json, timeline_options);

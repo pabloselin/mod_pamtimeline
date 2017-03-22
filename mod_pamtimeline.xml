@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.5" client="site" method="upgrade">
-	<name>MOD_PAMTIMELINE</name>
+	<name>Relaciones y Línea de Tiempo PAM</name>
 	<creationDate>December 2016</creationDate>
 	<author>Pablo Selín Carrasco - APie</author>
 	<authorEmail>pablo@apie.cl</authorEmail>
 	<authorUrl>https://apie.cl</authorUrl>
 	<copyright>APie</copyright>
 	<license>MIT</license>
-	<version>0.3</version>
-	<description>MOD_PAMTIMELINE_XML_DESCRIPTION</description>
+	<version>0.4</version>
+	<description>Línea de tiempo (TimelineJS) y Relaciones (Sigma) para PAM</description>
 
 	<files>
 		<filename>mod_pamtimeline.xml</filename>
@@ -34,7 +34,8 @@
 			<fieldset name="basic">
 				<field name="layoutChoice" type="list" default="timeline" label="Tipo de funcionalidad" description="mod_layout_choice_description" >
 				    <option value="timeline">Línea de Tiempo</option>
-				    <option value="relations">Relaciones</option>
+				    <option value="relations">Relaciones 1 persona</option>
+					<option value="relations_global">Relaciones Global</option>
 				</field>
 				<field name="timeline_title" type="text" label="Título para la línea de Tiempo" description="Una línea de texto"></field>
 				<field name="timeline_description" type="editor" label="Descripción para la línea de Tiempo" description="Una línea de texto" filter="safehtml"></field>

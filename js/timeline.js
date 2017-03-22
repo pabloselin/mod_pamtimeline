@@ -3132,7 +3132,7 @@ TL.TimelineConfig = TL.Class.extend({
 	 */
 	validate: function() {
 		if (typeof(this.events) == "undefined" || typeof(this.events.length) == "undefined" || this.events.length == 0) {
-			this.logError("Timeline configuration has no events.")
+			this.logError("La línea de tiempo no tiene eventos aún.")
 		}
 
 		// make sure all eras have start and end dates
@@ -3896,7 +3896,7 @@ TL.Language.languages = {
       loading_content:                "Loading Content",
       expand_timeline:                "Expand Timeline",
       loading_timeline:               "Loading Timeline... ",
-      swipe_to_navigate:              "Swipe to Navigate<br><span class='tl-button'>OK</span>",
+      swipe_to_navigate:              "Desliza para navegar<br><span class='tl-button'>OK</span>",
       unknown_read_err:               "An unexpected error occurred trying to read your spreadsheet data",
 			invalid_url_err: 								"Unable to read Timeline data. Make sure your URL is for a Google Spreadsheet or a Timeline JSON file.",
       network_err:                    "Unable to read your Google Spreadsheet. Make sure you have published it to the web.",
@@ -10855,16 +10855,16 @@ TL.TimeNav = TL.Class.extend({
 
 		if (fast) {
 			this._el.slider.className = "tl-timenav-slider";
-			this._el.slider.style.left = -this._markers[_n].getLeft() + (this.options.width/2) + "px";
+			this._el.slider.style.left = -this._markers[_n].getLeft() + (this.options.width/4) + "px";
 		} else {
 			if (css_animation) {
 				this._el.slider.className = "tl-timenav-slider tl-timenav-slider-animate";
 				this.animate_css = true;
-				this._el.slider.style.left = -this._markers[_n].getLeft() + (this.options.width/2) + "px";
+				this._el.slider.style.left = -this._markers[_n].getLeft() + (this.options.width/4) + "px";
 			} else {
 				this._el.slider.className = "tl-timenav-slider";
 				this.animator = TL.Animate(this._el.slider, {
-					left: 		-this._markers[_n].getLeft() + (this.options.width/2) + "px",
+					left: 		-this._markers[_n].getLeft() + (this.options.width/4) + "px",
 					duration: 	_duration,
 					easing: 	_ease
 				});
@@ -11207,7 +11207,7 @@ TL.TimeMarker = TL.Class.extend({
 
 	setActive: function(is_active) {
 		this.active = is_active;
-		console.log(this.data.evclass);
+		//console.log(this.data.evclass);
 		if (this.active && this.has_end_date) {
 			this._el.container.className = 'tl-timemarker tl-timemarker-with-end tl-timemarker-active';
 		} else if (this.active){

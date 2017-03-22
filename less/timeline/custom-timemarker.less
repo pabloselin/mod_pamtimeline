@@ -261,10 +261,11 @@
 		.tl-timemarker-content-container {
 			background-color: darken(@marker-color,15);
 			border-color: darken(@marker-color,25);
+			width:200px;
 			.property-animation(height, @animation-duration-fast/2, @animation-ease);
 			.property-animation(width, @animation-duration-fast/2, @animation-ease);
 			&.tl-timemarker-content-container-small {
-				//height:56px !important;
+				//height:26px !important;
 				width:200px;
 				//min-width:100px;
 				.tl-timemarker-content {
@@ -335,6 +336,10 @@
 					background-color:@color-dark;
 				}
 			}
+
+			.tl-timemarker-text {
+				display:block;
+			}
 		}
 	}
 	
@@ -373,6 +378,7 @@
 			//color:@color-background;
 			color:@color-foreground;
 			z-index:9;
+			min-width:100px;
 			//border: none;
 			border-color:fadeout(@color-foreground, 50%);
 			
@@ -380,6 +386,7 @@
 			box-shadow: 1px 1px 3px fadeout(@marker-dot-color, 50%);
 			.tl-timemarker-content {
 				.tl-timemarker-text {
+					display:block;
 					h2.tl-headline {
 						//color:@marker-selected-text-color;
 						color:@color-foreground; 
@@ -409,6 +416,10 @@
 	/* Markers with End Dates
 	================================================== */
 	&.tl-timemarker-with-end {
+
+		.tl-timemarker-text {
+			display:none;
+		}
 		
 		.tl-timemarker-timespan {
 			.tl-timemarker-timespan-content {
@@ -464,6 +475,10 @@
 	&.tl-timemarker-with-end {
 		&:hover {
 			
+			.tl-timemarker-text {
+				display:block;
+			}
+
 			.tl-timemarker-timespan {
 				&:after {
 					background-color: fadeout(darken(@ui-background-color,100),75%);
@@ -482,6 +497,10 @@
 	================================================== */
 	&.tl-timemarker-with-end {
 		&.tl-timemarker-active {
+			.tl-timemarker-text {
+				display:block;
+			}
+
 			.tl-timemarker-timespan {
 				&:after {
 					//background-color: fadeout(@color-theme,50%);
@@ -512,6 +531,10 @@
 						//background-color: fadeout(@color-theme,50%);
 						background-color: fadeout(@color-foreground,50%);
 					}
+				}
+
+				.tl-timemarker-text {
+					display:block;
 				}
 			
 			}
@@ -560,5 +583,21 @@
     .tl-icon-image:after {
         color:green;
         background-color:green;
+    }
+}
+
+//Histórico
+.tipohito-5 {
+    .tl-icon-image:after {
+        color:orange;
+        background-color:orange;
+    }
+}
+
+//Artístico
+.tl-timemarker.obra {
+    .tl-icon-image:after {
+        color:black;
+        background-color:black;
     }
 }

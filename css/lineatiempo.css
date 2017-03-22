@@ -1369,6 +1369,7 @@
 .tl-timemarker:hover .tl-timemarker-content-container {
   background-color: #bfbfbf;
   border-color: #a6a6a6;
+  width: 200px;
   -webkit-transition: height 250ms cubic-bezier(0.77, 0, 0.175, 1), width 250ms cubic-bezier(0.77, 0, 0.175, 1);
   transition: height 250ms cubic-bezier(0.77, 0, 0.175, 1), width 250ms cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -1419,6 +1420,9 @@
 .tl-timemarker:hover.tl-timemarker-active .tl-timemarker-line-right:after {
   background-color: #000;
 }
+.tl-timemarker:hover.tl-timemarker-active .tl-timemarker-text {
+  display: block;
+}
 .tl-timemarker.tl-timemarker-active .tl-timemarker-timespan {
   background-color: rgba(255, 255, 255, 0.5);
   z-index: 8;
@@ -1441,8 +1445,12 @@
   background-color: #FFF;
   color: #333;
   z-index: 9;
+  min-width: 100px;
   border-color: rgba(51, 51, 51, 0.5);
   box-shadow: 1px 1px 3px rgba(145, 145, 145, 0.5);
+}
+.tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text {
+  display: block;
 }
 .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline {
   color: #333;
@@ -1466,6 +1474,9 @@
 .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-media-container [class^="tl-icon-"],
 .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-media-container [class*=" tl-icon-"] {
   color: #333;
+}
+.tl-timemarker.tl-timemarker-with-end .tl-timemarker-text {
+  display: none;
 }
 .tl-timemarker.tl-timemarker-with-end .tl-timemarker-timespan .tl-timemarker-timespan-content {
   display: block;
@@ -1495,8 +1506,14 @@
 .tl-timemarker.tl-timemarker-with-end .tl-timemarker-line-left {
   box-shadow: none;
 }
+.tl-timemarker.tl-timemarker-with-end:hover .tl-timemarker-text {
+  display: block;
+}
 .tl-timemarker.tl-timemarker-with-end:hover .tl-timemarker-timespan:after {
   background-color: rgba(0, 0, 0, 0.25);
+}
+.tl-timemarker.tl-timemarker-with-end.tl-timemarker-active .tl-timemarker-text {
+  display: block;
 }
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active .tl-timemarker-timespan:after {
   background-color: rgba(51, 51, 51, 0.5);
@@ -1515,6 +1532,9 @@
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active:hover .tl-timemarker-timespan:after {
   background-color: rgba(51, 51, 51, 0.5);
 }
+.tl-timemarker.tl-timemarker-with-end.tl-timemarker-active:hover .tl-timemarker-text {
+  display: block;
+}
 /* Skinny
 ================================================== */
 /* Mobile, iPhone
@@ -1529,6 +1549,14 @@
 .tipohito-2 .tl-icon-image:after {
   color: green;
   background-color: green;
+}
+.tipohito-5 .tl-icon-image:after {
+  color: orange;
+  background-color: orange;
+}
+.tl-timemarker.obra .tl-icon-image:after {
+  color: black;
+  background-color: black;
 }
 /* TL.TimeMarker
 ================================================== */
@@ -1687,6 +1715,11 @@
   z-index: 10000;
   background-color: white;
   padding: 3px 12px;
+}
+@media screen and (max-width: 768px) {
+  .tl-timegroup .tl-timegroup-message {
+    display: none;
+  }
 }
 .tl-timegroup.tl-timegroup-0,
 .tl-timegroup.tl-timegroup-1 {
@@ -2155,6 +2188,9 @@
 ================================================== */
 /* Mobile, iPhone and skinny
 ================================================== */
+.tl-mobile.tl-skinny .tl-slide .tl-slide-content-container .tl-slide-content .tl-media {
+  display: none;
+}
 .tl-mobile.tl-skinny .tl-slide .tl-slide-content-container .tl-slide-content .tl-media img,
 .tl-mobile.tl-skinny .tl-slide .tl-slide-content-container .tl-slide-content .tl-media embed,
 .tl-mobile.tl-skinny .tl-slide .tl-slide-content-container .tl-slide-content .tl-media object,
@@ -3094,6 +3130,19 @@
   font-family: 'Dosis', sans-serif !important;
   color: #cc0000;
 }
+@media screen and (max-width: 768px) {
+  #pam-timeline .tl-slide-content-container .tl-text {
+    margin-top: 0;
+  }
+  #pam-timeline .tl-slide-content-container h2.tl-headline {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0;
+  }
+  #pam-timeline .tl-slide-content-container h3.tl-headline-date {
+    font-size: 12px;
+  }
+}
 #pam-timeline .tl-slidenav-icon {
   color: #ff0000;
 }
@@ -3101,4 +3150,15 @@
 #pam-timeline .tl-text-content p {
   font-size: 14px;
   color: #000;
+}
+#pam-timeline .tl-message-full .tl-icon-swipe-left {
+  font-size: 18px;
+}
+#pam-timeline .tl-message-full .tl-message-content {
+  font-size: 14px;
+}
+#pam-timeline .tl-message-full .tl-button {
+  background-color: #f0f0f0;
+  font-size: 12px;
+  padding: 4px;
 }

@@ -15,12 +15,10 @@ require_once dirname(__FILE__) . '/helper.php';
 
 $layout = $params->get('layoutChoice');
 
-if($layout) {
-
-require JModuleHelper::getLayoutPath('mod_pamtimeline', $layout);
-
-} else {
-
-require JModuleHelper::getLayoutPath('mod_pamtimeline', 'relations');  
-
+if($layout == 'timeline') {
+    require JModuleHelper::getLayoutPath('mod_pamtimeline', $layout);
+} elseif($layout == 'relations') {
+    require JModuleHelper::getLayoutPath('mod_pamtimeline', 'relations');  
+} elseif($layout == 'relations_global') {
+    require JModuleHelper::getLayoutPath('mod_pamtimeline', 'relations-global');  
 }

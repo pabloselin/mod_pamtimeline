@@ -471,7 +471,9 @@ class ModPamTimelineHelper
 													'text'	=> $artist_text
 													),
 												'autolink' => false,
-												'group' => 'Obras'
+												'group' => 'Obras',
+												'evtype' => 'Obra',
+												'evclass' => 'obra'
 												);
 
 				} elseif($startyear > self::$eras['era2']['range'][0] && $startyear < self::$eras['era2']['range'][1]) {
@@ -491,7 +493,9 @@ class ModPamTimelineHelper
 													'text'	=> $artist_text
 													),
 												'autolink' => false,
-												'group' => 'Obras'
+												'group' => 'Obras',
+												'evtype' => 'Obra',
+												'evclass' => 'obra'
 												);
 
 				} elseif( $startyear > self:: $eras['era3']['range'][0]) {
@@ -511,7 +515,9 @@ class ModPamTimelineHelper
 													'text'	=> $artist_text
 													),
 												'autolink' => false,
-												'group' => 'Obras'
+												'group' => 'Obras',
+												'evtype' => 'Obra',
+												'evclass' => 'obra'
 												);
 
 				}

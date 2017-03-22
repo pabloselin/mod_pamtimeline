@@ -13,6 +13,12 @@
 ================================================== */
 @rojo: #ff0000;
 
+//Breakpoints
+
+@screen-sm: 768px;
+@screen-xs: 480px;
+@screen-md: 992px;
+
 @import "timeline/customtlvariables.less"; 			// Variables (easy way to make style changes) 
 
 @import "timeline/timeline-base.less"; 		// Base Less File
@@ -64,9 +70,29 @@
         }
     }
 
-    .tl-slide-content-container h2.tl-headline {
+    .tl-slide-content-container {
+
+        h2.tl-headline {
         font-family:'Dosis', sans-serif !important;
         color:darken(#FF0000, 10%);
+        }
+
+        @media screen and (max-width:@screen-sm) {
+                .tl-text {
+                    margin-top:0;
+                }
+
+                h2.tl-headline {
+                    font-size:18px;
+                    line-height:22px;
+                    margin:0;
+                }
+
+                h3.tl-headline-date {
+                    font-size:12px;
+                }
+            }
+        
     }
 
     .tl-slidenav-icon {
@@ -77,6 +103,21 @@
     .tl-text-content p {
         font-size:14px;
         color:#000;
+    }
+
+    .tl-message-full {
+        .tl-icon-swipe-left {
+            font-size:18px;
+        }
+        .tl-message-content {
+            font-size:14px;
+        }
+
+        .tl-button {
+            background-color:#f0f0f0;
+            font-size:12px;
+            padding:4px;
+        }
     }
 }
 

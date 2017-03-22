@@ -23,6 +23,7 @@
     "sigma.js": "*"
   },
   "devDependencies": {
-    "TimelineJS3": "https://github.com/NUKnightLab/TimelineJS3.git#3.4.7"
+    "TimelineJS3": "https://github.com/NUKnightLab/TimelineJS3.git#3.4.7",
+    "sigma.js": "*"
   }
 }
