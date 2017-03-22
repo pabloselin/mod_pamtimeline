@@ -1,234 +1,5 @@
 //Sigma custom renderers
 
-//Poner el label debajo
-sigma.canvas.labels.def = function(node, context, settings) {
-    var fontSize,
-        prefix = settings('prefix') || '',
-        size = node[prefix + 'size'],
-        labelWidth = 0,
-        labelPlacementX,
-        labelPlacementY,
-        alignment;
-
-    if (size < settings('labelThreshold'))
-      return;
-
-    if (typeof node.label !== 'string')
-      return;
-
-    if (settings('labelAlignment') === undefined){ 
-      alignment = settings('defaultLabelAlignment');
-    } else {
-      alignment = settings('labelAlignment');
-    }
-
-    fontSize = (settings('labelSize') === 'fixed') ?
-      settings('defaultLabelSize') :
-      settings('labelSizeRatio') * size;
-
-    context.font = (settings('fontStyle') ? settings('fontStyle') + ' ' : '') +
-      fontSize + 'px ' + settings('font');
-    context.fillStyle = 'black';
-
-    labelWidth = context.measureText(node.label).width;
-    labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-    labelPlacementY = Math.round(node[prefix + 'y'] + fontSize / 3);
-
-    switch (alignment) {
-      case 'inside':
-        if (labelWidth <= size * 2){
-          labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        }
-        break;
-      case 'center':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        break;
-      case 'left':
-        labelPlacementX = Math.round(node[prefix + 'x'] - size - labelWidth - 3 );
-        break;
-      case 'right':
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-        break;
-      case 'top':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        labelPlacementY = labelPlacementY - size - fontSize;
-        break;
-      case 'bottom':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        labelPlacementY = labelPlacementY + size + fontSize;
-        break;
-      default:
-        // Default is aligned 'right'
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-        break;
-    }
-
-	context.beginPath();
-
-    context.fillStyle = settings('labelHoverBGColor') === 'node' ?
-      (node.color || settings('defaultNodeColor')) :
-      settings('defaultHoverLabelBGColor');
-
-    if (node.label && typeof node.label === 'string') {
-      w = Math.round(
-        context.measureText(node.label).width + fontSize / 2 + size + 7
-      );
-      h = Math.round(fontSize + 4);
-      e = Math.round(fontSize / 2 + 2);
-	  var bglabelposY = labelPlacementY - h + 1;
-
-      context.moveTo(labelPlacementX, bglabelposY);
-      context.lineTo(labelPlacementX, bglabelposY, labelPlacementX + e, bglabelposY, e);
-      context.lineTo(labelPlacementX + w, bglabelposY);
-      context.lineTo(labelPlacementX + w, bglabelposY + h);
-      context.lineTo(labelPlacementX + e, bglabelposY + h);
-      context.lineTo(labelPlacementX, bglabelposY + h, labelPlacementX, bglabelposY + h - e, e);
-      context.lineTo(labelPlacementX, bglabelposY + e);
-
-      context.closePath();
-      context.fill();
-
-      context.shadowOffsetX = 0;
-      context.shadowOffsetY = 0;
-      context.shadowBlur = 0;
-    }
-
-	context.closePath();
-    context.fill();
-
-	// Node:
-    var nodeRenderer = sigma.canvas.nodes[node.type] || sigma.canvas.nodes.def;
-    nodeRenderer(node, context, settings);
-
-    // Display the label:
-    if (node.label && typeof node.label === 'string') {
-      context.fillStyle = (settings('labelHoverColor') === 'node') ?
-        (node.color || settings('defaultNodeColor')) :
-        settings('defaultLabelHoverColor');
-
-      context.fillText(
-        node.label,
-        Math.round(labelPlacementX + size + 3),
-        Math.round(labelPlacementY - fontSize / 3)
-      );
-    }
-
-
-  };
-
-//Hover
-sigma.canvas.hovers.def = function(node, context, settings) {
-    var fontSize,
-        prefix = settings('prefix') || '',
-        size = node[prefix + 'size'],
-        labelWidth = 0,
-        labelPlacementX,
-        labelPlacementY,
-        alignment;
-
-    if (size < settings('labelThreshold'))
-      return;
-
-    if (typeof node.label !== 'string')
-      return;
-
-    if (settings('labelAlignment') === undefined){ 
-      alignment = settings('defaultLabelAlignment');
-    } else {
-      alignment = settings('labelAlignment');
-    }
-
-    fontSize = 16;
-
-    context.font = (settings('fontStyle') ? settings('fontStyle') + ' ' : '') +
-      fontSize + 'px ' + settings('font');
-    context.fillStyle = '#ff0000';
-
-    labelWidth = context.measureText(node.label).width;
-    labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-    labelPlacementY = Math.round(node[prefix + 'y'] + fontSize / 3);
-
-    switch (alignment) {
-      case 'inside':
-        if (labelWidth <= size * 2){
-          labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        }
-        break;
-      case 'center':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        break;
-      case 'left':
-        labelPlacementX = Math.round(node[prefix + 'x'] - size - labelWidth - 3 );
-        break;
-      case 'right':
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-        break;
-      case 'top':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        labelPlacementY = labelPlacementY - size - fontSize;
-        break;
-      case 'bottom':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        labelPlacementY = labelPlacementY + size + fontSize;
-        break;
-      default:
-        // Default is aligned 'right'
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-        break;
-    }
-
-	context.beginPath();
-
-    context.fillStyle = settings('labelHoverBGColor') === 'node' ?
-      (node.color || settings('defaultNodeColor')) :
-      settings('defaultHoverLabelBGColor');
-
-    if (node.label && typeof node.label === 'string') {
-      w = Math.round(
-        context.measureText(node.label).width + fontSize / 2 + size + 7
-      );
-      h = Math.round(fontSize + 4);
-      e = Math.round(fontSize / 2 + 2);
-	  var bglabelposY = labelPlacementY - h + 1;
-
-      context.moveTo(labelPlacementX, bglabelposY);
-      context.lineTo(labelPlacementX, bglabelposY, labelPlacementX + e, bglabelposY, e);
-      context.lineTo(labelPlacementX + w, bglabelposY);
-      context.lineTo(labelPlacementX + w, bglabelposY + h);
-      context.lineTo(labelPlacementX + e, bglabelposY + h);
-      context.lineTo(labelPlacementX, bglabelposY + h, labelPlacementX, bglabelposY + h - e, e);
-      context.lineTo(labelPlacementX, bglabelposY + e);
-
-      context.closePath();
-      context.fill();
-
-      context.shadowOffsetX = 0;
-      context.shadowOffsetY = 0;
-      context.shadowBlur = 0;
-    }
-
-	context.closePath();
-    context.fill();
-
-	// Node:
-    var nodeRenderer = sigma.canvas.nodes[node.type] || sigma.canvas.nodes.def;
-    nodeRenderer(node, context, settings);
-
-    // Display the label:
-    if (node.label && typeof node.label === 'string') {
-      context.fillStyle = '#ff0000';
-
-      context.fillText(
-        node.label,
-        Math.round(labelPlacementX + size + 3),
-        Math.round(labelPlacementY - fontSize / 3)
-      );
-    }
-
-
-  };
-
-
 function pamsigmaReload(tax, persons, currentperson, currentpersondata, containerID) {
 	
 	// var json_relations_raw = cleanJson(persons);
@@ -396,27 +167,16 @@ function pamsigmaAppend(node) {
 	//Añade nuevos links
 }
 
-function pamsigmaGlobal(persons, containerID, tax) {
-	
-	// var json_relations_raw = cleanJson(persons);
-	// var json_relations = JSON.parse( json_relations_raw );
-	// var current_person = currentperson;
-	// var current_person_data = JSON.parse(currentpersondata);
+function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
+	var singlematchedpersons = [];
 	var db = new sigma.plugins.neighborhoods();
 	
 	var containerEl = jQuery('#' + containerID);
-	var highlight = jQuery('#' + containerEl.attr('data-highlight') );
-	var subhighlight = jQuery('#' + containerEl.attr('data-subhighlight') );
-	
+
 	var current_person_taxlabel = 'person_' + tax;
 
 	containerEl.empty();
-	highlight.empty();
-	subhighlight.empty();
-	
-	
-	//console.log(langids);
 
 	var L = 5,
     	N = 25,
@@ -426,6 +186,71 @@ function pamsigmaGlobal(persons, containerID, tax) {
 		nodes: [],
 		edges: []
 	}
+
+	if(singleperson !== undefined) {
+		
+		var curperson = pamFindPerson(persons, singleperson).pop();
+
+		if(curperson[current_person_taxlabel].length !== 0) {
+			
+				var thispersonlang = curperson[current_person_taxlabel][tax];
+				
+
+				//Navega por todas las personas
+				persons.map(function(person) {
+					var matchedpersonids = [];
+					var matchids = {
+						languages: [],
+						tools: [],
+						themes: []
+					};
+					
+					//Si la persona tiene algo de la taxonomía sigo
+					if(person[current_person_taxlabel].length !== 0) {
+
+						
+						var splangs = person[current_person_taxlabel][tax];
+						var slangids = [];
+						var slangidsmap = splangs.map(function(lang) {
+							slangids.push(parseInt(lang.fieldvalueid, 10));
+						});
+						
+						//Busco entre los IDs de la persona seleccionada
+						thispersonlang.map(function(lang, idx) {
+
+							//console.log('slangids' + slangids, 'person' + person.person_id);
+
+							//Si es que el ID de la taxonomía de la persona seleccionada está entre los IDs de la persona que estoy iterando
+
+							if(slangids.indexOf(parseInt(lang.fieldvalueid, 10)) !== -1 && parseInt(curperson.person_id, 10) !== parseInt(person.person_id, 10) )  {
+								
+								//En ese caso pongo la persona en un listado de personas que coinciden, si es que no lo he puesto antes
+								
+								if( matchedpersonids.indexOf(parseInt(person.person_id, 10)) === -1) {
+									singlematchedpersons.push(person);
+									matchedpersonids.push(parseInt(person.person_id, 10));
+								}
+								
+								//Y guardo un objeto de referencia con los IDs que calzan
+								matchids[tax].push(lang.fieldvalueid);
+								
+							};
+						});
+						
+					}
+
+				});
+
+		}
+
+		//Añado la persona actual al lote de personas que calzan
+		singlematchedpersons.push(curperson);
+
+		//reemplazo a las personas que se van a usar
+		persons = singlematchedpersons;
+
+	}
+
 	
 	for( var i = 0; i < persons.length; i ++) {
 		
@@ -435,11 +260,6 @@ function pamsigmaGlobal(persons, containerID, tax) {
 		var curlangs = persons[i].person_languages.languages;
 		var curthemes = persons[i].person_themes.themes;
 		var curtools = persons[i].person_tools.tools;
-		var canvaswidth = jQuery(containerEl).innerWidth();
-		var canvasheight = jQuery(containerEl).innerHeight();
-		var center = [canvaswidth/2, canvasheight/2];
-
-		console.log(center);
 		
 		
 		graph_rel.nodes.push({
@@ -447,8 +267,6 @@ function pamsigmaGlobal(persons, containerID, tax) {
 			label: persons[i].person_name.toUpperCase(),
 			x: i * Math.random(),
 			y: i * Math.random(),
-			center_x: center[0],
-			center_y: center[1],
 			circular_x: L * Math.cos(Math.PI * 2 * i / N - Math.PI / 2),
     		circular_y: L * Math.sin(Math.PI * 2 * i / N - Math.PI / 2),
 			old_x: i * Math.random(),
@@ -460,55 +278,67 @@ function pamsigmaGlobal(persons, containerID, tax) {
 			labelcolor: artistcolor,
 			languages: curlangs,
 			themes: curthemes,
-			tools: curtools
+			tools: curtools,
+			link: persons[i].person_url,
+			image: persons[i].person_thumbnail
 		});
-
-		matchedpersons = [];
 		
-		//Busco en todas las otras personas matches de lenguaje
-		persons.map(function(person) {
-			
-			var match = false;
-			var matchids = {
-				languages: [],
-				tools: [],
-				themes: []
-			};
-			
-			//console.log(person);
-			
-			if(person.person_languages.length !== 0) {
-				
-				var plangs = person.person_languages.languages;
-				var langids = [];
-				var langidsmap = plangs.map(function(lang) {
-					langids.push(parseInt(lang.fieldvalueid, 10));
-				});
-				
-				var thispersonlang = person.person_languages.languages;
-				
-				thispersonlang.map(function(lang, idx) {
-					
-					if(langids.indexOf(parseInt(lang.fieldvalueid, 10)) != -1) {
-						match = true;
-						matchids.languages.push(lang.fieldvalueid);
-						//console.log(langids, lang.fieldvalueid );
-					};
-				});
-				
-				if(match == true) {
+		if(persons[i][current_person_taxlabel].length !== 0) {
 
-					graph_rel.edges.push({
-						id: 'edge-' + i + '-' + person.person_id,
-						source: person.person_id,
-						target: persons[i].person_id,
-						color: '#ccc',
-						size: 3
-					});
-				}
-			}
-			
-		});
+		//Busco en todas las otras personas matches de la taxonomía correspondiente
+			persons.map(function(person) {
+
+				var matchids = {
+					languages: [],
+					tools: [],
+					themes: []
+				};
+
+				var edgeids = [];
+				
+				//console.log(person);
+				
+					if(person[current_person_taxlabel].length !== 0) {
+						
+						var plangs = persons[i][current_person_taxlabel][tax];
+						var langids = [];
+						var langidsmap = plangs.map(function(lang) {
+							langids.push(parseInt(lang.fieldvalueid, 10));
+						});
+						
+						var thispersonlang = person[current_person_taxlabel][tax];
+						
+						thispersonlang.map(function(lang, idx) {
+
+							if(langids.indexOf(parseInt(lang.fieldvalueid, 10)) !== -1 && person.person_id !== persons[i].person_id) {                     
+								
+								var edgeid = 'edge-' + i + '-' + person.person_id;
+
+								if( edgeids.indexOf(edgeid) === -1) {
+
+									graph_rel.edges.push({
+										id: edgeid,
+										source: person.person_id,
+										target: persons[i].person_id,
+										color: '#ccc',
+										size: 3
+									});
+
+									edgeids.push(edgeid);
+
+								}
+
+								
+
+								matchids[tax].push(lang.fieldvalueid);
+							};
+						});
+						
+					}
+				
+			});
+
+		}
 		
 	}
 	
@@ -520,22 +350,22 @@ function pamsigmaGlobal(persons, containerID, tax) {
 			type: 'canvas'
 		}],
 		settings: {
-			sideMargin: 0,
+			sideMargin: 10,
 			defaultLabelColor: '#555',
-			defaultLabelSize: 10,
+			defaultLabelSize: 9,
 			defaultEdgeColor: '#333',
 			enabelEdgeHovering: true,
-			//labelSize: 'proportional',
+			labelSize: 'proportional',
 			zoomMin: 0.3,
 			zoomMax: 2,
 			edgeHoverColor: '#333',
 			edgeHoverExtremities: true,
-			edgeHoverColor: 'edge',
-    		defaultEdgeHoverColor: '#000',
+			edgeHoverColor: '#ff0000',
+    		defaultEdgeHoverColor: '#ff0000',
     		edgeHoverSizeRatio: 1,
     		edgeHoverExtremities: true,
 			scalingMode: 'inside',
-			minNodeSize: 0.2,
+			minNodeSize: 1,
 			labelHoverShadow: false,
 			borderSize: 1,
 			labelAlignment: 'bottom'
@@ -558,9 +388,17 @@ function pamsigmaGlobal(persons, containerID, tax) {
 	rels.refresh();	
 
 	rels.bind('clickNode', function(e) {
-		
+
 		var nodeId = e.data.node.id;
-		sigma.plugins.animate(
+
+		pamsigmaGlobal(persons, containerID, tax, nodeId);
+
+	})
+	
+}
+
+function sigmaAnimateNodes() {
+	sigma.plugins.animate(
 			rels,
 			{
 				x: graph_form + '_x',
@@ -581,7 +419,12 @@ function pamsigmaGlobal(persons, containerID, tax) {
 				}
 			}
 		);
+}
 
-	})
-	
+function pamFindPerson(persons, personID) {
+	return persons.filter(
+		function(persons) {
+			return persons.person_id == personID
+		}
+	);
 }

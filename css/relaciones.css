@@ -1,6 +1,7 @@
 #relations-container {
   height: 400px;
 }
+
 .pam-relaciones {
   width: 100%;
   clear: both;
@@ -8,6 +9,17 @@
   padding: 100px 12px 12px 12px;
   position: relative;
 }
+
+.pam-relaciones-global {
+  width: 100%;
+  clear: both;
+  background-color: #f0f0f0;
+  padding: 24px 12px 12px 12px;
+  position: relative;
+  height:450px;
+}
+
+
 #relations-select {
   position: absolute;
   left: 12px;
@@ -41,3 +53,14 @@ span.tagtax.matched {
   font-weight: bold;
   color: #F90000;
 }
+
+/**/
+.relations-switcher a {
+  text-transform:uppercase;
+}
+
+.relations-switcher a.active,
+.relations-switcher a:hover {
+  color:#ff0000;
+  border-bottom:1px solid #ff0000;
+} 
