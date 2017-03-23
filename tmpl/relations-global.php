@@ -73,12 +73,32 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 	<div class="relations-info">
 		<script id="relations-template" type="x-tmpl-mustache">
 			<h2 class="artist-title">{{label}}</h2>
-			<img src="{{&image}}" alt="{{label}}">
+			<img src={{image}} alt={{label}}>
+			
+			<h3>Lenguajes</h3>
+			<ul>
 			{{#languages}}
 				<li>{{fieldvaluename}}</li>	
 			{{/languages}}
+			</ul>
 
-			<p class="link"><a href="{{&link}}">Link</a></p>
+			
+			<h3>Herramientas</h3>
+			<ul>
+			{{#tools}}
+				<li>{{fieldvaluename}}</li>
+			{{/tools}}
+			</ul>
+
+			
+			<h3>Temas</h3>
+			<ul>
+			{{#themes}}
+				<li>{{fieldvaluename}}</li>
+			{{/themes}}
+			</ul>
+
+			<p class="link"><a href={{link}}>Link</a></p>
 		</script>
 			
 		<div class="content">

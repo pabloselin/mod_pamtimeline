@@ -445,7 +445,8 @@ function pamsigmaPutData(data) {
 	Mustache.parse(fichatemplate);
 	var rendered_content = Mustache.render(fichatemplate, data);
 	
-	jQuery('.content', ficha).html(rendered_content);
+	jQuery('.content', ficha).empty().append(rendered_content);
+	console.log(rendered_content);
 	
 	ficha.addClass('active');
 	canvas.addClass('active');
