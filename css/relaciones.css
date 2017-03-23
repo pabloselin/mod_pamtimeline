@@ -1,5 +1,8 @@
 #relations-container {
   height: 400px;
+  float:left;
+  overflow:hidden;
+  width:100%;
 }
 
 .pam-relaciones {
@@ -14,9 +17,42 @@
   width: 100%;
   clear: both;
   background-color: #f0f0f0;
-  padding: 24px 12px 12px 12px;
+  padding: 6px 12px 12px 12px;
   position: relative;
   height:450px;
+  border-top:1px solid #ccc;
+  border-bottom:1px solid #ccc;
+}
+
+#relations-container.active {
+  width:60%;
+  min-width:400px;
+}
+
+.relations-info {
+  position:absolute;
+  width:40%;
+  top:0;
+  height:100%;
+  min-width:300px;
+  right:-40%;
+  background-color:white;
+  overflow:hidden;
+  border-left:1px solid #ccc;
+  transition: all ease-in 0.5s;
+}
+
+.relations-info.active {
+  right:0;
+}
+
+.relations-info .content {
+  padding:0 12px;
+}
+
+.relations-info img {
+  max-width:100px;
+  height:auto;
 }
 
 

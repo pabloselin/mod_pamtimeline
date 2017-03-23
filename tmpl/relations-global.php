@@ -17,6 +17,7 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
@@ -69,6 +70,22 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 	</div>
 
+	<div class="relations-info">
+		<script id="relations-template" type="x-tmpl-mustache">
+			<h2 class="artist-title">{{label}}</h2>
+			<img src="{{&image}}" alt="{{label}}">
+			{{#languages}}
+				<li>{{fieldvaluename}}</li>	
+			{{/languages}}
+
+			<p class="link"><a href="{{&link}}">Link</a></p>
+		</script>
+			
+		<div class="content">
+		
+		</div>
+	</div>
+
 	</div>
 
 	<script>
@@ -90,9 +107,16 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 			if( !thisEl.hasClass('active')) {
 
-				pamsigmaGlobal(json_relations, 'relations-container', thistax);
 				others.removeClass('active');
 				thisEl.addClass('active');
+				
+				jQuery('.pam-relaciones-global').removeClass('active');
+				jQuery('.pam-relaciones-global .relations-info > div').empty();
+				jQuery('#relations-container').removeClass('active');
+				jQuery('.relations-info').removeClass('active');
+
+				pamsigmaGlobal(json_relations, 'relations-container', thistax);
+
 			}
 
 			

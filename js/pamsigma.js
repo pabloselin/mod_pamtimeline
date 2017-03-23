@@ -391,7 +391,11 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
 		var nodeId = e.data.node.id;
 
+		pamsigmaPutData(e.data.node);
+
 		pamsigmaGlobal(persons, containerID, tax, nodeId);
+
+		
 
 	})
 	
@@ -427,4 +431,25 @@ function pamFindPerson(persons, personID) {
 			return persons.person_id == personID
 		}
 	);
+}
+
+function pamsigmaPutData(data) {
+
+	console.log(data);
+
+	var canvas = jQuery('#relations-container');
+	var container = jQuery('.pam-relaciones-global');
+	var ficha = jQuery('.relations-info', container);
+	
+	var fichatemplate = jQuery('#relations-template').html();
+	Mustache.parse(fichatemplate);
+	var rendered_content = Mustache.render(fichatemplate, data);
+	
+	jQuery('.content', ficha).html(rendered_content);
+	
+	ficha.addClass('active');
+	canvas.addClass('active');
+
+	
+
 }
