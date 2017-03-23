@@ -260,7 +260,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 		var curlangs = persons[i].person_languages.languages;
 		var curthemes = persons[i].person_themes.themes;
 		var curtools = persons[i].person_tools.tools;
-		
+		var curpersontype = persons[i].person_type.persontype;
 		
 		graph_rel.nodes.push({
 			id: persons[i].person_id,
@@ -280,7 +280,8 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			themes: curthemes,
 			tools: curtools,
 			link: persons[i].person_url,
-			image: persons[i].person_thumbnail
+			image: persons[i].person_thumbnail,
+			persontype: curpersontype
 		});
 		
 		if(persons[i][current_person_taxlabel].length !== 0) {
@@ -446,11 +447,16 @@ function pamsigmaPutData(data) {
 	var rendered_content = Mustache.render(fichatemplate, data);
 	
 	jQuery('.content', ficha).empty().append(rendered_content);
-	console.log(rendered_content);
 	
 	ficha.addClass('active');
 	canvas.addClass('active');
 
 	
 
+}
+
+function pamsigmaToggleInfo() {
+	jQuery('.pam-relaciones-global').removeClass('active');
+	jQuery('#relations-container').removeClass('active');
+	jQuery('.relations-info').removeClass('active');
 }

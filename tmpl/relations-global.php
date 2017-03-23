@@ -42,6 +42,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			$languages = ModPamTimelineHelper::getItemField( $person['id'], 'languages' );
 			$themes = ModPamTimelineHelper::getItemField( $person['id'], 'themes' );
 			$tools = ModPamTimelineHelper::getItemField( $person['id'], 'tools' );
+			$persontype = ModPamTimelineHelper::getItemField( $person['id'], 'persontype' );
 			
 			$persons_array[] = array(
 				'person_id' => $person['id'],
@@ -50,7 +51,8 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				'person_themes' => $themes,
 				'person_tools' => $tools,
 				'person_url' => ModPamTimelineHelper::getItemLink($person['id'], $person['alias'], $person['catid']),
-				'person_thumbnail' => ModPamTimelineHelper::getItemImageUrl($person['id'], 'S')
+				'person_thumbnail' => ModPamTimelineHelper::getItemImageUrl($person['id'], 'S'),
+				'person_type' => $persontype
 				);
 		}
 
@@ -60,55 +62,27 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 	<div class="pam-relaciones-global">
 
-	<div class="relations-switcher">
-		<a href="#" data-tax="languages">Lenguajes</a>
-		<a href="#" data-tax="tools">Herramientas</a>
-		<a href="#" data-tax="themes">Temas</a>
-	</div>
-
-    <div id="relations-container" data-highlight="relations-highlight" data-select="relations-select" data-subhighlight="relations-subhighlight">
-
-	</div>
-
-	<div class="relations-info">
-		<script id="relations-template" type="x-tmpl-mustache">
-			<h2 class="artist-title">{{label}}</h2>
-			<img src={{image}} alt={{label}}>
-			
-			<h3>Lenguajes</h3>
-			<ul>
-			{{#languages}}
-				<li>{{fieldvaluename}}</li>	
-			{{/languages}}
-			</ul>
-
-			
-			<h3>Herramientas</h3>
-			<ul>
-			{{#tools}}
-				<li>{{fieldvaluename}}</li>
-			{{/tools}}
-			</ul>
-
-			
-			<h3>Temas</h3>
-			<ul>
-			{{#themes}}
-				<li>{{fieldvaluename}}</li>
-			{{/themes}}
-			</ul>
-
-			<p class="link"><a href={{link}}>Link</a></p>
-		</script>
-			
-		<div class="content">
-		
+		<div class="relations-switcher">
+			<a href="#" data-tax="languages">Lenguajes</a>
+			<a href="#" data-tax="tools">Herramientas</a>
+			<a href="#" data-tax="themes">Temas</a>
 		</div>
-	</div>
+
+    	<div id="relations-container">
+		</div>
+
+		<div class="relations-info">
+			
+			
+				
+			<div class="content">
+			
+			</div>
+		</div>
 
 	</div>
 
-	<script>
+	<script type="text/javascript">
 
 		var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
 		var json_relations = JSON.parse( json_relations_raw );
@@ -130,10 +104,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				others.removeClass('active');
 				thisEl.addClass('active');
 				
-				jQuery('.pam-relaciones-global').removeClass('active');
-				jQuery('.pam-relaciones-global .relations-info > div').empty();
-				jQuery('#relations-container').removeClass('active');
-				jQuery('.relations-info').removeClass('active');
+				pamsigmaToggleInfo();
 
 				pamsigmaGlobal(json_relations, 'relations-container', thistax);
 
@@ -141,9 +112,60 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 			
 
-		})
+		});
+
+		jQuery('.relations-info').on('click', 'a.back', function(e) {
+			var curtax = jQuery('.relations-switcher a.active').attr('data-tax');
+			
+			e.preventDefault();
+			pamsigmaToggleInfo();
+
+			pamsigmaGlobal(json_relations, 'relations-container', curtax);
+
+		});
 
 		
 	</script>
-
 </div>
+
+<script id="relations-template" type="x-tmpl-mustache">
+				<h2 class="artist-title">{{label}}
+				 {{#persontype}}
+					- <span class="persontype">{{fieldvaluename}}</span>
+				{{/persontype}}</h2>
+				
+				
+
+				<img src={{image}} alt={{label}}>
+				
+				<div class="introtext">{{introtext}}</div>	
+
+				<div class="taxsection">
+				<h3>Lenguajes</h3>
+				
+				{{#languages}}
+					<span>{{fieldvaluename}}</span>
+				{{/languages}}
+				</div>
+
+				<div class="taxsection">
+				<h3>Herramientas</h3>
+				
+				{{#tools}}
+					<span>{{fieldvaluename}}</span>
+				{{/tools}}
+				
+				</div>
+
+				
+				<div class="taxsection">
+					<h3>Temáticas</h3>
+					
+					{{#themes}}
+						<span>{{fieldvaluename}}</span>
+					{{/themes}}
+					
+				</div>
+
+				<p class="link"><a href={{link}}>Link</a> <a class="back" href="#">Volver</a></p>
+			</script>
