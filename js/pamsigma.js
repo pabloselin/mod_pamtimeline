@@ -227,6 +227,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 								//En ese caso pongo la persona en un listado de personas que coinciden, si es que no lo he puesto antes
 								
 								if( matchedpersonids.indexOf(parseInt(person.person_id, 10)) === -1) {
+									person.activeNode = false;
 									singlematchedpersons.push(person);
 									matchedpersonids.push(parseInt(person.person_id, 10));
 								}
@@ -244,6 +245,9 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 		}
 
 		//Añado la persona actual al lote de personas que calzan
+		
+		curperson.activeNode = true;
+
 		singlematchedpersons.push(curperson);
 
 		//reemplazo a las personas que se van a usar
@@ -281,8 +285,11 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			tools: curtools,
 			link: persons[i].person_url,
 			image: persons[i].person_thumbnail,
-			persontype: curpersontype
+			persontype: curpersontype,
+			active: singleperson === undefined ? false : persons[i].activeNode
 		});
+		
+		console.log(persons[i].activeNode);
 		
 		if(persons[i][current_person_taxlabel].length !== 0) {
 
@@ -356,7 +363,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			defaultLabelSize: 9,
 			defaultEdgeColor: '#333',
 			enabelEdgeHovering: true,
-			labelSize: 'proportional',
+			labelSize: 'fixed',
 			zoomMin: 0.3,
 			zoomMax: 2,
 			edgeHoverColor: '#333',
@@ -368,14 +375,17 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			scalingMode: 'inside',
 			minNodeSize: 1,
 			labelHoverShadow: false,
-			borderSize: 1,
 			labelAlignment: 'bottom'
 		}
 	});
 
 	var ovconfig = {
-		nodeMargin: 130.0,
-		scaleNodes: 0.2
+		nodeMargin: 200,
+		scaleNodes: 0.5,
+		gridSize: 20,
+		permittedExpansion: 1.1,
+		easing: 'quadraticInOut',
+		duration: 2000
 	};
 
 	var listener = rels.configNoverlap(ovconfig);

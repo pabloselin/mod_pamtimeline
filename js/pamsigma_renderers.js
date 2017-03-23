@@ -63,9 +63,11 @@ sigma.canvas.labels.def = function(node, context, settings) {
 
 	context.beginPath();
 
-    context.fillStyle = settings('labelHoverBGColor') === 'node' ?
-      (node.color || settings('defaultNodeColor')) :
-      settings('defaultHoverLabelBGColor');
+    // context.fillStyle = settings('labelHoverBGColor') === 'node' ?
+    //   (node.color || settings('defaultNodeColor')) :
+    //   settings('defaultHoverLabelBGColor');
+    
+    context.fillStyle = node.active === true ? '#000' : '#fff';
 
     if (node.label && typeof node.label === 'string') {
       w = Math.round(
@@ -100,9 +102,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
 
     // Display the label:
     if (node.label && typeof node.label === 'string') {
-      context.fillStyle = (settings('labelHoverColor') === 'node') ?
-        (node.color || settings('defaultNodeColor')) :
-        settings('defaultLabelHoverColor');
+      context.fillStyle = node.active === true ? '#fff' : '#000';
 
       context.fillText(
         node.label,
@@ -136,7 +136,7 @@ sigma.canvas.hovers.def = function(node, context, settings) {
       alignment = settings('labelAlignment');
     }
 
-    fontSize = 16;
+    fontSize = 14;
 
     context.font = (settings('fontStyle') ? settings('fontStyle') + ' ' : '') +
       fontSize + 'px ' + settings('font');
@@ -177,9 +177,7 @@ sigma.canvas.hovers.def = function(node, context, settings) {
 
 	context.beginPath();
 
-    context.fillStyle = settings('labelHoverBGColor') === 'node' ?
-      (node.color || settings('defaultNodeColor')) :
-      settings('defaultHoverLabelBGColor');
+    context.fillStyle = '#000';
 
     if (node.label && typeof node.label === 'string') {
       w = Math.round(
@@ -187,7 +185,7 @@ sigma.canvas.hovers.def = function(node, context, settings) {
       );
       h = Math.round(fontSize + 4);
       e = Math.round(fontSize / 2 + 2);
-	  var bglabelposY = labelPlacementY - h + 1;
+	  var bglabelposY = labelPlacementY - h + 0.5;
 
       context.moveTo(labelPlacementX, bglabelposY);
       context.lineTo(labelPlacementX, bglabelposY, labelPlacementX + e, bglabelposY, e);
@@ -214,7 +212,7 @@ sigma.canvas.hovers.def = function(node, context, settings) {
 
     // Display the label:
     if (node.label && typeof node.label === 'string') {
-      context.fillStyle = '#ff0000';
+      context.fillStyle = '#fff';
 
       context.fillText(
         node.label,

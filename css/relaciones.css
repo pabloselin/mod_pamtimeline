@@ -43,8 +43,29 @@
   transition: all ease-in 0.5s;
 }
 
+@media screen and (max-width:480px) {
+  .relations-info {
+    right:-100%;
+  }
+
+  .relations-info.active {
+    width:100%;
+    background-color:rgba(255,255,255,0.6);
+  }
+
+  .taxsection {
+    height:45px;
+  }
+
+  .taxsection span {
+    float:left;
+    overflow-x:scroll;
+  }
+}
+
 .relations-info.active {
   right:0;
+  
 }
 
 .relations-info .content {
