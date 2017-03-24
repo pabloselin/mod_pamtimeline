@@ -67,7 +67,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		<div class="relations-switcher" id="relations-switcher">
 			<a href="#" data-tax="languages">Lenguajes</a>
 			<a href="#" data-tax="tools">Herramientas</a>
-			<a href="#" data-tax="themes">Temas</a>
+			<a href="#" data-tax="themes">Temáticas</a>
 		</div>
 
     	<div id="relations-container">
@@ -84,16 +84,17 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 	<script>
 
-		var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
-		var json_relations = JSON.parse( json_relations_raw );
-		var current_person = <?php echo $current_person_id;?>;
-		var current_person_data = JSON.parse('<?php echo $json_current_person;?>');
-
-		pamsigmaGlobal(json_relations, 'relations-container', 'languages', <?php echo $current_person_id;?>);
-		jQuery('.relations-switcher a[data-tax="languages"]').addClass('active');
-
 		//pam sigma implementation
 		jQuery(document).ready(function($) {
+
+			var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
+			var json_relations = JSON.parse( json_relations_raw );
+			var current_person = <?php echo $current_person_id;?>;
+			var current_person_data = JSON.parse('<?php echo $json_current_person;?>');
+			var togglers = $('.pam-relaciones-global, #relations-container, .relations-info');
+
+			pamsigmaGlobal(json_relations, 'relations-container', 'languages', <?php echo $current_person_id;?>);
+			$('.relations-switcher a[data-tax="languages"]').addClass('active');
 			
 			$('.relations-switcher a').on('click', function(e) {
 					e.preventDefault();
@@ -106,7 +107,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 						others.removeClass('active');
 						thisEl.addClass('active');
 						
-						pamsigmaToggleInfo();
+						//pamsigmaToggleInfo(togglers);
 
 						pamsigmaGlobal(json_relations, 'relations-container', thistax, <?php echo $current_person_id;?>);
 

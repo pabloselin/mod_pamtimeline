@@ -65,7 +65,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		<div class="relations-switcher">
 			<a href="#" data-tax="languages">Lenguajes</a>
 			<a href="#" data-tax="tools">Herramientas</a>
-			<a href="#" data-tax="themes">Temas</a>
+			<a href="#" data-tax="themes">Temáticas</a>
 		</div>
 
     	<div id="relations-container">
@@ -82,48 +82,46 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 	<script type="text/javascript">
 
+	jQuery(document).ready(function($) {
+		
 		var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
 		var json_relations = JSON.parse( json_relations_raw );
-
+		var curtax = 'languages';
 		var graph_form = 'grid';
+		var othertaxs = $('.relations-switcher a');
+		var togglers = $('.pam-relaciones-global, #relations-container, .relations-info');
 
 		pamsigmaGlobal(json_relations, 'relations-container', 'languages');
-		jQuery('.relations-switcher a[data-tax="languages"]').addClass('active');
+		$('.relations-switcher a[data-tax="languages"]').addClass('active');
 
-		jQuery('.relations-switcher a').on('click', function(e) {
+		$('.relations-switcher a').on('click', function(e) {
 
 			e.preventDefault();
-			var thisEl = jQuery(this);
-			var others = jQuery('.relations-switcher a');
+			var thisEl = $(this);
+			
 			var thistax = thisEl.attr('data-tax');
 
 			if( !thisEl.hasClass('active')) {
-
-				others.removeClass('active');
+				othertaxs.removeClass('active');
 				thisEl.addClass('active');
-				
-				pamsigmaToggleInfo();
-
+				pamsigmaToggleInfo(togglers);
 				pamsigmaGlobal(json_relations, 'relations-container', thistax);
-
+				curtax = thistax;
 			}
-
-			
-
 		});
 
-		jQuery('.relations-info').on('click', 'a.back', function(e) {
-			var curtax = jQuery('.relations-switcher a.active').attr('data-tax');
+		$('.relations-info').on('click', 'a.back', function(e) {
+			//var curtax = jQuery('.relations-switcher a.active').attr('data-tax');
 			
 			e.preventDefault();
-			pamsigmaToggleInfo();
+			pamsigmaToggleInfo(togglers);
 
 			pamsigmaGlobal(json_relations, 'relations-container', curtax);
 
 		});
 
-		
-	</script>
+	});
+</script>
 
 <script id="relations-template" type="x-tmpl-mustache">
 				<h2 class="artist-title">{{label}}

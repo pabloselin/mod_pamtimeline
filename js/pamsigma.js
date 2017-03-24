@@ -224,10 +224,8 @@ function pamsigmaPutData(data) {
 
 }
 
-function pamsigmaToggleInfo() {
-	jQuery('.pam-relaciones-global').removeClass('active');
-	jQuery('#relations-container').removeClass('active');
-	jQuery('.relations-info').removeClass('active');
+function pamsigmaToggleInfo(elements) {
+	elements.removeClass('active');
 }
 
 function pamsigmaMatchSingle(persons, singleperson, tax) {
