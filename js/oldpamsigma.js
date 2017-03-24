@@ -6,7 +6,7 @@ function pamsigmaReload(tax, persons, currentperson, currentpersondata, containe
 	// var current_person_data = JSON.parse(currentpersondata);
 	
 	var containerEl = jQuery('#' + containerID);
-	//console.log(containerEl);
+	
 	var highlight = jQuery('#' + containerEl.attr('data-highlight') );
 	var subhighlight = jQuery('#' + containerEl.attr('data-subhighlight') );
 	
@@ -15,7 +15,7 @@ function pamsigmaReload(tax, persons, currentperson, currentpersondata, containe
 	subhighlight.empty();
 	
 	var current_person_taxlabel = 'person_' + tax;
-	//console.log(current_person_taxlabel, tax);
+	
 	var current_tax_filter = current_person_data[current_person_taxlabel][tax];
 	
 	//poner los items señalados en la sección highlight
@@ -31,7 +31,7 @@ function pamsigmaReload(tax, persons, currentperson, currentpersondata, containe
 		langids.push(parseInt(lang.fieldvalueid, 10));
 	});
 	
-	//console.log(langids);
+	
 	
 	var graph_rel = {
 		nodes: [],
@@ -151,8 +151,6 @@ function pamsigmaReload(tax, persons, currentperson, currentpersondata, containe
 	rels.startForceAtlas2({
 		slowDown: 1
 	});
-	
-	//console.log(rels.isForceAtlas2Running());
 	
 	rels.refresh();
 	
