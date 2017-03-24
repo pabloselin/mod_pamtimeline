@@ -27,71 +27,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 	}
 
 	if(singleperson !== undefined) {
-		
-		var curperson = pamFindPerson(persons, singleperson).pop();
-
-		if(curperson[current_person_taxlabel].length !== 0) {
-			
-				var thispersonlang = curperson[current_person_taxlabel][tax];
-				
-
-				//Navega por todas las personas
-				persons.map(function(person) {
-					var matchedpersonids = [];
-					var matchids = {
-						languages: [],
-						tools: [],
-						themes: []
-					};
-					
-					//Si la persona tiene algo de la taxonomía sigo
-					if(person[current_person_taxlabel].length !== 0) {
-
-						
-						var splangs = person[current_person_taxlabel][tax];
-						var slangids = [];
-						var slangidsmap = splangs.map(function(lang) {
-							slangids.push(parseInt(lang.fieldvalueid, 10));
-						});
-						
-						//Busco entre los IDs de la persona seleccionada
-						thispersonlang.map(function(lang, idx) {
-
-							//console.log('slangids' + slangids, 'person' + person.person_id);
-
-							//Si es que el ID de la taxonomía de la persona seleccionada está entre los IDs de la persona que estoy iterando
-
-							if(slangids.indexOf(parseInt(lang.fieldvalueid, 10)) !== -1 && parseInt(curperson.person_id, 10) !== parseInt(person.person_id, 10) )  {
-								
-								//En ese caso pongo la persona en un listado de personas que coinciden, si es que no lo he puesto antes
-								
-								if( matchedpersonids.indexOf(parseInt(person.person_id, 10)) === -1) {
-									person.activeNode = false;
-									singlematchedpersons.push(person);
-									matchedpersonids.push(parseInt(person.person_id, 10));
-								}
-								
-								//Y guardo un objeto de referencia con los IDs que calzan
-								matchids[tax].push(lang.fieldvalueid);
-								
-							};
-						});
-						
-					}
-
-				});
-
-		}
-
-		//Añado la persona actual al lote de personas que calzan
-		
-		curperson.activeNode = true;
-
-		singlematchedpersons.push(curperson);
-
-		//reemplazo a las personas que se van a usar
-		persons = singlematchedpersons;
-
+		persons = pamsigmaMatchSingle(persons, singleperson, tax);
 	}
 
 	
@@ -208,22 +144,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			labelAlignment: 'bottom',
 			labelThreshold: 3
 		}
-	});
-
-	var ovconfig = {
-		nodeMargin: 200,
-		scaleNodes: 0.5,
-		gridSize: 20,
-		permittedExpansion: 1.1,
-		easing: 'quadraticInOut',
-		duration: 2000
-	};
-
-	var listener = rels.configNoverlap(ovconfig);
-	
-	rels.startNoverlap();
-	
-	rels.refresh();	
+	});	
 
 	rels.bind('clickNode', function(e) {
 
@@ -233,7 +154,22 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
 		pamsigmaGlobal(oldpersons, containerID, tax, nodeId);
 
-	})
+	});
+
+	var ovconfig = {
+		nodeMargin: 55.0,
+		scaleNodes: 1.2,
+		gridSize: 20,
+		permittedExpansion: 1.1,
+		easing: 'quadraticInOut',
+		duration: 2000,
+		speed: 4,
+		maxIterations: 200
+	};
+
+	var listener = rels.configNoverlap(ovconfig);
+	
+	rels.startNoverlap();
 	
 }
 
@@ -292,4 +228,73 @@ function pamsigmaToggleInfo() {
 	jQuery('.pam-relaciones-global').removeClass('active');
 	jQuery('#relations-container').removeClass('active');
 	jQuery('.relations-info').removeClass('active');
+}
+
+function pamsigmaMatchSingle(persons, singleperson, tax) {
+
+	var current_person_taxlabel = 'person_' + tax;
+	var singlematchedpersons = [];
+	var curperson = pamFindPerson(persons, singleperson).pop();
+
+		if(curperson[current_person_taxlabel].length !== 0) {
+			
+				var thispersonlang = curperson[current_person_taxlabel][tax];
+				
+
+				//Navega por todas las personas
+				persons.map(function(person) {
+					var matchedpersonids = [];
+					var matchids = {
+						languages: [],
+						tools: [],
+						themes: []
+					};
+					
+					//Si la persona tiene algo de la taxonomía sigo
+					if(person[current_person_taxlabel].length !== 0) {
+
+						
+						var splangs = person[current_person_taxlabel][tax];
+						var slangids = [];
+						var slangidsmap = splangs.map(function(lang) {
+							slangids.push(parseInt(lang.fieldvalueid, 10));
+						});
+						
+						//Busco entre los IDs de la persona seleccionada
+						thispersonlang.map(function(lang, idx) {
+
+							//console.log('slangids' + slangids, 'person' + person.person_id);
+
+							//Si es que el ID de la taxonomía de la persona seleccionada está entre los IDs de la persona que estoy iterando
+
+							if(slangids.indexOf(parseInt(lang.fieldvalueid, 10)) !== -1 && parseInt(curperson.person_id, 10) !== parseInt(person.person_id, 10) )  {
+								
+								//En ese caso pongo la persona en un listado de personas que coinciden, si es que no lo he puesto antes
+								
+								if( matchedpersonids.indexOf(parseInt(person.person_id, 10)) === -1) {
+									person.activeNode = false;
+									singlematchedpersons.push(person);
+									matchedpersonids.push(parseInt(person.person_id, 10));
+								}
+								
+								//Y guardo un objeto de referencia con los IDs que calzan
+								matchids[tax].push(lang.fieldvalueid);
+								
+							};
+						});
+						
+					}
+
+				});
+
+		}
+
+		//Añado la persona actual al lote de personas que calzan
+		
+		curperson.activeNode = true;
+
+		singlematchedpersons.push(curperson);
+
+		//reemplazo a las personas que se van a usar
+		return singlematchedpersons;
 }
