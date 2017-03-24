@@ -170,6 +170,8 @@ function pamsigmaAppend(node) {
 function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
 	var singlematchedpersons = [];
+	//guardo las otras personas por si acaso
+	var oldpersons = persons;
 	var db = new sigma.plugins.neighborhoods();
 	
 	var containerEl = jQuery('#' + containerID);
@@ -398,9 +400,9 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
 		pamsigmaPutData(e.data.node);
 
-		pamsigmaGlobal(persons, containerID, tax, nodeId);
+		pamsigmaGlobal(oldpersons, containerID, tax, nodeId);
 
-		
+		console.log(persons);
 
 	})
 	
