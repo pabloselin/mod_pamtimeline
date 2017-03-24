@@ -67,7 +67,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
     //   (node.color || settings('defaultNodeColor')) :
     //   settings('defaultHoverLabelBGColor');
     
-    context.fillStyle = node.active === true ? '#000' : '#fff';
+    context.fillStyle = node.active === true ? '#000' : 'rgba(255,255,255,0.7)';
 
     if (node.label && typeof node.label === 'string') {
       w = Math.round(

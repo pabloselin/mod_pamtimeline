@@ -352,7 +352,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			type: 'canvas'
 		}],
 		settings: {
-			sideMargin: 0,
+			sideMargin: 70,
 			defaultLabelColor: '#555',
 			defaultLabelSize: 9,
 			defaultEdgeColor: '#D65B56',
