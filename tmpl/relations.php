@@ -14,7 +14,11 @@ error_reporting(0);
 $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 ?>
@@ -33,29 +37,21 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 		foreach($persons as $person) {
 
-			//$personFields = ModPamTimelineHelper::getItemFields( $person['id'] );
-
 			$languages = ModPamTimelineHelper::getItemField( $person['id'], 'languages' );
 			$themes = ModPamTimelineHelper::getItemField( $person['id'], 'themes' );
 			$tools = ModPamTimelineHelper::getItemField( $person['id'], 'tools' );
+			$persontype = ModPamTimelineHelper::getItemField( $person['id'], 'persontype' );
 			
 			$persons_array[] = array(
 				'person_id' => $person['id'],
 				'person_name' => $person['title'],
 				'person_languages' => $languages,
 				'person_themes' => $themes,
-				'person_tools' => $tools
+				'person_tools' => $tools,
+				'person_url' => ModPamTimelineHelper::getItemLink($person['id'], $person['alias'], $person['catid']),
+				'person_thumbnail' => ModPamTimelineHelper::getItemImageUrl($person['id'], 'S'),
+				'person_type' => $persontype
 				);
-
-			if($current_person_id == $person['id']) {
-
-				$current_person_data['person_id'] = $person['id'];
-				$current_person_data['person_name'] = $person['title'];
-				$current_person_data['person_languages'] = $languages;
-				$current_person_data['person_themes'] = $themes;
-				$current_person_data['person_tools'] = $tools;
-
-			}
 
 		}
 
@@ -63,22 +59,26 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		$json_persons = json_encode($persons_array, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 		$json_current_person = json_encode($current_person_data, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 		
-		echo '<p>ID:' . $current_person_id . '</p>';
+		echo '<!--<p>ID:' . $current_person_id . '</p>-->';
 	?>
 
 	<div class="pam-relaciones">
-	
-	<div id="relations-select">
-		<select name="select_tax">
-			<option value="languages">Lenguajes</option>
-			<option value="themes">Temáticas</option>
-			<option value="tools">Herramientas</option>
-		</select>
-	</div>
-	<div id="relations-highlight"></div>
-	<div id="relations-subhighlight"></div>
-	<div id="relations-container" data-highlight="relations-highlight" data-select="relations-select" data-subhighlight="relations-subhighlight">
-	</div>
+
+		<div class="relations-switcher" id="relations-switcher">
+			<a href="#" data-tax="languages">Lenguajes</a>
+			<a href="#" data-tax="tools">Herramientas</a>
+			<a href="#" data-tax="themes">Temas</a>
+		</div>
+
+    	<div id="relations-container">
+		</div>
+
+		<div class="relations-info">	
+			<div class="content">			
+			</div>
+		</div>
+
+		</div>
 
 	</div>
 
@@ -89,21 +89,31 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		var current_person = <?php echo $current_person_id;?>;
 		var current_person_data = JSON.parse('<?php echo $json_current_person;?>');
 
-		pamsigmaReload('languages', json_relations, current_person, current_person_data, 'relations-container');
+		pamsigmaGlobal(json_relations, 'relations-container', 'languages', <?php echo $current_person_id;?>);
+		jQuery('.relations-switcher a[data-tax="languages"]').addClass('active');
 
 		//pam sigma implementation
-	jQuery(document).ready(function($) {
-		$('select[name="select_tax"]').on('change', function() {
+		jQuery(document).ready(function($) {
 			
-			var value = this.value;
-			console.log( this.value );
-			
-			pamsigmaReload(value, json_relations, current_person, current_person_data, 'relations-container');
+			$('.relations-switcher a').on('click', function(e) {
+					e.preventDefault();
+					var thisEl = $(this);
+					var others = $('.relations-switcher a');
+					var thistax = thisEl.attr('data-tax');
 
+					if( !thisEl.hasClass('active')) {
+
+						others.removeClass('active');
+						thisEl.addClass('active');
+						
+						pamsigmaToggleInfo();
+
+						pamsigmaGlobal(json_relations, 'relations-container', thistax, <?php echo $current_person_id;?>);
+
+					}	
+
+				});
 		});
-	});
-
-		
 	</script>
 
 </div>

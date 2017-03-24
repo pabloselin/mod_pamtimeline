@@ -71,13 +71,11 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
     	<div id="relations-container">
 		</div>
 
-		<div class="relations-info">
-			
-			
-				
-			<div class="content">
-			
+		<div class="relations-info">	
+			<div class="content">			
 			</div>
+		</div>
+
 		</div>
 
 	</div>
@@ -126,7 +124,6 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 		
 	</script>
-</div>
 
 <script id="relations-template" type="x-tmpl-mustache">
 				<h2 class="artist-title">{{label}}

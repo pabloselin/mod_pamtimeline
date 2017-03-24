@@ -5,24 +5,22 @@
   width:100%;
 }
 
-.pam-relaciones {
-  width: 100%;
-  clear: both;
-  background-color: #f0f0f0;
-  padding: 100px 12px 12px 12px;
-  position: relative;
-}
 
+.pam-relaciones,
 .pam-relaciones-global {
   width: 100%;
   clear: both;
   background-color: #f0f0f0;
-  padding: 6px 12px 12px 12px;
+  padding:0;
   position: relative;
   height:450px;
   border-top:1px solid #ccc;
   border-bottom:1px solid #ccc;
   overflow:hidden;
+}
+
+.pam-relaciones {
+  border:1px solid #ccc;
 }
 
 #relations-container.active {
@@ -161,14 +159,22 @@ span.tagtax {
   color: #000;
   font-size: 13px;
 }
+
 span.tagtax.matched {
   font-weight: bold;
   color: #F90000;
 }
 
 /**/
-.relations-switcher a {
+.relations-switcher {
+  padding:6px 12px;
+}
+
+.relations-switcher > a,
+#relations-switcher > a
+ {
   text-transform:uppercase;
+  font-weight:normal;
 }
 
 .relations-switcher a.active,

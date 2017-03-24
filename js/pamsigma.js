@@ -258,7 +258,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 	
 	for( var i = 0; i < persons.length; i ++) {
 		
-		var cursize = 0.1;
+		var cursize = 1;
 		var curcolor = '#ff0000';
 		var artistcolor = '#ff0000';
 		var curlangs = persons[i].person_languages.languages;
@@ -271,12 +271,6 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			label: persons[i].person_name.toUpperCase(),
 			x: i * Math.random(),
 			y: i * Math.random(),
-			circular_x: L * Math.cos(Math.PI * 2 * i / N - Math.PI / 2),
-    		circular_y: L * Math.sin(Math.PI * 2 * i / N - Math.PI / 2),
-			old_x: i * Math.random(),
-			old_y: i * Math.random(),
-			grid_x: i % L,
-    		grid_y: Math.floor(i / L),
 			size:cursize,
 			color: curcolor,
 			labelcolor: artistcolor,
@@ -358,24 +352,24 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			type: 'canvas'
 		}],
 		settings: {
-			sideMargin: 10,
+			sideMargin: 0,
 			defaultLabelColor: '#555',
 			defaultLabelSize: 9,
-			defaultEdgeColor: '#333',
-			enabelEdgeHovering: true,
+			defaultEdgeColor: '#D65B56',
+			enableEdgeHovering: true,
 			labelSize: 'fixed',
 			zoomMin: 0.3,
 			zoomMax: 2,
-			edgeHoverColor: '#333',
-			edgeHoverExtremities: true,
-			edgeHoverColor: '#ff0000',
-    		defaultEdgeHoverColor: '#ff0000',
-    		edgeHoverSizeRatio: 1,
-    		edgeHoverExtremities: true,
+			edgeHoverColor: 'default',
+    		defaultEdgeHoverColor: '#D65B56',
+    		edgeHoverSizeRatio: 1.2,
+    		edgeHoverExtremities: false,
 			scalingMode: 'inside',
 			minNodeSize: 1,
+			maxNodeSize: 8,
 			labelHoverShadow: false,
-			labelAlignment: 'bottom'
+			labelAlignment: 'bottom',
+			labelThreshold: 3
 		}
 	});
 
