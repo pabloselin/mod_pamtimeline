@@ -1,135 +1,119 @@
 #relations-container {
   height: 400px;
-  float:left;
-  overflow:hidden;
-  width:100%;
+  float: left;
+  overflow: hidden;
+  width: 100%;
 }
-
-
 .pam-relaciones,
 .pam-relaciones-global {
   width: 100%;
   clear: both;
-  background-color: #f0f0f0;
-  padding:0;
+  background-color: white;
+  padding: 0;
   position: relative;
-  height:450px;
-  border-top:1px solid #ccc;
-  border-bottom:1px solid #ccc;
-  overflow:hidden;
+  height: 450px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
 }
-
 .pam-relaciones {
-  border:1px solid #ccc;
+  border: 1px solid #ccc;
 }
-
 #relations-container.active {
-  width:60%;
-  min-width:400px;
+  width: 60%;
+  min-width: 400px;
 }
-
 .relations-info {
-  position:absolute;
-  width:40%;
-  top:0;
-  height:100%;
-  min-width:300px;
-  right:-40%;
-  background-color:white;
-  overflow:hidden;
-  border-left:1px solid #ccc;
+  position: absolute;
+  width: 40%;
+  top: 0;
+  height: 100%;
+  min-width: 300px;
+  right: -40%;
+  background-color: white;
+  overflow: hidden;
+  border-left: 1px solid #ccc;
+  -webkit-transition: all ease-in 0.5s;
   transition: all ease-in 0.5s;
 }
-
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
   .relations-info {
-    right:-100%;
+    right: -100%;
   }
-
   .relations-info.active {
-    width:100%;
-    background-color:rgba(255,255,255,0.6);
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
   }
-
   .taxsection {
-    height:45px;
+    height: 45px;
   }
-
   .taxsection span {
-    float:left;
-    overflow-x:scroll;
+    float: left;
+    overflow-x: scroll;
   }
 }
-
 .relations-info.active {
-  right:0;
-  
+  right: 0;
 }
-
 .relations-info .content {
-  padding:0 12px;
+  padding: 0 12px;
 }
-
-
 .relations-info h2,
+.relations-info h2 a {
+  text-transform: uppercase;
+  font-family: 'Dosis', sans-serif !important;
+  margin-top: 12px;
+  margin-bottom: 0;
+  color: #ff0000;
+  font-size: 24px;
+}
+.persontype {
+  color: #ff0000;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 12px;
+}
 .relations-info h3 {
-  text-transform:uppercase;
-  font-size:14px;
-  color:#555;
-  margin:0;
-  font-family:'Dosis', sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14px;
+  color: #666666;
+  margin-top: 0;
+  margin: 0 12px 0 0;
+  line-height: 24px;
+  float: left;
 }
-
-.relations-info h2 {
-  margin-top:12px;
-  margin-bottom:12px;
-  color:#ff0000;
-  font-size:22px;
-}
-
-.relations-info h2 span {
-  font-size:16px;
-}
-
-.relations-info h3 {
-  float:left;
-}
-
 .taxsection {
-   overflow:hidden;
-   padding:6px;
-   border-bottom:1px solid #ccc;
+  overflow: hidden;
+  padding: 6px;
+  border-bottom: 1px solid #ccc;
 }
-
 .taxsection span {
-  display:inline-block;
-  padding:3px;
-  line-height:30px;
-  margin:0 3px;
-  font-size:14px;
+  display: inline-block;
+  padding: 3px;
+  line-height: 16px;
+  margin: 0 3px;
+  font-size: 14px;
+  text-decoration: underline;
 }
-
 .relations-info .content p.link a {
-  display:inline-block;
-  padding:6px 12px;
-  margin:12px 0 12px 0;
-  background-color:#ff0000;
-  color:white;
-  text-transform:uppercase;
-  border-radius:5px;
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 12px 0 12px 0;
+  background-color: white;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+  border-radius: 5px;
 }
-
 .relations-info .content p.link a.back {
-  background-color:#ccc;
-  color:#333;
+  background-color: white;
+  color: #333;
+  border: 1px solid #808080;
 }
-
 .relations-info img {
-  max-width:100px;
-  height:auto;
+  max-width: 100px;
+  height: auto;
 }
-
-
 #relations-select {
   position: absolute;
   left: 12px;
@@ -159,26 +143,43 @@ span.tagtax {
   color: #000;
   font-size: 13px;
 }
-
 span.tagtax.matched {
   font-weight: bold;
   color: #F90000;
 }
-
 /**/
 .relations-switcher {
-  padding:6px 12px;
+  padding: 6px 12px;
 }
-
 .relations-switcher > a,
-#relations-switcher > a
- {
-  text-transform:uppercase;
-  font-weight:normal;
+#relations-switcher > a {
+  text-transform: capitalize;
+  font-weight: normal;
+  display: inline-block;
+  margin: 4px 12px 4px 0;
 }
-
 .relations-switcher a.active,
 .relations-switcher a:hover {
-  color:#ff0000;
-  border-bottom:1px solid #ff0000;
-} 
+  color: #ff0000;
+  border-bottom: 1px solid #ff0000;
+}
+#taxitems > ul {
+  display: none;
+  margin: 12px 0 00;
+  padding: 12px;
+  min-width: 200px;
+}
+#taxitems > ul.active {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 30px;
+  overflow-y: scroll;
+  max-height: 100%;
+  z-index: 1000;
+}
+#taxitems > ul li {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px 0;
+}

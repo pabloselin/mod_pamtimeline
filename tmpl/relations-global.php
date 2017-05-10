@@ -18,7 +18,7 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.a
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
+//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 ?>
@@ -34,6 +34,10 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		$persons = ModPamTimelineHelper::getPersons();
 		$persons_array = [];
 		$current_person_data = [];
+
+		$all_tools = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['tools'] ));
+		$all_languages = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['languages'] ));
+		$all_themes = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['themes'] ));
 
 		foreach($persons as $person) {
 
@@ -64,8 +68,32 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 		<div class="relations-switcher">
 			<a href="#" data-tax="languages">Lenguajes</a>
-			<a href="#" data-tax="tools">Herramientas</a>
 			<a href="#" data-tax="themes">Temáticas</a>
+			<a href="#" data-tax="tools">Herramientas</a>
+		</div>
+
+		<div id="taxitems">
+			<ul data-tax="languages" class="active">
+				<?php 
+					foreach($all_languages as $language) {
+						echo '<li data-tax="languages" data-taxid="' . $language->value. '">' . $language->name . '</li>';
+					}
+				?>
+			</ul>
+			<ul data-tax="themes">
+			<?php 
+					foreach($all_themes as $theme) {
+						echo '<li data-tax="themes" data-taxid="' . $theme->value. '">' . $theme->name . '</li>';
+					}
+				?>
+			</ul>
+			<ul data-tax="tools">
+				<?php 
+					foreach($all_tools as $tool) {
+						echo '<li data-tax="tools" data-taxid="' . $tool->value. '">' . $tool->name . '</li>';
+					}
+				?>
+			</ul>
 		</div>
 
     	<div id="relations-container">
@@ -124,13 +152,12 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 </script>
 
 <script id="relations-template" type="x-tmpl-mustache">
-				<h2 class="artist-title">{{label}}
-				 {{#persontype}}
-					- <span class="persontype">{{fieldvaluename}}</span>
-				{{/persontype}}</h2>
-				
-				
+				<h2 class="artist-title"><a href={{link}}>{{label}}</a></h2>
 
+				{{#persontype}}
+				<span class="persontype">{{fieldvaluename}}</span>
+				{{/persontype}}
+				
 				<img src={{image}} alt={{label}}>
 				
 				<div class="introtext">{{introtext}}</div>	
@@ -144,16 +171,6 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				</div>
 
 				<div class="taxsection">
-				<h3>Herramientas</h3>
-				
-				{{#tools}}
-					<span>{{fieldvaluename}}</span>
-				{{/tools}}
-				
-				</div>
-
-				
-				<div class="taxsection">
 					<h3>Temáticas</h3>
 					
 					{{#themes}}
@@ -162,5 +179,14 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 					
 				</div>
 
-				<p class="link"><a href={{link}}>Link</a> <a class="back" href="#">Volver</a></p>
+				<div class="taxsection">
+				<h3>Herramientas</h3>
+				
+				{{#tools}}
+					<span>{{fieldvaluename}}</span>
+				{{/tools}}
+				
+				</div>
+
+				<p class="link"><a href={{link}}>Ver más</a> <a class="back" href="#">Volver</a></p>
 			</script>

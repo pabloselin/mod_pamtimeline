@@ -146,6 +146,20 @@ class ModPamTimelineHelper
 		return $result;
 	}
 
+	public static function getFieldValues( $taxid ) {
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select($db->quoteName( 'value' ))
+					->from($db->quoteName( self::$pamfieldstable))
+					->where($db->quoteName('id')) . ' LIKE ' . $db->quote($taxid);
+		
+		$db->setQuery($query);
+
+		$result = $db->loadResult();
+		return $result;
+	}
+
 	public static function getItemImageUrl( $item_id, $size = 'S' ) {
 
 		return Juri::base() . 'media/k2/items/cache/' . md5('Image' . $item_id ) . '_' . $size . '.jpg';

@@ -21,7 +21,8 @@
     speed: 3,
     scaleNodes: 1.2,
     nodeMargin: 5.0,
-    gridSize: 20,
+    gridSizeX: 40,
+    gridSizeY: 20,
     permittedExpansion: 1.1,
     rendererIndex: 0,
     maxIterations: 500
@@ -126,9 +127,9 @@
 
       grid = {}; //An object of objects where grid[row][col] is an array of node ids representing nodes that fall in that grid. Nodes can fall in more than one grid
 
-      for(row = 0; row < self.config.gridSize; row++) {
+      for(row = 0; row < self.config.gridSizeY; row++) {
         grid[row] = {};
-        for(col = 0; col < self.config.gridSize; col++) {
+        for(col = 0; col < self.config.gridSizeX; col++) {
           grid[row][col] = [];
         }
       }
@@ -142,10 +143,10 @@
         nymin = n.dn_y - (n.dn_size*self.config.scaleNodes + self.config.nodeMargin);
         nymax = n.dn_y + (n.dn_size*self.config.scaleNodes + self.config.nodeMargin);
 
-        minXBox = Math.floor(self.config.gridSize* (nxmin - xmin) / (xmax - xmin) );
-        maxXBox = Math.floor(self.config.gridSize* (nxmax - xmin) / (xmax - xmin) );
-        minYBox = Math.floor(self.config.gridSize* (nymin - ymin) / (ymax - ymin) );
-        maxYBox = Math.floor(self.config.gridSize* (nymax - ymin) / (ymax - ymin) );
+        minXBox = Math.floor(self.config.gridSizeX* (nxmin - xmin) / (xmax - xmin) );
+        maxXBox = Math.floor(self.config.gridSizeX* (nxmax - xmin) / (xmax - xmin) );
+        minYBox = Math.floor(self.config.gridSizeY* (nymin - ymin) / (ymax - ymin) );
+        maxYBox = Math.floor(self.config.gridSizeY* (nymax - ymin) / (ymax - ymin) );
         for(col = minXBox; col <= maxXBox; col++) {
           for(row = minYBox; row <= maxYBox; row++) {
             grid[row][col].push(n.id);
@@ -156,14 +157,14 @@
 
       adjacentNodes = {}; //An object that stores the node ids of adjacent nodes (either in same grid box or adjacent grid box) for all nodes
 
-      for(row = 0; row < self.config.gridSize; row++) {
-        for(col = 0; col < self.config.gridSize; col++) {
+      for(row = 0; row < self.config.gridSizeY; row++) {
+        for(col = 0; col < self.config.gridSizeX; col++) {
           grid[row][col].forEach(function(nodeId) {
             if(!adjacentNodes[nodeId]) {
               adjacentNodes[nodeId] = [];
             }
-            for(subRow = Math.max(0, row - 1); subRow <= Math.min(row + 1, self.config.gridSize - 1); subRow++) {
-              for(subCol = Math.max(0, col - 1); subCol <= Math.min(col + 1,  self.config.gridSize - 1); subCol++) {
+            for(subRow = Math.max(0, row - 1); subRow <= Math.min(row + 1, self.config.gridSizeY - 1); subRow++) {
+              for(subCol = Math.max(0, col - 1); subCol <= Math.min(col + 1,  self.config.gridSizeX - 1); subCol++) {
                 grid[subRow][subCol].forEach(function(subNodeId) {
                   if(subNodeId !== nodeId && adjacentNodes[nodeId].indexOf(subNodeId) === -1) {
                     adjacentNodes[nodeId].push(subNodeId);

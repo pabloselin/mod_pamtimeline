@@ -7,34 +7,21 @@ function pamsigmaAppend(node) {
 function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
 	var singlematchedpersons = [];
-	//guardo las otras personas por si acaso
-	var oldpersons = persons;
-	var db = new sigma.plugins.neighborhoods();
-	
+	var oldpersons = persons;	
 	var containerEl = jQuery('#' + containerID);
-
 	var current_person_taxlabel = 'person_' + tax;
-
-	containerEl.empty();
-
-	var L = 5,
-    	N = 25,
-    	E = 250;
-	
 	var graph_rel = {
 		nodes: [],
 		edges: []
 	}
-
 	if(singleperson !== undefined) {
 		persons = pamsigmaMatchSingle(persons, singleperson, tax);
 	}
-
 	
 	for( var i = 0; i < persons.length; i ++) {
 		
-		var cursize = 1;
-		var curcolor = '#ff0000';
+		var cursize = 0.5;
+		var curcolor = '#808080';
 		var artistcolor = '#ff0000';
 		var curlangs = persons[i].person_languages.languages;
 		var curthemes = persons[i].person_themes.themes;
@@ -47,7 +34,7 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			x: i * Math.random(),
 			y: i * Math.random(),
 			size:cursize,
-			color: curcolor,
+			//color: curcolor,
 			labelcolor: artistcolor,
 			languages: curlangs,
 			themes: curthemes,
@@ -71,40 +58,30 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 
 				var edgeids = [];
 				
-				//console.log(person);
-				
 					if(person[current_person_taxlabel].length !== 0) {
-						
 						var plangs = persons[i][current_person_taxlabel][tax];
 						var langids = [];
 						var langidsmap = plangs.map(function(lang) {
 							langids.push(parseInt(lang.fieldvalueid, 10));
 						});
-						
 						var thispersonlang = person[current_person_taxlabel][tax];
-						
-						thispersonlang.map(function(lang, idx) {
 
+						thispersonlang.map(function(lang, idx) {
 							if(langids.indexOf(parseInt(lang.fieldvalueid, 10)) !== -1 && person.person_id !== persons[i].person_id) {                     
-								
 								var edgeid = 'edge-' + i + '-' + person.person_id;
 
 								if( edgeids.indexOf(edgeid) === -1) {
-
 									graph_rel.edges.push({
 										id: edgeid,
 										source: person.person_id,
 										target: persons[i].person_id,
 										color: '#ccc',
-										size: 3
+										size: 1
 									});
 
 									edgeids.push(edgeid);
 
 								}
-
-								
-
 								matchids[tax].push(lang.fieldvalueid);
 							};
 						});
@@ -116,7 +93,8 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 		}
 		
 	}
-	
+
+	containerEl.empty();
 	
 	var rels = new sigma({
 		graph: graph_rel,
@@ -125,23 +103,26 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 			type: 'canvas'
 		}],
 		settings: {
-			sideMargin: 70,
+			sideMargin: 20,
 			defaultLabelColor: '#555',
 			defaultLabelSize: 9,
-			defaultEdgeColor: '#D65B56',
+			defaultEdgeColor: '#ff0000',
+			defaultEdgeHoverColor: '#ff0000',
+			defaultNodeColor: '#808080',
+			font: 'Open Sans',
 			enableEdgeHovering: true,
 			labelSize: 'fixed',
 			zoomMin: 0.3,
 			zoomMax: 2,
 			edgeHoverColor: 'default',
-    		defaultEdgeHoverColor: '#D65B56',
-    		edgeHoverSizeRatio: 1.2,
+			nodeHoverColor: '#ff0000',
+    		edgeHoverSizeRatio: 1,
     		edgeHoverExtremities: false,
 			scalingMode: 'inside',
 			minNodeSize: 1,
-			maxNodeSize: 8,
+			maxNodeSize: 6,
 			labelHoverShadow: false,
-			labelAlignment: 'bottom',
+			labelAlignment: 'left',
 			labelThreshold: 3
 		}
 	});	
@@ -157,12 +138,13 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 	});
 
 	var ovconfig = {
-		nodeMargin: 55.0,
-		scaleNodes: 1.2,
-		gridSize: 20,
-		permittedExpansion: 1.1,
+		nodeMargin: 20,
+		scaleNodes: 1,
+		gridSizeX: 60,
+		gridSizeY: 60,
+		permittedExpansion: 1.6,
 		easing: 'quadraticInOut',
-		duration: 2000,
+		duration: 1500,
 		speed: 4,
 		maxIterations: 200
 	};
