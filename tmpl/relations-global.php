@@ -120,7 +120,9 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		var othertaxs = $('.relations-switcher a');
 		var togglers = $('.pam-relaciones-global, #relations-container, .relations-info');
 
-		pamsigmaGlobal(json_relations, 'relations-container', 'languages');
+		var rels = pamInitSigma('relations-container');
+
+		pamsigmaGlobal(rels, json_relations, 'relations-container', 'languages');
 		$('.relations-switcher a[data-tax="languages"]').addClass('active');
 
 		$('.relations-switcher a').on('click', function(e) {
@@ -134,7 +136,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				othertaxs.removeClass('active');
 				thisEl.addClass('active');
 				pamsigmaToggleInfo(togglers);
-				pamsigmaGlobal(json_relations, 'relations-container', thistax);
+				pamsigmaGlobal(rels, json_relations, 'relations-container', thistax);
 				curtax = thistax;
 			}
 		});
@@ -145,7 +147,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			e.preventDefault();
 			pamsigmaToggleInfo(togglers);
 
-			pamsigmaGlobal(json_relations, 'relations-container', curtax);
+			pamsigmaGlobal(rels, json_relations, 'relations-container', curtax);
 
 		});
 

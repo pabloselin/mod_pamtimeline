@@ -10,8 +10,7 @@ function pamsigmaAppend(node) {
 	//Añade nuevos links
 }
 
-function pamsigmaGlobal(persons, containerID, tax, singleperson) {
-	console.log('run instance');
+function pamsigmaGlobal(instance, persons, containerID, tax, singleperson) {
 	
 	var singlematchedpersons = [];
 	var oldpersons = persons;	
@@ -28,7 +27,6 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 	for( var i = 0; i < persons.length; i ++) {
 		
 		var cursize = 0.5;
-	
 		var curlangs = persons[i].person_languages.languages;
 		var curthemes = persons[i].person_themes.themes;
 		var curtools = persons[i].person_tools.tools;
@@ -110,46 +108,31 @@ function pamsigmaGlobal(persons, containerID, tax, singleperson) {
 		
 	}
 
-	containerEl.empty();
+	pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax);
 	
-	if(!sigma.classes.graph.hasMethod('neighbors')) {
-			sigma.classes.graph.addMethod('neighbors', function(nodeId) {
-			var k,
-				neighbors = {},
-				index = this.allNeighborsIndex[nodeId] || {};
+}
+
+function pamInitSigma(containerID) {
+
+	sigma.classes.graph.addMethod('neighbors', function(nodeId) {
+		var k,
+			neighbors = {},
+			index = this.allNeighborsIndex[nodeId] || {};
 
 			for (k in index)
 			neighbors[k] = this.nodesIndex[k];
 
 			return neighbors;
-		});
-	}
-	
-	pamDeploySigma(graph_rel, containerID, oldpersons, tax);
-	//console.log(graph_rel);
+			});
 
-	jQuery('#taxitems ul li a').on('click', function() {
-		console.log(this);
-	});
-	
-
-	// rels.bind('overEdge', function(e) {
-	// 	var dataEdge = e.data.edge;
-	// 	var sourceNode = e.data.edge.source;
-	// 	var targetNode = e.data.edge.target;
-	// });
-	
-}
-
-function pamDeploySigma(graph_rel, containerID, oldpersons, tax) {
-	var rels = new sigma({
-			graph: graph_rel,
+	var instance = new sigma({
+			graph: {},
 			renderers: [{
 				container: containerID,
 				type: 'canvas'
 			}],
 			settings: {
-				sideMargin: 1,
+				sideMargin: 2,
 				defaultLabelSize: 10,
 				font: 'Open Sans',
 				enableEdgeHovering: false,
@@ -168,77 +151,91 @@ function pamDeploySigma(graph_rel, containerID, oldpersons, tax) {
 			}
 		});
 
+	return instance;
+}
 
-		rels.bind('clickNode', function(e) {
+function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
+
+	instance.graph.clear();
+
+	for(var n = 0; n < graph_rel.nodes.length; n++) {
+		instance.graph.addNode(graph_rel.nodes[n]);
+	}
+
+	for(var e = 0; e < graph_rel.edges.length; e++) {
+		instance.graph.addEdge(graph_rel.edges[e]);
+	}
+
+	
+
+		instance.bind('clickNode', function(e) {
 
 			var nodeId = e.data.node.id;
 			
 			pamsigmaPutData(e.data.node);
 
-			rels.graph.clear();
+			instance.graph.clear();
 
-			pamsigmaGlobal(oldpersons, containerID, tax, nodeId);
+			pamsigmaGlobal(instance, oldpersons, containerID, tax, nodeId);
 
 		});
 
-		rels.bind('overNode', function(e) {
+		instance.bind('overNode', function(e) {
 			nodeId = e.data.node.id;
-			neighbor = rels.graph.neighbors(nodeId);
+			neighbor = instance.graph.neighbors(nodeId);
 			neighbor[nodeId] = e.data.node;
 
-			rels.graph.nodes().forEach(function(n){
+			instance.graph.nodes().forEach(function(n){
 				if(neighbor[n.id]) {
-					//n.color = pamcolors.red;
 					n.active = true;
-					//console.log(n);
 				} else {
 					//n.color = pamcolors.gray;
-					//n.active = false;
+					n.active = false;
 				}
 			});
 
-			rels.graph.edges().forEach(function(e) {
+			instance.graph.edges().forEach(function(e) {
 				if(neighbor[e.source] && neighbor[e.target])
 					e.color = pamcolors.red;
 				else
 					e.color = pamcolors.lightgray;
 			});
 
-			rels.refresh();
+			instance.refresh();
 			//console.log('overnode');
 		});
 
-		rels.bind('outNode', function(e) {
+		instance.bind('outNode', function(e) {
 			
 			//console.log('outnode');
 
-			rels.graph.nodes().forEach(function(n) {
+			instance.graph.nodes().forEach(function(n) {
 				n.active = false;
 				n.color = pamcolors.gray;
 			});
 
-			rels.graph.edges().forEach(function(e) {
+			instance.graph.edges().forEach(function(e) {
 				e.color = pamcolors.lightgray;
 			});
 
-			rels.refresh();
+			instance.refresh();
 		});
 
 		var ovconfig = {
-		nodeMargin: 40,
-		scaleNodes: 1,
-		gridSizeX: 160,
-		gridSizeY: 160,
-		permittedExpansion: 1.1,
-		easing: 'quadraticInOut',
-		duration: 1000,
-		speed: 4,
-		maxIterations: 500
+			nodeMargin: 40,
+			scaleNodes: 1.1,
+			gridSizeX: 60,
+			gridSizeY: 60,
+			permittedExpansion: 1.1,
+			easing: 'quadraticInOut',
+			duration: 1000,
+			speed: 4,
+			maxIterations: 500
 	};
 
-	var listener = rels.configNoverlap(ovconfig);
-	
-	rels.startNoverlap();
+	var listener = instance.configNoverlap(ovconfig);
+	instance.refresh();
+	instance.startNoverlap();
 	//rels.startForceAtlas2();
 	//rels.stopForceAtlas2();
 }
