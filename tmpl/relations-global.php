@@ -16,9 +16,10 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js')
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
-//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 ?>
@@ -76,7 +77,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			<ul data-tax="languages" class="active">
 				<?php 
 					foreach($all_languages as $language) {
-						echo '<li data-tax="languages" data-taxid="' . $language->value. '">' . $language->name . '</li>';
+						echo '<li data-tax="languages" data-taxid="' . $language->value. '"><a data-tag="languages" data-taxid="' . $language->value . '" href="#language-' .$language->value . '">' . $language->name . '</a></li>';
 					}
 				?>
 			</ul>

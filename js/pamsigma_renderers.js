@@ -33,41 +33,19 @@ sigma.canvas.labels.def = function(node, context, settings) {
     labelPlacementY = Math.round(node[prefix + 'y'] + fontSize / 3);
 
     switch (alignment) {
-      case 'inside':
-        if (labelWidth <= size * 2){
-          labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        }
-        break;
-      case 'center':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        break;
-      case 'left':
-        labelPlacementX = Math.round(node[prefix + 'x'] - size - labelWidth - 3 );
-        break;
-      case 'right':
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-        break;
-      case 'top':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        labelPlacementY = labelPlacementY - size - fontSize;
-        break;
       case 'bottom':
         labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
         labelPlacementY = labelPlacementY + size + fontSize;
         break;
       default:
-        // Default is aligned 'right'
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
+        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
+        labelPlacementY = labelPlacementY + size + fontSize;
         break;
     }
 
-	context.beginPath();
-
-    // context.fillStyle = settings('labelHoverBGColor') === 'node' ?
-    //   (node.color || settings('defaultNodeColor')) :
-    //   settings('defaultHoverLabelBGColor');
-    
-    context.fillStyle = node.active === true ? '#000' : 'rgba(255,255,255,0.7)';
+	  context.beginPath();
+      
+    context.fillStyle = 'rgba(255,255,255,0.3)';
 
     if (node.label && typeof node.label === 'string') {
       w = Math.round(
@@ -93,16 +71,18 @@ sigma.canvas.labels.def = function(node, context, settings) {
       context.shadowBlur = 0;
     }
 
-	context.closePath();
+	  context.closePath();
     context.fill();
 
 	// Node:
+    node.color = node.active === true ? node.hovercolor : node.color;
+
     var nodeRenderer = sigma.canvas.nodes[node.type] || sigma.canvas.nodes.def;
     nodeRenderer(node, context, settings);
 
     // Display the label:
     if (node.label && typeof node.label === 'string') {
-      context.fillStyle = node.active === true ? '#fff' : '#000';
+      context.fillStyle = node.active === true ? pamcolors.black :  node.labelcolor;
 
       context.fillText(
         node.label,
@@ -140,44 +120,26 @@ sigma.canvas.hovers.def = function(node, context, settings) {
 
     context.font = (settings('fontStyle') ? settings('fontStyle') + ' ' : '') +
       fontSize + 'px ' + settings('font');
-    context.fillStyle = '#ff0000';
+    context.fillStyle = pamcolors.black;
 
     labelWidth = context.measureText(node.label).width;
     labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
     labelPlacementY = Math.round(node[prefix + 'y'] + fontSize / 3);
 
     switch (alignment) {
-      case 'inside':
-        if (labelWidth <= size * 2){
-          labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        }
-        break;
-      case 'center':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        break;
-      case 'left':
-        labelPlacementX = Math.round(node[prefix + 'x'] - size - labelWidth - 3 );
-        break;
-      case 'right':
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
-        break;
-      case 'top':
-        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
-        labelPlacementY = labelPlacementY - size - fontSize;
-        break;
       case 'bottom':
         labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
         labelPlacementY = labelPlacementY + size + fontSize;
         break;
       default:
-        // Default is aligned 'right'
-        labelPlacementX = Math.round(node[prefix + 'x'] + size + 3);
+        labelPlacementX = Math.round(node[prefix + 'x'] - labelWidth / 2 );
+        labelPlacementY = labelPlacementY + size + fontSize;
         break;
     }
 
 	context.beginPath();
 
-    context.fillStyle = '#000';
+    context.fillStyle = '#fff';
 
     if (node.label && typeof node.label === 'string') {
       w = Math.round(
@@ -203,16 +165,20 @@ sigma.canvas.hovers.def = function(node, context, settings) {
       context.shadowBlur = 0;
     }
 
-	context.closePath();
+	  context.closePath();
     context.fill();
 
 	// Node:
     var nodeRenderer = sigma.canvas.nodes[node.type] || sigma.canvas.nodes.def;
+  
+    node.color = node.hovercolor;
+
     nodeRenderer(node, context, settings);
+    
 
     // Display the label:
     if (node.label && typeof node.label === 'string') {
-      context.fillStyle = '#fff';
+      context.fillStyle = pamcolors.black;
 
       context.fillText(
         node.label,
