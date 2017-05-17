@@ -3,6 +3,11 @@
   float: left;
   overflow: hidden;
   width: 100%;
+  max-width: 1000px;
+  margin-left: 200px;
+}
+#relations-container.inartist {
+  margin-left: 0;
 }
 .pam-relaciones,
 .pam-relaciones-global {

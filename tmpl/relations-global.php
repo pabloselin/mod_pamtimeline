@@ -17,7 +17,11 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink_supervisor.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
+//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.renderers.edgeLabels.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.canvas.edgehovers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
@@ -77,21 +81,21 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			<ul data-tax="languages" class="active">
 				<?php 
 					foreach($all_languages as $language) {
-						echo '<li data-tax="languages" data-taxid="' . $language->value. '"><a data-tag="languages" data-taxid="' . $language->value . '" href="#language-' .$language->value . '">' . $language->name . '</a></li>';
+						echo '<li data-tax="languages" data-taxid="' . $language->value. '"><a data-tax="languages" data-taxid="' . $language->value . '" href="#lenguaje-' .$language->value . '">' . $language->name . '</a></li>';
 					}
 				?>
 			</ul>
 			<ul data-tax="themes">
 			<?php 
 					foreach($all_themes as $theme) {
-						echo '<li data-tax="themes" data-taxid="' . $theme->value. '">' . $theme->name . '</li>';
+						echo '<li data-tax="themes" data-taxid="' . $theme->value. '"><a data-tax="themes" data-taxid="' . $theme->value . '" href="#tematica-' .$theme->value . '">' . $theme->name . '</a></li>';
 					}
 				?>
 			</ul>
 			<ul data-tax="tools">
 				<?php 
 					foreach($all_tools as $tool) {
-						echo '<li data-tax="tools" data-taxid="' . $tool->value. '">' . $tool->name . '</li>';
+						echo '<li data-tax="tools" data-taxid="' . $tool->value. '"><a data-tax="tools" data-taxid="' . $tool->value . '" href="#herramienta-' .$tool->value . '">' . $tool->name . '</a></li>';
 					}
 				?>
 			</ul>
@@ -123,6 +127,8 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		var rels = pamInitSigma('relations-container');
 
 		pamsigmaGlobal(rels, json_relations, 'relations-container', 'languages');
+		pamTaxDropdown(rels);
+
 		$('.relations-switcher a[data-tax="languages"]').addClass('active');
 
 		$('.relations-switcher a').on('click', function(e) {
@@ -138,6 +144,9 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				pamsigmaToggleInfo(togglers);
 				pamsigmaGlobal(rels, json_relations, 'relations-container', thistax);
 				curtax = thistax;
+				$('#taxitems ul').hide().removeClass('active');
+				$('ul[data-tax="' + thistax + '"]').show().addClass('active');
+				pamToggleTax('show');
 			}
 		});
 
@@ -146,7 +155,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			
 			e.preventDefault();
 			pamsigmaToggleInfo(togglers);
-
+			pamToggleTax('show');
 			pamsigmaGlobal(rels, json_relations, 'relations-container', curtax);
 
 		});

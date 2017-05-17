@@ -45,7 +45,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
 
 	  context.beginPath();
       
-    context.fillStyle = 'rgba(255,255,255,0.3)';
+    context.fillStyle = 'rgba(255,255,255,1)';
 
     if (node.label && typeof node.label === 'string') {
       w = Math.round(
@@ -147,7 +147,8 @@ sigma.canvas.hovers.def = function(node, context, settings) {
       );
       h = Math.round(fontSize + 4);
       e = Math.round(fontSize / 2 + 2);
-	  var bglabelposY = labelPlacementY - h + 0.5;
+	    
+      var bglabelposY = labelPlacementY - h + 0.5;
 
       context.moveTo(labelPlacementX, bglabelposY);
       context.lineTo(labelPlacementX, bglabelposY, labelPlacementX + e, bglabelposY, e);
@@ -186,6 +187,9 @@ sigma.canvas.hovers.def = function(node, context, settings) {
         Math.round(labelPlacementY - fontSize / 3.5)
       );
     }
+
+    
+
 
 
   };
