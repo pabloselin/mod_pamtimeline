@@ -327,10 +327,10 @@ function pamToggleTax(what) {
 	var taxlist = jQuery('#taxitems');
 	var container = jQuery('#relations-container');
 	if(what == 'hide') {
-		taxlist.hide();
+		taxlist.removeClass('visible');
 		container.addClass('inartist');
 	} else {
-		taxlist.show();
+		taxlist.removeClass('visible');
 		container.removeClass('inartist');
 	}
 } 

@@ -65,6 +65,15 @@
     float:left;
     overflow-x:scroll;
   }
+
+  #taxitems, #taxitems.visible {
+    display:none;
+  }
+
+  #relations-container {
+    margin-left:0;
+  }
+
 }
 
 .relations-info.active {
@@ -197,6 +206,10 @@ span.tagtax.matched {
   color:#ff0000;
   border-bottom:1px solid #ff0000;
 } 
+
+#taxitems.visible {
+  display:block;
+}
 
 #taxitems > ul {
     display:none;
