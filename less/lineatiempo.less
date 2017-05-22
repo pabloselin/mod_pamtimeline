@@ -30,6 +30,14 @@
     max-height:560px;
     height:560px;
 
+    img.tl-media-shadow {
+        box-shadow:none;
+    }
+
+    .tl-media-content {
+        text-align:right;
+    }
+
     .era-tab {
         height:400px;
     }
@@ -52,17 +60,19 @@
             flex-grow:1;
             
             a {
-                color:white;
+                color:#333;
                 display:block;
                 padding:8px 6px;
                 margin:16px 4px 0 4px;
                 text-transform:uppercase;
-                background-color:#333;
-                font-family:'Dosis', sans-serif;
-                border-right:3px solid white;
+                background-color:white;
+                font-family:'Open Sans', sans-serif;
+                border:1px solid #333;
                 
                 &:hover, &.active {
-                    background-color:@rojo;
+                    background-color:#666666;
+                    color:white;
+                    border:none;
                     
                 }
             }
@@ -75,6 +85,10 @@
         h2.tl-headline {
         font-family:'Dosis', sans-serif !important;
         color:darken(#FF0000, 10%);
+        }
+
+        h3.tl-headline-date {
+            font-size:18px;
         }
 
         @media screen and (max-width:@screen-sm) {

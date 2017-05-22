@@ -462,7 +462,7 @@ class ModPamTimelineHelper
 				//var_dump($seflink);
 
 				$artist_text = '<p>' . $artist_cat['name'] . '</p>';
-				$artist_text .= '<p><a href="' . $seflink . '">Link</a></p>';
+				$artist_text .= '<p><a href="' . $seflink . '">Ver más</a></p>';
 				
 				$artist_text = htmlspecialchars($artist_text);
 				
@@ -734,7 +734,7 @@ class ModPamTimelineHelper
 		$fulltext = htmlspecialchars('<span class="mtype">' . $mtype['milestonetype'][0]['fieldvaluename'] . '</span>');
 
 		//$fulltext .= htmlspecialchars(self::trim_text($event['fulltext'], 200, true, true, '<p><strong>'));
-		$fulltext .= htmlspecialchars('<p><a target="_blank" href="' . $link . '">Link</a></p>');
+		$fulltext .= htmlspecialchars('<p><a target="_blank" href="' . $link . '">Ver más</a></p>');
 
 		return $fulltext;
 		

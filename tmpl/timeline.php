@@ -43,6 +43,15 @@ $timeline_json = ModPamTimelineHelper::prepareEventsForGroupedTimeline($params->
 	}
 	?>
 
+	<div class="leyenda_hitos">
+		<ul>
+			<li class="tipohito-2"><span class="tl-icon-image"></span> Hitos Artísticos / Obras</li>
+			<li class="tipohito-5"><span class="tl-icon-image"></span> Hitos Históricos</li>
+			<li class="tipohito-4"><span class="tl-icon-image"></span> Hitos Teóricos</li>
+			<li class="tipohito-3"><span class="tl-icon-image"></span> Hitos Técnicos</li>
+		</ul>
+	</div>
+
 	<div class="era-nav">
 		<ul>
 			<?php	

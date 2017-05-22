@@ -15,39 +15,59 @@
 	-ms-flex-align: center;
 	-webkit-align-items: center;
 	-webkit-box-align: center;
-	
+	display:flex;
+
 	.tl-timegroup-message {
+		
 		color:#333;
-        font-family:'Dosis', sans-serif;
+        font-family:'Open Sans', sans-serif;
+		font-size:14px;
         text-transform:none;
-		text-shadow: @color-background 0px 2px 2px;
+		text-shadow: none;
+		height:100%;
+		background-color:white;
+		width:212px;
+		text-transform:uppercase;
+		border-left:1px solid #EAEAEA;
+		border-right:1px solid #EAEAEA;
 		margin-left:0;
         z-index:10000;
 		background-color:white;
-		padding:3px 12px;
+		padding:6px 0 0 12px;
+		display:table-cell;
 		@media screen and (max-width:@screen-sm) {
 			display:none;
 		}
+	}
+
+	&.tl-timegroup-0 {
+		.tl-timegroup-message {
+			border-top:1px solid #EAEAEA;
+			border-bottom:1px solid #EAEAEA;
+		}
+	}
+
+	&.tl-timegroup-1, &.tl-timegroup-2 {
+		.tl-timegroup-message {
+			border-top:1px solid #EAEAEA;
+		}
+	}
+
+	&.tl-timegroup-2 .tl-timegroup-message {
+		border-bottom:1px solid #EAEAEA;
 	}
 	
 	&.tl-timegroup-0,
 	&.tl-timegroup-1 {
 		background-color:@ui-background-color;
-		.tl-timegroup-message {
-			text-transform:uppercase;
-			color:@rojo;
-			background-color:@ui-background-color;
-		}
 	}
 
 	&.tl-timegroup-1 {
 		background-color:darken(@ui-background-color, 5%);
-		
-		.tl-timegroup-message {
-			text-transform:uppercase;
-			color:@rojo;
-			background-color:darken(@ui-background-color, 5%);
-		}
+	}
+
+	&.tl-timegroup-2 {
+		background-color:#DBDBDB;
 	}
 
 	&.tl-timegroup-hidden {

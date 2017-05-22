@@ -18,8 +18,8 @@ function startTimeline(container, timeline_content) {
 		debug: false,
 		timenav_position: 'bottom',
     language: 'es',
-    //height: 500,
-    timenav_height: 300,
+    height: 600,
+    timenav_height: 200,
     scale_factor: 1,
     start_at_slide: 1,
     zoom_sequence: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
