@@ -188,3 +188,7 @@ span.tagtax.matched {
   padding: 0;
   margin: 0 0 6px 0;
 }
+#taxitems > ul li a.active,
+#taxitems > ul li a:hover {
+  color: #ff0000;
+}

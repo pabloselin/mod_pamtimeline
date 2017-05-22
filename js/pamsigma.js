@@ -15,8 +15,8 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function pamsigmaGlobal(instance, persons, containerID, tax, singleperson) {
-	
+function pamsigmaGlobal(instance, persons, containerID, tax, singleperson, ymult) {
+
 	var singlematchedpersons = [];
 	var oldpersons = persons;	
 	var containerEl = jQuery('#' + containerID);
@@ -25,7 +25,7 @@ function pamsigmaGlobal(instance, persons, containerID, tax, singleperson) {
 		nodes: [],
 		edges: []
 	}
-	if(singleperson !== undefined) {
+	if(singleperson !== null) {
 		persons = pamsigmaMatchSingle(persons, singleperson, tax);
 	}
 	
@@ -41,7 +41,7 @@ function pamsigmaGlobal(instance, persons, containerID, tax, singleperson) {
 			id: persons[i].person_id,
 			label: persons[i].person_name.toUpperCase(),
 			x: -10 * i,
-			y: Math.random() * i,
+			y: Math.random() * i * ymult,
 			size:cursize,
 			prevcolor: pamcolors.gray,
 			color: pamcolors.gray,
@@ -161,41 +161,37 @@ function pamInitSigma(containerID) {
 			}
 		});
 
-	return instance;
-}
-
-function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
-
-	instance.graph.clear();
-
-	for(var n = 0; n < graph_rel.nodes.length; n++) {
-		instance.graph.addNode(graph_rel.nodes[n]);
-	}
-
-	for(var e = 0; e < graph_rel.edges.length; e++) {
-		instance.graph.addEdge(graph_rel.edges[e]);
-	}
-
-	
-
-		instance.bind('clickNode', function(e) {
-
-			var nodeId = e.data.node.id;
+	instance.bind('overEdge', function(e) {
 			
-			pamsigmaPutData(e.data.node);
+			e.data.edge.color = pamcolors.red;
+			e.data.edge.active = true;
 
-			instance.graph.clear();
+			instance.graph.nodes().forEach(function(n) {
+				if(n.id === e.data.edge.source || n.id === e.data.edge.target)
+					n.active = true;
+			});
 
-			pamsigmaGlobal(instance, oldpersons, containerID, tax, nodeId);
-			pamToggleTax('hide');
-
+			instance.refresh({skipIndexation: true});
+			
 		});
+
+		instance.bind('outEdge', function(e) {
+				e.data.edge.color = pamcolors.lightgray;
+				e.data.edge.active = false;
+
+				instance.graph.nodes().forEach(function(n) {
+					n.active = false;
+					n.color = pamcolors.gray;
+				});
+
+				instance.refresh({skipIndexation: true});
+			
+		});	
 
 		instance.bind('overNode', function(e) {
 			nodeId = e.data.node.id;
 			neighbor = instance.graph.neighbors(nodeId);
 			neighbor[nodeId] = e.data.node;
-
 			instance.graph.nodes().forEach(function(n){
 				if(neighbor[n.id]) {
 					n.active = true;
@@ -238,72 +234,69 @@ function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
 			instance.refresh({skipIndexation: true});
 		});
 
-		instance.bind('overEdge', function(e) {
-			
-			e.data.edge.color = pamcolors.red;
-			e.data.edge.active = true;
+	return instance;
+}
 
-			instance.graph.nodes().forEach(function(n) {
-				if(n.id === e.data.edge.source || n.id === e.data.edge.target)
-					n.active = true;
-			});
+function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
+	
+	instance.graph.clear();
 
-			instance.refresh({skipIndexation: true});
-			
+	for(var n = 0; n < graph_rel.nodes.length; n++) {
+		graph_rel.nodes[n].active = false;
+		instance.graph.addNode(graph_rel.nodes[n]);
+	}
+
+	for(var e = 0; e < graph_rel.edges.length; e++) {
+		instance.graph.addEdge(graph_rel.edges[e]);
+	}
+
+	
+
+		instance.bind('clickNode', function(e) {
+			var nodeId = e.data.node.id;
+			pamsigmaPutData(e.data.node);
+			pamsigmaGlobal(instance, oldpersons, containerID, tax, nodeId, 10);
+			pamToggleTax('hide');
 		});
-
-		instance.bind('outEdge', function(e) {
-				e.data.edge.color = pamcolors.lightgray;
-				e.data.edge.active = false;
-
-				instance.graph.nodes().forEach(function(n) {
-					n.active = false;
-					n.color = pamcolors.gray;
-				});
-
-				instance.refresh({skipIndexation: true});
-			
-		});	
 
 		var ovconfig = {
 			nodeMargin: 40,
 			scaleNodes: 1.1,
-			gridSizeX: 60,
-			gridSizeY: 60,
+			gridSizeX: 20,
+			gridSizeY: 20,
 			permittedExpansion: 1.1,
 			easing: 'quadraticInOut',
 			duration: 1000,
 			speed: 4,
-			maxIterations: 500
-	};
+			maxIterations: 300
+		};
 
 	var listener = instance.configNoverlap(ovconfig);
-	instance.refresh({skipIndexation: true});
+	instance.refresh();
 	instance.startNoverlap();
-	//instance.startForceAtlas2();
-	//rels.stopForceAtlas2();
-
-	// var flsettings = {
-	// 	linLogMode: false,
-	// 	outboundAttractionDistribution: true,
-	// 	autoStop: true,
-	// 	gravity: 1,
-	// 	maxIterations: 100,
-	// 	alignNodeSiblings: false,
-	// 	nodeSiblingsScale: 2,
-	// 	nodeSiblingsAngleMin: 1.6,
-	// 	randomize: 'globally'
-	// }
-	// var forcelink = sigma.layouts.startForceLink(instance, flsettings);
 }
 
 function pamTaxDropdown(instance) {
 	jQuery('#taxitems ul li a').on('click', function(e) {
-		console.log
+		e.preventDefault();
+		jQuery('#taxitems ul li a').removeClass('active');
 		var tax = jQuery(this).attr('data-tax');
 		var taxid = jQuery(this).attr('data-taxid');
 		
-		instance.graph.nodes().forEach(function(n) {
+		updateinstance = pamHighlightNodes(instance, tax, taxid);
+
+		updateinstance.refresh({skipIndexation: true});
+		jQuery(this).addClass('active');
+	});
+
+}
+
+function pamHighlightNodes(instance, tax, taxid) {
+	jQuery('.relations-switcher a[data-tax="' + tax + '"]').trigger('click');
+	jQuery('#taxitems ul li a').removeClass('active');
+	jQuery('#taxitems ul[data-tax="' + tax + '"] li a[data-taxid="' + taxid + '"]').addClass('active');
+
+	instance.graph.nodes().forEach(function(n) {
 				taxitems = n[tax];
 				
 				n.active = false;
@@ -317,8 +310,10 @@ function pamTaxDropdown(instance) {
 				}
 			});
 
-		instance.refresh({skipIndexation: true});
-	});
+	return instance;
+}
+
+function pamHiglightTaxItemList(tax, taxid) {
 
 }
 
@@ -333,30 +328,6 @@ function pamToggleTax(what) {
 		container.removeClass('inartist');
 	}
 } 
-
-// function sigmaAnimateNodes() {
-// 	sigma.plugins.animate(
-// 			rels,
-// 			{
-// 				x: graph_form + '_x',
-// 				y: graph_form + '_y'
-// 			},
-// 			{
-// 				nodes: [nodeId],
-// 				easing: 'quadraticInOut',
-// 				duration: 500,
-// 				onComplete: function() {
-// 					if(graph_form == 'old') {
-// 						graph_form = 'circular';
-// 					} else if(graph_form == 'grid') {
-// 						graph_form = 'old';
-// 					} else if(graph_form == 'circular') {
-// 						graph_form = 'grid';
-// 					}
-// 				}
-// 			}
-// 		);
-// }
 
 function pamFindPerson(persons, personID) {
 	return persons.filter(
@@ -457,39 +428,3 @@ function pamsigmaMatchSingle(persons, singleperson, tax) {
 		//reemplazo a las personas que se van a usar
 		return singlematchedpersons;
 }
-
-// sigma.classes.graph.addMethod('neighbors', function(nodeId) {
-// 		var k,
-// 			neighbors = {},
-// 			index = this.allNeighborsIndex[nodeId] || {};
-
-// 		for (k in index)
-// 		neighbors[k] = this.nodesIndex[k];
-
-// 		return neighbors;
-// 	});
-
-//   s.bind('clickNode', function(e) {
-//         var nodeId = e.data.node.id,
-//             toKeep = s.graph.neighbors(nodeId);
-//         toKeep[nodeId] = e.data.node;
-
-//         s.graph.nodes().forEach(function(n) {
-//           if (toKeep[n.id])
-//             n.color = n.originalColor;
-//           else
-//             n.color = '#eee';
-//         });
-
-//         s.graph.edges().forEach(function(e) {
-//           if (toKeep[e.source] && toKeep[e.target])
-//             e.color = e.originalColor;
-//           else
-//             e.color = '#eee';
-//         });
-
-//         // Since the data has been modified, we need to
-//         // call the refresh method to make the colors
-//         // update effective.
-//         s.refresh();
-//       });
