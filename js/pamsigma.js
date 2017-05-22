@@ -294,7 +294,13 @@ function pamTaxDropdown(instance) {
 function pamHighlightNodes(instance, tax, taxid) {
 	jQuery('.relations-switcher a[data-tax="' + tax + '"]').trigger('click');
 	jQuery('#taxitems ul li a').removeClass('active');
-	jQuery('#taxitems ul[data-tax="' + tax + '"] li a[data-taxid="' + taxid + '"]').addClass('active');
+	var container = jQuery('#taxitems ul[data-tax="' + tax + '"]');
+	var curtaxitem = jQuery('li a[data-taxid="' + taxid + '"]', container);
+	
+	curtaxitem.addClass('active');
+	container.animate({
+			scrollTop: curtaxitem.offset().top - container.offset().top + container.scrollTop()
+		})
 
 	instance.graph.nodes().forEach(function(n) {
 				taxitems = n[tax];
