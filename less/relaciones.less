@@ -207,8 +207,11 @@ span.tagtax.matched {
   border-bottom:1px solid #ff0000;
 } 
 
-#taxitems.visible {
-  display:block;
+#taxitems {
+  display:none;
+  &.visible {
+    display:block;
+  }
 }
 
 #taxitems > ul {
@@ -231,8 +234,11 @@ span.tagtax.matched {
         padding:0;
         margin:0 0 6px 0;
         a {
-          &.active, &:hover {
+          &.active, &:hover, &.active:focus {
             color:#ff0000;
+          }
+          &:focus {
+            color:#333;
           }
         }
     }

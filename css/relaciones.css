@@ -175,6 +175,9 @@ span.tagtax.matched {
   color: #ff0000;
   border-bottom: 1px solid #ff0000;
 }
+#taxitems {
+  display: none;
+}
 #taxitems.visible {
   display: block;
 }
@@ -199,6 +202,10 @@ span.tagtax.matched {
   margin: 0 0 6px 0;
 }
 #taxitems > ul li a.active,
-#taxitems > ul li a:hover {
+#taxitems > ul li a:hover,
+#taxitems > ul li a.active:focus {
   color: #ff0000;
+}
+#taxitems > ul li a:focus {
+  color: #333;
 }

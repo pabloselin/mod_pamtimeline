@@ -7,10 +7,6 @@ var pamcolors = {
 		white: '#ffffff'
 	}
 
-function pamsigmaAppend(node) {
-	//Añade nuevos links
-}
-
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -176,8 +172,10 @@ function pamInitSigma(containerID) {
 		});
 
 		instance.bind('outEdge', function(e) {
-				e.data.edge.color = pamcolors.lightgray;
-				e.data.edge.active = false;
+				// e.data.edge.color = pamcolors.lightgray;
+				// e.data.edge.active = false;
+				
+				pamDefaultState(instance);
 
 				instance.graph.nodes().forEach(function(n) {
 					n.active = false;
@@ -192,23 +190,15 @@ function pamInitSigma(containerID) {
 			nodeId = e.data.node.id;
 			neighbor = instance.graph.neighbors(nodeId);
 			neighbor[nodeId] = e.data.node;
+			pamDefaultState(instance);
 			instance.graph.nodes().forEach(function(n){
-				if(neighbor[n.id]) {
+				if(neighbor[n.id])
 					n.active = true;
-				} else {
-					//n.color = pamcolors.gray;
-					n.active = false;
-					//n.hidden = true;
-				}
 			});
 
 			instance.graph.edges().forEach(function(e) {
 				if(neighbor[e.source] && neighbor[e.target]) {
 					e.color = pamcolors.red;
-					//e.active = true;
-				} else {
-					e.color = pamcolors.lightgray;
-					//e.active = false;
 				}
 			});
 
@@ -220,16 +210,7 @@ function pamInitSigma(containerID) {
 			
 			//console.log('outnode');
 
-			instance.graph.nodes().forEach(function(n) {
-				n.active = false;
-				n.color = pamcolors.gray;
-				//n.hidden = false;
-			});
-
-			instance.graph.edges().forEach(function(e) {
-				e.color = pamcolors.lightgray;
-				//e.active = false;
-			});
+			pamDefaultState(instance);	
 
 			instance.refresh({skipIndexation: true});
 		});
@@ -268,7 +249,7 @@ function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
 			easing: 'quadraticInOut',
 			duration: 1000,
 			speed: 4,
-			maxIterations: 300
+			maxIterations: 500
 		};
 
 	var listener = instance.configNoverlap(ovconfig);
@@ -300,7 +281,9 @@ function pamHighlightNodes(instance, tax, taxid) {
 	curtaxitem.addClass('active');
 	container.animate({
 			scrollTop: curtaxitem.offset().top - container.offset().top + container.scrollTop()
-		})
+		});
+
+	pamDefaultState(instance);
 
 	instance.graph.nodes().forEach(function(n) {
 				taxitems = n[tax];
@@ -316,10 +299,48 @@ function pamHighlightNodes(instance, tax, taxid) {
 				}
 			});
 
+	instance.graph.edges().forEach(function(e) {
+		if(e.relations) {
+			for(var r = 0; r < e.relations.length; r++) {
+				if(e.relations[r].fieldvalueid === taxid)
+					e.color = pamcolors.red;
+			}
+		}
+	});
+
 	return instance;
 }
 
+function pamResetNodes(instance) {
+	instance.graph.nodes().forEach(function(n) {
+		n.color = pamcolors.gray;
+		n.active = false;
+	});
+}
+
+function pamResetEdges(instance) {
+	instance.graph.edges().forEach(function(e){
+		e.color = pamcolors.lightgray;
+		e.active = false;
+	});
+}
+
+function pamResetTaxList() {
+	jQuery('body #taxitems ul li a').removeClass('active');
+	console.log('pamResetTaxlist');
+}
+
+function pamDefaultState(instance) {
+	pamResetNodes(instance);
+	pamResetEdges(instance);
+	pamResetTaxList();
+}
+
 function pamHiglightTaxItemList(tax, taxid) {
+
+}
+
+function pamSquareNodes(instance) {
 
 }
 
@@ -330,7 +351,7 @@ function pamToggleTax(what) {
 		taxlist.removeClass('visible');
 		container.addClass('inartist');
 	} else {
-		taxlist.removeClass('visible');
+		taxlist.addClass('visible');
 		container.removeClass('inartist');
 	}
 } 

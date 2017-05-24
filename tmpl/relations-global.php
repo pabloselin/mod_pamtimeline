@@ -77,7 +77,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			<a href="#" data-tax="tools">Herramientas</a>
 		</div>
 
-		<div id="taxitems">
+		<div id="taxitems" class="visible">
 			<ul data-tax="languages" class="active">
 				<?php 
 					foreach($all_languages as $language) {
