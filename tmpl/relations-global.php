@@ -155,9 +155,23 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			e.preventDefault();
 			pamsigmaToggleInfo(togglers);
 			pamToggleTax('show');
-			pamsigmaGlobal(rels, json_relations, 'relations-container', curtax, null, 1);
+			pamsigmaGlobal(rels, json_relations, 'relations-container', curtax, null, 5);
+			pamResetZoom(rels);
 			if($(this).attr('data-taxid'))
 				pamHighlightNodes(rels, $(this).attr('data-tax'), $(this).attr('data-taxid'))
+		});
+
+		$('.relations-info').on('click', 'a.infomobile', function(e) {
+			e.preventDefault();
+			var relbox = $('.relations-info');
+			if(relbox.hasClass('expanded')) {
+				relbox.removeClass('expanded');
+				$(this).empty().text('+ info');
+			} else {
+				relbox.addClass('expanded');
+				$(this).empty().text('cerrar');
+			}
+				
 		});
 
 	});
@@ -165,40 +179,48 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 <script id="relations-template" type="x-tmpl-mustache">
 				<h2 class="artist-title"><a href={{link}}>{{label}}</a></h2>
-
+				
 				{{#persontype}}
 				<span class="persontype">{{fieldvaluename}}</span>
 				{{/persontype}}
-				
-				<img src={{image}} alt={{label}}>
-				
-				<div class="introtext">{{introtext}}</div>	
 
-				<div class="taxsection">
-				<h3>Lenguajes</h3>
-				
-				{{#languages}}
-					<span class="taxtip" data-tax="languages" data-taxid="{{fieldvalueid}}">{{fieldvaluename}}</span>
-				{{/languages}}
+				<div class="mobile-nav">
+					<a class="infomobile" href="#">+ info</a>
+					<a class="back backmobile" href="#">Volver</a>
 				</div>
-
-				<div class="taxsection">
-					<h3>Temáticas</h3>
+				
+				
+				<div class="info-wrapper">
+					<img src={{image}} alt={{label}}>
 					
-					{{#themes}}
-						<span class="taxtip" data-tax="themes" data-taxid="{{fieldvalueid}}">{{fieldvaluename}}</span>
-					{{/themes}}
+					<div class="introtext">{{introtext}}</div>	
 					
+					<div class="taxsection">
+					<h3>Lenguajes</h3>
+					
+					{{#languages}}
+						<span class="taxtip" data-tax="languages" data-taxid="{{fieldvalueid}}">{{fieldvaluename}}</span>
+					{{/languages}}
+					</div>
+					
+					<div class="taxsection">
+						<h3>Temáticas</h3>
+						
+						{{#themes}}
+							<span class="taxtip" data-tax="themes" data-taxid="{{fieldvalueid}}">{{fieldvaluename}}</span>
+						{{/themes}}
+						
+					</div>
+					
+					<div class="taxsection">
+					<h3>Herramientas</h3>
+					
+					{{#tools}}
+						<span class="taxtip" data-tax="tools" data-taxid="{{fieldvalueid}}">{{fieldvaluename}}</span>
+					{{/tools}}
+					
+					</div>
+					
+					<p class="link"><a href={{link}}>Ver más</a> <a class="back" href="#">Volver</a></p>
 				</div>
-
-				<div class="taxsection">
-				<h3>Herramientas</h3>
-				
-				{{#tools}}
-					<span class="taxtip" data-tax="tools" data-taxid="{{fieldvalueid}}">{{fieldvaluename}}</span>
-				{{/tools}}
-				
-				</div>
-
-				<p class="link"><a href={{link}}>Ver más</a> <a class="back" href="#">Volver</a></p>
 			</script>

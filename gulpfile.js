@@ -30,7 +30,7 @@ gulp.task('less-relations', function() {
 
 gulp.task('watch', function() {
 	browserSync.init({
-		proxy: 'localhost'
+		proxy: 'pam.dev'
 	});
 	gulp.watch([
 		'less/*.less',

@@ -47,34 +47,7 @@
   transition: all ease-in 0.5s;
 }
 
-@media screen and (max-width:480px) {
-  .relations-info {
-    right:-100%;
-  }
 
-  .relations-info.active {
-    width:100%;
-    background-color:rgba(255,255,255,0.6);
-  }
-
-  .taxsection {
-    height:45px;
-  }
-
-  .taxsection span {
-    float:left;
-    overflow-x:scroll;
-  }
-
-  #taxitems, #taxitems.visible {
-    display:none;
-  }
-
-  #relations-container {
-    margin-left:0;
-  }
-
-}
 
 .relations-info.active {
   right:0;
@@ -210,7 +183,9 @@ span.tagtax.matched {
 #taxitems {
   display:none;
   &.visible {
-    display:block;
+    @media screen and (min-width:960px) {
+      display:block;
+    }
   }
 }
 
@@ -242,4 +217,66 @@ span.tagtax.matched {
           }
         }
     }
+}
+
+.mobile-nav {
+  display:none;
+}
+
+
+@media screen and (max-width:480px) {
+  .mobile-nav {
+    display:block;
+    margin-bottom:3px;
+    a {
+      display:inline-block;
+      text-transform:lowercase;
+      border:1px solid #ccc;
+      border-radius:4px;
+      margin-right:4px;
+      padding:3px;
+    }
+  }
+
+  .relations-info {
+    right:-100%;
+    .persontype {
+      margin-bottom:0;
+    }
+  }
+
+  .relations-info.active {
+    width:100%;
+    background-color:white;
+    top:333px;
+    .info-wrapper {
+      display:none;
+    }
+    &.expanded {
+      top:0;
+      .info-wrapper {
+        display:block;
+      }
+    }
+  }
+
+  .taxsection {
+    height:45px;
+  }
+
+  .taxsection span {
+    float:left;
+    overflow-x:scroll;
+  }
+
+
+  #relations-container {
+    margin-left:0;
+  }
+
+  .relations-switcher {
+    position: absolute;
+    bottom:0;
+  }
+
 }

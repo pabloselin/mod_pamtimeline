@@ -129,17 +129,29 @@ function pamInitSigma(containerID) {
 			return neighbors;
 			});
 
-	var instance = new sigma({
-			graph: {},
-			renderers: [{
-				container: containerID,
-				type: 'canvas'
-			}],
+	var instance = new sigma(
+		{
 			settings: {
-				sideMargin: 20,
-				defaultLabelSize: 10,
-				font: 'Open Sans',
 				enableEdgeHovering: true,
+				minNodeSize: 6,
+				maxNodeSize: 6,
+				labelThreshold: 6,
+				sideMargin: 40,
+				defaultLabelSize: 10,
+				scalingMode: 'inside',
+				labelHoverShadow: false,
+				labelAlignment: 'bottom'
+			}
+		}
+	);
+	var defaultcamera = instance.addCamera();
+
+	instance.addRenderer({
+			container: containerID,
+			type: 'canvas',
+			camera: defaultcamera,
+			settings: {
+				font: 'Open Sans',
 				edgeHoverColor: pamcolors.red,
 				defaultEdgeHoverColor: pamcolors.red,
 				labelSize: 'fixed',
@@ -147,18 +159,12 @@ function pamInitSigma(containerID) {
 				zoomMax: 2,
 				nodeHoverColor: pamcolors.red,
 				edgeHoverExtremities: false,
-				scalingMode: 'inside',
-				minNodeSize: 1,
-				maxNodeSize: 6,
-				labelHoverShadow: false,
-				labelAlignment: 'bottom',
-				labelThreshold: 3,
 				pamcolors: pamcolors
 			}
-		});
+	});
 
 	instance.bind('overEdge', function(e) {
-			
+
 			e.data.edge.color = pamcolors.red;
 			e.data.edge.active = true;
 
@@ -172,15 +178,16 @@ function pamInitSigma(containerID) {
 		});
 
 		instance.bind('outEdge', function(e) {
+				
 				// e.data.edge.color = pamcolors.lightgray;
 				// e.data.edge.active = false;
-				
-				pamDefaultState(instance);
 
 				instance.graph.nodes().forEach(function(n) {
 					n.active = false;
 					n.color = pamcolors.gray;
 				});
+
+				pamDefaultState(instance);
 
 				instance.refresh({skipIndexation: true});
 			
@@ -218,6 +225,19 @@ function pamInitSigma(containerID) {
 	return instance;
 }
 
+function pamResetZoom(instance) {
+	//console.log('resetcamera');
+	var camera = instance.camera;
+	//console.log(camera);
+	var coordinates = {
+		//ratio: camera.ratio * instance.settings('zoomingRatio')
+		ratio: 1,
+		x: 0,
+		y: 0
+	}
+	instance.camera.goTo(coordinates);
+}
+
 function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
 	
 	instance.graph.clear();
@@ -238,6 +258,7 @@ function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
 			pamsigmaPutData(e.data.node);
 			pamsigmaGlobal(instance, oldpersons, containerID, tax, nodeId, 10);
 			pamToggleTax('hide');
+			pamResetZoom(instance);
 		});
 
 		var ovconfig = {
@@ -327,7 +348,6 @@ function pamResetEdges(instance) {
 
 function pamResetTaxList() {
 	jQuery('body #taxitems ul li a').removeClass('active');
-	console.log('pamResetTaxlist');
 }
 
 function pamDefaultState(instance) {
