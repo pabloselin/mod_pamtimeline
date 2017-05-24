@@ -157,6 +157,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			pamToggleTax('show');
 			pamsigmaGlobal(rels, json_relations, 'relations-container', curtax, null, 5);
 			pamResetZoom(rels);
+			$('.relations-info').removeClass('expanded');
 			if($(this).attr('data-taxid'))
 				pamHighlightNodes(rels, $(this).attr('data-tax'), $(this).attr('data-taxid'))
 		});
