@@ -299,12 +299,14 @@ function pamHighlightNodes(instance, tax, taxid) {
 	var container = jQuery('#taxitems ul[data-tax="' + tax + '"]');
 	var curtaxitem = jQuery('li a[data-taxid="' + taxid + '"]', container);
 	
-	curtaxitem.addClass('active');
+	
 	container.animate({
 			scrollTop: curtaxitem.offset().top - container.offset().top + container.scrollTop()
 		});
 
 	pamDefaultState(instance);
+	
+	curtaxitem.addClass('active');
 
 	instance.graph.nodes().forEach(function(n) {
 				taxitems = n[tax];
