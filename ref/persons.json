@@ -1,0 +1,855 @@
+[
+  {
+    "person_id": "36",
+    "person_name": "B\u00e1rbara Gonz\u00e1lez",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Arte Sonoro",
+          "fieldvalueid": "3"
+        },
+        {
+          "fieldvaluename": "Performance",
+          "fieldvalueid": "4"
+        },
+        {
+          "fieldvaluename": "Ensamblaje",
+          "fieldvalueid": "9"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Cuerpo",
+          "fieldvalueid": "2"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Reciclaje",
+          "fieldvalueid": "4"
+        },
+        {
+          "fieldvaluename": "Tecnolog\u00edas an\u00e1logas",
+          "fieldvalueid": "11"
+        },
+        {
+          "fieldvaluename": "DIY",
+          "fieldvalueid": "21"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-barbara-gonzalez",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/9ecd376e5371efaef9aad9bc9143aed8_S.jpg",
+    "person_type": {
+      "persontype": [
+        {
+          "fieldvaluename": "Artista",
+          "fieldvalueid": "7"
+        }
+      ]
+    }
+  },
+  {
+    "person_id": "57",
+    "person_name": "Alejandro Si\u00f1a",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Arte Lum\u00ednico",
+          "fieldvalueid": "5"
+        },
+        {
+          "fieldvaluename": "Arte Cin\u00e9tico",
+          "fieldvalueid": "6"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Tecnolog\u00eda",
+          "fieldvalueid": "9"
+        },
+        {
+          "fieldvaluename": "Experimentaci\u00f3n",
+          "fieldvalueid": "18"
+        },
+        {
+          "fieldvaluename": "Luz",
+          "fieldvalueid": "29"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Redes sociales",
+          "fieldvalueid": "26"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-alejandro-sina",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/0548677e6432786dd8df61eb3aaec139_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "58",
+    "person_name": "Anilla MAC \/ Alessandra Burotto",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Mapping",
+          "fieldvalueid": "17"
+        },
+        {
+          "fieldvaluename": "Bioart",
+          "fieldvalueid": "18"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Experimentaci\u00f3n",
+          "fieldvalueid": "18"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "HTML",
+          "fieldvalueid": "18"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-anilla-cultural-mac",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/954fb0ebf1d84fb921bfb0b6e045d57f_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "59",
+    "person_name": "Ana Mar\u00eda Estrada",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Performance",
+          "fieldvalueid": "4"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Pol\u00edtica",
+          "fieldvalueid": "4"
+        },
+        {
+          "fieldvaluename": "Cyborg",
+          "fieldvalueid": "17"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "C\u00e1mara de video",
+          "fieldvalueid": "13"
+        },
+        {
+          "fieldvaluename": "Elementos org\u00e1nicos",
+          "fieldvalueid": "16"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-ana-maria-estrada",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/339a0e1449b6b4062056bc300d87e893_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "83",
+    "person_name": "Sur\u00f3fona",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-surofona",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/1d73e13563b8be946c0f00bab252d7ea_S.jpg",
+    "person_type": "6"
+  },
+  {
+    "person_id": "84",
+    "person_name": "Carolina Pino",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Animaci\u00f3n",
+          "fieldvalueid": "11"
+        },
+        {
+          "fieldvaluename": "Arte objetual",
+          "fieldvalueid": "27"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Cuerpo",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Conectividad",
+          "fieldvalueid": "11"
+        },
+        {
+          "fieldvaluename": "Utop\u00eda",
+          "fieldvalueid": "15"
+        },
+        {
+          "fieldvaluename": "Ciudad",
+          "fieldvalueid": "20"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Video digital",
+          "fieldvalueid": "9"
+        },
+        {
+          "fieldvaluename": "Bricolaje electr\u00f3nico",
+          "fieldvalueid": "22"
+        },
+        {
+          "fieldvaluename": "Osciladores",
+          "fieldvalueid": "30"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-carolina-pino",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/00e7056ec788d5b42162a6c13dbba43c_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "85",
+    "person_name": "Christian Oyarz\u00fan",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-christian-oyarzun",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/2a14beb1aee2d71c6fecb12f25c690f7_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "86",
+    "person_name": "Yto Aranda",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-yto-aranda",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/ba1b7eb9b8ad142948e3b9dce300b4c6_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "87",
+    "person_name": "Claudia Gonz\u00e1lez",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Instalaci\u00f3n",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Arte Sonoro",
+          "fieldvalueid": "3"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Ciudad",
+          "fieldvalueid": "20"
+        },
+        {
+          "fieldvaluename": "Agua",
+          "fieldvalueid": "28"
+        },
+        {
+          "fieldvaluename": "DIY",
+          "fieldvalueid": "48"
+        },
+        {
+          "fieldvaluename": "Bricolage electr\u00f3nico",
+          "fieldvalueid": "49"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Arduino",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Physical computing",
+          "fieldvalueid": "12"
+        },
+        {
+          "fieldvaluename": "Wifi",
+          "fieldvalueid": "27"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-claudia-gonzalez",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/0d0c19531d6e29f793ed165732978408_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "88",
+    "person_name": "Constanza Pi\u00f1a",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-constanza-pina",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/398a8bc2e3f7f879ff0986359513be80_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "90",
+    "person_name": "Esteban Agosin",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Instalaci\u00f3n",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Interacci\u00f3n",
+          "fieldvalueid": "32"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Cuerpo",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Transducci\u00f3n",
+          "fieldvalueid": "10"
+        },
+        {
+          "fieldvaluename": "Real\/Digital",
+          "fieldvalueid": "50"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Sensores",
+          "fieldvalueid": "6"
+        },
+        {
+          "fieldvaluename": "Programaci\u00f3n",
+          "fieldvalueid": "8"
+        },
+        {
+          "fieldvaluename": "Physical computing",
+          "fieldvalueid": "12"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-esteban-agosin",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/3707d8f2be163bd14c78cf07586f13bb_S.jpg",
+    "person_type": {
+      "persontype": [
+        {
+          "fieldvaluename": "Artista",
+          "fieldvalueid": "7"
+        }
+      ]
+    }
+  },
+  {
+    "person_id": "92",
+    "person_name": "Colectivo \u00daltima Esperanza",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Instalaci\u00f3n",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Videoarte",
+          "fieldvalueid": "12"
+        },
+        {
+          "fieldvaluename": "Videodanza",
+          "fieldvalueid": "13"
+        },
+        {
+          "fieldvaluename": "Netart",
+          "fieldvalueid": "14"
+        },
+        {
+          "fieldvaluename": "Mapping",
+          "fieldvalueid": "17"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Territorio",
+          "fieldvalueid": "12"
+        },
+        {
+          "fieldvaluename": "Identidad",
+          "fieldvalueid": "13"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Proyector",
+          "fieldvalueid": "7"
+        },
+        {
+          "fieldvaluename": "Video digital",
+          "fieldvalueid": "9"
+        },
+        {
+          "fieldvaluename": "Flash",
+          "fieldvalueid": "10"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-colectivo-ultima-esperanza",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/51a3864ed3ad604d2340c3f8fe249f94_S.jpg",
+    "person_type": {
+      "persontype": [
+        {
+          "fieldvaluename": "Colectivos",
+          "fieldvalueid": "5"
+        }
+      ]
+    }
+  },
+  {
+    "person_id": "97",
+    "person_name": "Valeria Radrig\u00e1n",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-valeria-radrigan",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/e44a6f32e15cb53ee479b2697e759e2e_S.jpg",
+    "person_type": "3"
+  },
+  {
+    "person_id": "110",
+    "person_name": "Singularity Lab",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/personas\/item\/110-singularity-lab",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/d722f2a14a84b7ad8053262f61a6106b_S.jpg",
+    "person_type": "6"
+  },
+  {
+    "person_id": "117",
+    "person_name": "Nicol\u00e1s Spencer",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-nicolas-spencer",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/39a27618f1dc54b80987c6706135e6b7_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "124",
+    "person_name": "Nicol\u00e1s Brice\u00f1o",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-nicolas-briceno",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/d9b208614500b6f80739755fd29fad52_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "134",
+    "person_name": "N\u00e9stor Olhagaray",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-nestor-olhagaray",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/62fb5f1024529266c6e71c0c0c9ddb3c_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "142",
+    "person_name": "M\u00e1ximo Corval\u00e1n",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-maximo-corvalan",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/1c6c813bb9d5494160041c1c4ee2fb70_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "149",
+    "person_name": "Mauricio Roman",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-mauricio-roman",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/725ab2e5536ce3eac0a8dd17d083ff4e_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "157",
+    "person_name": "Loreto Bravo",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-loreto-bravo",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/171fc14b49a79ea979710de5b3402b30_S.jpg",
+    "person_type": "4"
+  },
+  {
+    "person_id": "164",
+    "person_name": "Ignacio Nieto",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-ignacio-nieto",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/7acce66d40ec90c2d61987b409cbf850_S.jpg",
+    "person_type": "3"
+  },
+  {
+    "person_id": "171",
+    "person_name": "Francisco Navarrete Sitja",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-francisco-navarrete-sitja",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/69bc9c3e85c501b0a6208cc7a55abbf9_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "178",
+    "person_name": "Felipe Rivas San Mart\u00edn",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-felipe-rivas-san-martin",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/e2acd849d365015ef08ef5b696dc9e31_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "190",
+    "person_name": "Enrique Rivera",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-enrique-rivera",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/fe392f78a62c6fc460cf8c2a182b395f_S.jpg",
+    "person_type": "4"
+  },
+  {
+    "person_id": "197",
+    "person_name": "Demian Schopf",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Instalaci\u00f3n",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Realidad Aumentada",
+          "fieldvalueid": "19"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Inteligencia Artificial",
+          "fieldvalueid": "32"
+        },
+        {
+          "fieldvaluename": "Lenguaje",
+          "fieldvalueid": "40"
+        },
+        {
+          "fieldvaluename": "Neobarroco",
+          "fieldvalueid": "46"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Sensores",
+          "fieldvalueid": "6"
+        },
+        {
+          "fieldvaluename": "Bricolaje electr\u00f3nico",
+          "fieldvalueid": "22"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-demian-shopf",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/77e3798bb9782084333898c5f75d9aab_S.jpg",
+    "person_type": {
+      "persontype": [
+        {
+          "fieldvaluename": "Investigador",
+          "fieldvalueid": "2"
+        }
+      ]
+    }
+  },
+  {
+    "person_id": "204",
+    "person_name": "Delight lab",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-delight-lab",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/a67e9d105d87a83c2081372f8c241cc4_S.jpg",
+    "person_type": "6"
+  },
+  {
+    "person_id": "211",
+    "person_name": "Daniel Cruz",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Rob\u00f3tica",
+          "fieldvalueid": "7"
+        },
+        {
+          "fieldvaluename": "Animaci\u00f3n",
+          "fieldvalueid": "11"
+        },
+        {
+          "fieldvaluename": "Wereables",
+          "fieldvalueid": "28"
+        }
+      ]
+    },
+    "person_themes": {
+      "themes": [
+        {
+          "fieldvaluename": "Cuerpo",
+          "fieldvalueid": "2"
+        },
+        {
+          "fieldvaluename": "Conectividad",
+          "fieldvalueid": "11"
+        },
+        {
+          "fieldvaluename": "Lenguaje",
+          "fieldvalueid": "40"
+        }
+      ]
+    },
+    "person_tools": {
+      "tools": [
+        {
+          "fieldvaluename": "Sensores",
+          "fieldvalueid": "6"
+        },
+        {
+          "fieldvaluename": "Bricolaje electr\u00f3nico",
+          "fieldvalueid": "22"
+        },
+        {
+          "fieldvaluename": "Streaming",
+          "fieldvalueid": "23"
+        }
+      ]
+    },
+    "person_url": "\/index.php\/presentacion-daniel-cruz",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/18cb4412b3fd96d4c2c15944894f7ea5_S.jpg",
+    "person_type": {
+      "persontype": [
+        {
+          "fieldvaluename": "Investigador",
+          "fieldvalueid": "2"
+        }
+      ]
+    }
+  },
+  {
+    "person_id": "235",
+    "person_name": "Nadinne Canto \/ CME",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-nadinne-canto-cme",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/475699d297afae315ef802312426354e_S.jpg",
+    "person_type": ""
+  },
+  {
+    "person_id": "278",
+    "person_name": "Alejandra P\u00e9rez",
+    "person_languages": {
+      "languages": [
+        {
+          "fieldvaluename": "Performance",
+          "fieldvalueid": "4"
+        }
+      ]
+    },
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/presentacion-alejandra-perez",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/ab98897d60eaa0d05c1862c118538407_S.jpg",
+    "person_type": "2"
+  },
+  {
+    "person_id": "332",
+    "person_name": "Lonely artist 000",
+    "person_languages": [
+      
+    ],
+    "person_themes": [
+      
+    ],
+    "person_tools": [
+      
+    ],
+    "person_url": "\/index.php\/personas\/item\/332-artista-chungo",
+    "person_thumbnail": "http:\/\/pam.dev\/media\/k2\/items\/cache\/11ff9b4c887cc2e009006cc7fd3aeb4c_S.jpg",
+    "person_type": {
+      "persontype": [
+        {
+          "fieldvaluename": false,
+          "fieldvalueid": ""
+        }
+      ]
+    }
+  }
+]
