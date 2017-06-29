@@ -14,16 +14,17 @@ error_reporting(1);
 $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
+//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.parsers.json.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink_supervisor.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
+// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
+// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink_supervisor.js');
+// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink.js');
+// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
 //$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.renderers.edgeLabels.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.canvas.edgehovers_labels.js');
+// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.canvas.edgehovers_labels.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
+// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 ?>
@@ -38,6 +39,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 	
 		$persons = ModPamTimelineHelper::getPersons();
 		$persons_array = [];
+		$graph_items = [];
 		$current_person_data = [];
 
 		$all_tools = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['tools'] ));
@@ -48,26 +50,29 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 			//$personFields = ModPamTimelineHelper::getItemFields( $person['id'] );
 
-			$languages = ModPamTimelineHelper::getItemField( $person['id'], 'languages' );
-			$themes = ModPamTimelineHelper::getItemField( $person['id'], 'themes' );
-			$tools = ModPamTimelineHelper::getItemField( $person['id'], 'tools' );
-			$persontype = ModPamTimelineHelper::getItemField( $person['id'], 'persontype' );
+			$languages = ModPamTimelineHelper::getItemFieldIds( $person['id'], 'languages' );
+			$themes = ModPamTimelineHelper::getItemFieldIds( $person['id'], 'themes' );
+			$tools = ModPamTimelineHelper::getItemFieldIds( $person['id'], 'tools' );
+			$persontype = ModPamTimelineHelper::getItemFieldIds( $person['id'], 'persontype' );
+
+			$graph_items['nodes'][] = array(
+				'id' => $person['id'],
+				'label' => $person['title'],
+				'x' => 1,
+				'y' => 2,
+				'languages' => $languages['languages'],
+				'themes' => $themes['themes'],
+				'tools' => $tools['tools'],
+				'url' => ModPamTimelineHelper::getItemLink($person['id'], $person['alias'], $person['catid']),
+				'thumbnail' => ModPamTimelineHelper::getItemImageUrl($person['id'], 'S'),
+				'type' => $persontype,
+				'color' => '#808080',
+				'size' => 3
+			);
+		
 			
-			$persons_array[] = array(
-				'person_id' => $person['id'],
-				'person_name' => $person['title'],
-				'person_languages' => $languages,
-				'person_themes' => $themes,
-				'person_tools' => $tools,
-				'person_url' => ModPamTimelineHelper::getItemLink($person['id'], $person['alias'], $person['catid']),
-				'person_thumbnail' => ModPamTimelineHelper::getItemImageUrl($person['id'], 'S'),
-				'person_type' => $persontype
-				);
 		}
-
-		$json_persons = json_encode($persons_array, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
-		var_dump($json_persons);
-
+		$json_nodes = json_encode($graph_items, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 	?>
 
 	<div class="pam-relaciones-global">
@@ -117,64 +122,95 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 	<script type="text/javascript">
 
 	jQuery(document).ready(function($) {
-		
-		var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
-		var json_relations = JSON.parse( json_relations_raw );
 		var curtax = 'languages';
-		var graph_form = 'grid';
-		var othertaxs = $('.relations-switcher a');
-		var togglers = $('.pam-relaciones-global, #relations-container, .relations-info');
 
-		var rels = pamInitSigma('relations-container');
+		var json_nodes = cleanJson('<?php echo $json_nodes;?>');
+		var json_obj = JSON.parse(json_nodes);
+		console.log(json_obj);
+		relaciones = new sigma({
+			graph: json_obj,
+			container: 'relations-container',
+			settings: {
+				mouseWheelEnabled: false
+			}
+		});
 
-		pamsigmaGlobal(rels, json_relations, 'relations-container', 'languages',null, 1);
-		pamTaxDropdown(rels);
+		var config = {
+			nodeMargin: 3.0,
+			scaleNodes: 1.3
+		};
 
-		$('.relations-switcher a[data-tax="languages"]').addClass('active');
+		
+		var listener = relaciones.configNoverlap(config);
 
-		$('.relations-switcher a').on('click', function(e) {
+		
+		listener.bind('start stop interpolate', function(event) {
+			//console.log(event.type);
+		});
 
-			e.preventDefault();
-			var thisEl = $(this);
+		pamEdges(curtax, json_obj);
+
+		
+		relaciones.startNoverlap();
+
+
+		// var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
+		// var json_relations = JSON.parse( json_relations_raw );
+		// var curtax = 'languages';
+		// var graph_form = 'grid';
+		// var othertaxs = $('.relations-switcher a');
+		// var togglers = $('.pam-relaciones-global, #relations-container, .relations-info');
+
+		// var rels = pamInitSigma('relations-container');
+
+		// pamsigmaGlobal(rels, json_relations, 'relations-container', 'languages',null, 1);
+		// pamTaxDropdown(rels);
+
+		// $('.relations-switcher a[data-tax="languages"]').addClass('active');
+
+		// $('.relations-switcher a').on('click', function(e) {
+
+		// 	e.preventDefault();
+		// 	var thisEl = $(this);
 			
-			var thistax = thisEl.attr('data-tax');
+		// 	var thistax = thisEl.attr('data-tax');
 
-			if( !thisEl.hasClass('active')) {
-				othertaxs.removeClass('active');
-				thisEl.addClass('active');
-				pamsigmaToggleInfo(togglers);
-				pamsigmaGlobal(rels, json_relations, 'relations-container', thistax, null, 1);
-				curtax = thistax;
-				$('#taxitems ul').hide().removeClass('active');
-				$('ul[data-tax="' + thistax + '"]').show().addClass('active');
-				pamToggleTax('show');
-			}
-		});
+		// 	if( !thisEl.hasClass('active')) {
+		// 		othertaxs.removeClass('active');
+		// 		thisEl.addClass('active');
+		// 		pamsigmaToggleInfo(togglers);
+		// 		pamsigmaGlobal(rels, json_relations, 'relations-container', thistax, null, 1);
+		// 		curtax = thistax;
+		// 		$('#taxitems ul').hide().removeClass('active');
+		// 		$('ul[data-tax="' + thistax + '"]').show().addClass('active');
+		// 		pamToggleTax('show');
+		// 	}
+		// });
 
-		$('.relations-info').on('click', 'a.back, span.taxtip', function(e) {
-			//var curtax = jQuery('.relations-switcher a.active').attr('data-tax');
-			e.preventDefault();
-			pamsigmaToggleInfo(togglers);
-			pamToggleTax('show');
-			pamsigmaGlobal(rels, json_relations, 'relations-container', curtax, null, 5);
-			pamResetZoom(rels);
-			$('.relations-info').removeClass('expanded');
-			if($(this).attr('data-taxid'))
-				pamHighlightNodes(rels, $(this).attr('data-tax'), $(this).attr('data-taxid'))
-		});
+		// $('.relations-info').on('click', 'a.back, span.taxtip', function(e) {
+		// 	//var curtax = jQuery('.relations-switcher a.active').attr('data-tax');
+		// 	e.preventDefault();
+		// 	pamsigmaToggleInfo(togglers);
+		// 	pamToggleTax('show');
+		// 	pamsigmaGlobal(rels, json_relations, 'relations-container', curtax, null, 5);
+		// 	pamResetZoom(rels);
+		// 	$('.relations-info').removeClass('expanded');
+		// 	if($(this).attr('data-taxid'))
+		// 		pamHighlightNodes(rels, $(this).attr('data-tax'), $(this).attr('data-taxid'))
+		// });
 
-		$('.relations-info').on('click', 'a.infomobile', function(e) {
-			e.preventDefault();
-			var relbox = $('.relations-info');
-			if(relbox.hasClass('expanded')) {
-				relbox.removeClass('expanded');
-				$(this).empty().text('+ info');
-			} else {
-				relbox.addClass('expanded');
-				$(this).empty().text('cerrar');
-			}
+		// $('.relations-info').on('click', 'a.infomobile', function(e) {
+		// 	e.preventDefault();
+		// 	var relbox = $('.relations-info');
+		// 	if(relbox.hasClass('expanded')) {
+		// 		relbox.removeClass('expanded');
+		// 		$(this).empty().text('+ info');
+		// 	} else {
+		// 		relbox.addClass('expanded');
+		// 		$(this).empty().text('cerrar');
+		// 	}
 				
-		});
+		// });
 
 	});
 </script>

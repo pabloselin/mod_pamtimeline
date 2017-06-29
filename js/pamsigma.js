@@ -11,6 +11,12 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+function pamEdges(tax, json_nodes) {
+	for( var i = 0; i < json_nodes.length; i++){
+		console.log(json_nodes[i]);
+	}
+}
+
 function pamsigmaGlobal(instance, persons, containerID, tax, singleperson, ymult) {
 
 	var singlematchedpersons = [];
@@ -117,7 +123,6 @@ function pamsigmaGlobal(instance, persons, containerID, tax, singleperson, ymult
 }
 
 function pamInitSigma(containerID) {
-
 	sigma.classes.graph.addMethod('neighbors', function(nodeId) {
 		var k,
 			neighbors = {},
@@ -164,7 +169,6 @@ function pamInitSigma(containerID) {
 	});
 
 	instance.bind('overEdge', function(e) {
-
 			e.data.edge.color = pamcolors.red;
 			e.data.edge.active = true;
 
@@ -178,9 +182,6 @@ function pamInitSigma(containerID) {
 		});
 
 		instance.bind('outEdge', function(e) {
-				
-				// e.data.edge.color = pamcolors.lightgray;
-				// e.data.edge.active = false;
 
 				instance.graph.nodes().forEach(function(n) {
 					n.active = false;
@@ -210,13 +211,11 @@ function pamInitSigma(containerID) {
 			});
 
 			instance.refresh({skipIndexation: true});
-			//console.log('overnode');
+			
 		});
 
 		instance.bind('outNode', function(e) {
-			
-			//console.log('outnode');
-
+		
 			pamDefaultState(instance);	
 
 			instance.refresh({skipIndexation: true});
@@ -226,9 +225,7 @@ function pamInitSigma(containerID) {
 }
 
 function pamResetZoom(instance) {
-	//console.log('resetcamera');
 	var camera = instance.camera;
-	//console.log(camera);
 	var coordinates = {
 		//ratio: camera.ratio * instance.settings('zoomingRatio')
 		ratio: 1,
@@ -237,6 +234,7 @@ function pamResetZoom(instance) {
 	}
 	instance.camera.goTo(coordinates);
 }
+
 
 function pamDeploySigma(instance, graph_rel, containerID, oldpersons, tax) {
 	

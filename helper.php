@@ -104,6 +104,16 @@ class ModPamTimelineHelper
 
 	}
 
+	public static function getPersonsByField( $fieldid, $fieldtype ) {
+		
+		$persons = self::getPersons();
+
+		foreach($persons as $person) {
+			$fields = json_decode($person->extra_fields);
+		}
+					
+	}
+
 	public static function getItemLink( $itemid, $alias, $catid) {
 
 		$link = K2HelperRoute::getItemRoute($itemid . ':' . $alias, $catid);
@@ -204,6 +214,42 @@ class ModPamTimelineHelper
 							'fieldvaluename' => self::valuesToNames( $fieldvalue, $fieldfromassoc ),
 							'fieldvalueid'   => $fieldvalue
 							);
+
+					}
+
+				} else {
+
+					$values = $decode->value; 
+
+				}
+
+				
+				
+			}
+
+		}
+
+		return $values;
+
+	}
+
+	public static function getItemFieldIds( $item_id, $fieldfromassoc ) {
+
+		$itemFields = self::getItemFields( $item_id );
+
+		$decoded = json_decode( $itemFields );
+		$values = [];
+
+		foreach( $decoded as $decode ) {
+
+			if( $decode->id == self::$pamfieldassocs[$fieldfromassoc]) {
+
+				//$values[$fieldfromassoc] = $decode->value;
+				if(is_array($decode->value)) {
+
+					foreach($decode->value as $fieldvalue) {
+
+						$values[$fieldfromassoc][] = $fieldvalue;
 
 					}
 
