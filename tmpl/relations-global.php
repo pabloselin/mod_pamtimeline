@@ -20,7 +20,7 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.no
 // $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
 // $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink_supervisor.js');
 // $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
 //$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.renderers.edgeLabels.js');
 // $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.canvas.edgehovers_labels.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
@@ -41,6 +41,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		$persons_array = [];
 		$graph_items = [];
 		$current_person_data = [];
+		$edges = [];
 
 		$all_tools = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['tools'] ));
 		$all_languages = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['languages'] ));
@@ -69,9 +70,15 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				'color' => '#808080',
 				'size' => 3
 			);
-		
-			
+
 		}
+		
+		//$languages_edges = ModPamTimelineHelper::MakeEdges($graph_items['nodes'], 'languages');
+		$edges['languages'] = ModPamTimelineHelper::MakeEdges($graph_items['nodes'], 'languages');
+		$edges['themes'] = ModPamTimelineHelper::MakeEdges($graph_items['nodes'], 'themes');
+		$edges['tools'] = ModPamTimelineHelper::MakeEdges($graph_items['nodes'], 'tools');
+
+		$json_edges = json_encode($edges, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 		$json_nodes = json_encode($graph_items, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 	?>
 
@@ -125,8 +132,11 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		var curtax = 'languages';
 
 		var json_nodes = cleanJson('<?php echo $json_nodes;?>');
+		var json_edges = cleanJson('<?php echo $json_edges;?>');
 		var json_obj = JSON.parse(json_nodes);
-		console.log(json_obj);
+		var json_edgeobj = JSON.parse(json_edges);
+		var curedges = json_edgeobj[curtax];
+
 		relaciones = new sigma({
 			graph: json_obj,
 			container: 'relations-container',
@@ -139,78 +149,20 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			nodeMargin: 3.0,
 			scaleNodes: 1.3
 		};
-
 		
 		var listener = relaciones.configNoverlap(config);
 
-		
 		listener.bind('start stop interpolate', function(event) {
 			//console.log(event.type);
 		});
 
-		pamEdges(curtax, json_obj);
+		for(var e = 0; e < curedges.length; e++) {
+			relaciones.graph.addEdge(curedges[e]);
+		}
 
+		relaciones.refresh();
 		
 		relaciones.startNoverlap();
-
-
-		// var json_relations_raw = cleanJson('<?php echo $json_persons;?>');
-		// var json_relations = JSON.parse( json_relations_raw );
-		// var curtax = 'languages';
-		// var graph_form = 'grid';
-		// var othertaxs = $('.relations-switcher a');
-		// var togglers = $('.pam-relaciones-global, #relations-container, .relations-info');
-
-		// var rels = pamInitSigma('relations-container');
-
-		// pamsigmaGlobal(rels, json_relations, 'relations-container', 'languages',null, 1);
-		// pamTaxDropdown(rels);
-
-		// $('.relations-switcher a[data-tax="languages"]').addClass('active');
-
-		// $('.relations-switcher a').on('click', function(e) {
-
-		// 	e.preventDefault();
-		// 	var thisEl = $(this);
-			
-		// 	var thistax = thisEl.attr('data-tax');
-
-		// 	if( !thisEl.hasClass('active')) {
-		// 		othertaxs.removeClass('active');
-		// 		thisEl.addClass('active');
-		// 		pamsigmaToggleInfo(togglers);
-		// 		pamsigmaGlobal(rels, json_relations, 'relations-container', thistax, null, 1);
-		// 		curtax = thistax;
-		// 		$('#taxitems ul').hide().removeClass('active');
-		// 		$('ul[data-tax="' + thistax + '"]').show().addClass('active');
-		// 		pamToggleTax('show');
-		// 	}
-		// });
-
-		// $('.relations-info').on('click', 'a.back, span.taxtip', function(e) {
-		// 	//var curtax = jQuery('.relations-switcher a.active').attr('data-tax');
-		// 	e.preventDefault();
-		// 	pamsigmaToggleInfo(togglers);
-		// 	pamToggleTax('show');
-		// 	pamsigmaGlobal(rels, json_relations, 'relations-container', curtax, null, 5);
-		// 	pamResetZoom(rels);
-		// 	$('.relations-info').removeClass('expanded');
-		// 	if($(this).attr('data-taxid'))
-		// 		pamHighlightNodes(rels, $(this).attr('data-tax'), $(this).attr('data-taxid'))
-		// });
-
-		// $('.relations-info').on('click', 'a.infomobile', function(e) {
-		// 	e.preventDefault();
-		// 	var relbox = $('.relations-info');
-		// 	if(relbox.hasClass('expanded')) {
-		// 		relbox.removeClass('expanded');
-		// 		$(this).empty().text('+ info');
-		// 	} else {
-		// 		relbox.addClass('expanded');
-		// 		$(this).empty().text('cerrar');
-		// 	}
-				
-		// });
 
 	});
 </script>

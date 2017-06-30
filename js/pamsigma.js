@@ -11,12 +11,6 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function pamEdges(tax, json_nodes) {
-	for( var i = 0; i < json_nodes.length; i++){
-		console.log(json_nodes[i]);
-	}
-}
-
 function pamsigmaGlobal(instance, persons, containerID, tax, singleperson, ymult) {
 
 	var singlematchedpersons = [];

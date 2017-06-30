@@ -103,15 +103,32 @@ class ModPamTimelineHelper
 		return $result;
 
 	}
-
-	public static function getPersonsByField( $fieldid, $fieldtype ) {
-		
-		$persons = self::getPersons();
-
-		foreach($persons as $person) {
-			$fields = json_decode($person->extra_fields);
+	
+	public static function makeEdges($nodes, $tax) {
+		$matchids = [];
+		$edges = [];
+		foreach($nodes as $node) {
+			if(count($node[$tax]) >= 1):
+				foreach($nodes as $innernode) {
+					if(count($innernode[$tax]) >= 1 && $innernode['id'] != $node['id']):
+						$intersect = array_intersect($node[$tax], $innernode[$tax]);
+						if(count($intersect) >= 1):
+							foreach($intersect as $match){
+								$edges[] = array(
+									'id' => 'edge-' . $node['id'] . '-' . $innernode['id'],
+									'label' => $match,
+									'source' => $node['id'],
+									'target' => $innernode['id'],
+									'color' => '#ccc'
+								);
+							}
+						endif;
+					endif;
+				}
+			endif;
 		}
-					
+
+		return $edges;
 	}
 
 	public static function getItemLink( $itemid, $alias, $catid) {
@@ -367,16 +384,6 @@ class ModPamTimelineHelper
 		
 
 
-
-	}
-
-	public static function getFieldsOfPerson( $person_id ) {
-		/**
-		 * Devuelve un array con la info de los campos de cada persona
-		 */
-		
-		$db = JFactory::getDbo();
-		
 
 	}
 
