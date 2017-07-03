@@ -14,17 +14,9 @@ error_reporting(1);
 $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
-//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.parsers.json.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceAtlas2.min.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink_supervisor.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.forceLink.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugin.neighborhoods.min.js');
-//$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.renderers.edgeLabels.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.canvas.edgehovers_labels.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma_renderers.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 ?>
@@ -47,7 +39,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		$all_languages = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['languages'] ));
 		$all_themes = json_decode(ModPamTimelineHelper::getFieldValues( ModPamTimelineHelper::$pamfieldassocs['themes'] ));
 
-		foreach($persons as $person) {
+		foreach($persons as $key=>$person) {
 
 			//$personFields = ModPamTimelineHelper::getItemFields( $person['id'] );
 
@@ -59,8 +51,8 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			$graph_items['nodes'][] = array(
 				'id' => $person['id'],
 				'label' => $person['title'],
-				'x' => 1,
-				'y' => 2,
+				'x' => rand(-980,-200),
+				'y' => rand(-380,-100),
 				'languages' => $languages['languages'],
 				'themes' => $themes['themes'],
 				'tools' => $tools['tools'],
@@ -68,7 +60,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				'thumbnail' => ModPamTimelineHelper::getItemImageUrl($person['id'], 'S'),
 				'type' => $persontype,
 				'color' => '#808080',
-				'size' => 3
+				'size' => 6
 			);
 
 		}
@@ -78,6 +70,21 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		$edges['themes'] = ModPamTimelineHelper::MakeEdges($graph_items['nodes'], 'themes');
 		$edges['tools'] = ModPamTimelineHelper::MakeEdges($graph_items['nodes'], 'tools');
 
+		// //Test con mas nodos
+		// for($i = 0; $i < 200; $i++) {
+		// 	$graph_items['nodes'][] = array(
+		// 		'id' => 'fakenode-' . $i,
+		// 		'label' => 'fakenode:' . $i,
+		// 		'x' => rand(-980,-200),
+		// 		'y' => rand(-380,-100),
+		// 		'url' => '',
+		// 		'thumbnail' => '',
+		// 		'type' => 'cool guy',
+		// 		'color' => '#808080',
+		// 		'size' => 6
+		// 	);
+		// }
+
 		$json_edges = json_encode($edges, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 		$json_nodes = json_encode($graph_items, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 	?>
@@ -85,7 +92,7 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 	<div class="pam-relaciones-global">
 
 		<div class="relations-switcher">
-			<a href="#" data-tax="languages">Lenguajes</a>
+			<a class="active" href="#" data-tax="languages">Lenguajes</a>
 			<a href="#" data-tax="themes">Temáticas</a>
 			<a href="#" data-tax="tools">Herramientas</a>
 		</div>
@@ -127,9 +134,16 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 	</div>
 
 	<script type="text/javascript">
-
-	jQuery(document).ready(function($) {
+		//Sigma Init
 		var curtax = 'languages';
+		
+		var pamcolors = {
+			black: '#000',
+			red: '#ff0000',
+			gray: '#808080',
+			lightgray: '#ccc',
+			white: '#ffffff'
+		}
 
 		var json_nodes = cleanJson('<?php echo $json_nodes;?>');
 		var json_edges = cleanJson('<?php echo $json_edges;?>');
@@ -137,17 +151,44 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		var json_edgeobj = JSON.parse(json_edges);
 		var curedges = json_edgeobj[curtax];
 
+		sigma.classes.graph.addMethod('neighbors', function(nodeId) {
+			var k,
+			neighbors = {},
+			index = this.allNeighborsIndex[nodeId] || {};
+
+			for (k in index)
+			neighbors[k] = this.nodesIndex[k];
+
+			return neighbors;
+			});
+
 		relaciones = new sigma({
 			graph: json_obj,
 			container: 'relations-container',
 			settings: {
-				mouseWheelEnabled: false
-			}
+				mouseWheelEnabled: false,
+				enableEdgeHovering: true,
+				edgeHoverPrecision: 6,
+				defaultEdgeHoverColor: '#ff0000',
+				edgeHoverColor: '#ff0000',
+				minNodeSize: 10,
+				maxNodeSize: 10,
+				labelThreshold: 6,
+				autoRescale: false
+			},
+			renderers: [
+				{
+					container: document.getElementById('relations-container'),
+					type: 'canvas'
+				}
+			]
 		});
 
 		var config = {
-			nodeMargin: 3.0,
-			scaleNodes: 1.3
+			nodeMargin: 10.0,
+			scaleNodes: 1.3,
+			gridSize: 100,
+			maxIterations: 500
 		};
 		
 		var listener = relaciones.configNoverlap(config);
@@ -159,12 +200,78 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		for(var e = 0; e < curedges.length; e++) {
 			relaciones.graph.addEdge(curedges[e]);
 		}
-
-		relaciones.refresh();
 		
+		//var neighbors = new sigma.plugins.neighborhoods();
+
 		relaciones.startNoverlap();
 
-	});
+
+		relaciones.bind('clickNode', function(event) {
+			//console.log('clickNode');
+		});
+
+		relaciones.bind('overEdge', function(event) {
+			console.log(event.data.edge);			
+		});
+
+		relaciones.bind('overNode', function(event) {
+			//console.log(event.data.node.x, event.data.node.y);
+			var nodeId = event.data.node.id;
+			var neighbors = relaciones.graph.neighbors(nodeId);
+			
+			
+
+			neighbors[nodeId] = event.data.node;
+			
+			relaciones.graph.nodes().forEach(function(n){
+				if(neighbors[n.id])
+					n.active = true;
+			});
+
+			relaciones.graph.edges().forEach(function(e) {
+				if(neighbors[e.source] && neighbors[e.target]) {
+					e.active = true;
+				}
+			});
+
+			relaciones.refresh();
+		});
+
+		instance.bind('outNode', function(e) {
+			
+		});
+
+		//DOM Interactions
+		jQuery(document).ready(function($) {
+			
+			$('.relations-switcher a').on('click', function(e) {
+				e.preventDefault;
+				if(!$(this).hasClass('active')) {
+					curtax = $(this).attr('data-tax');
+					
+					$('.relations-switcher a, #taxitems ul.active').removeClass('active');
+					$(this).addClass('active');
+
+					$('#taxitems ul[data-tax="' + curtax + '"]').addClass('active');
+					
+					prevedges = relaciones.graph.edges();
+					
+					for(var i = 0; i < prevedges.length; i++) {
+						relaciones.graph.dropEdge(prevedges[i].id);
+					}
+
+					var curedges = json_edgeobj[curtax];
+
+					for(var e = 0; e < curedges.length; e++) {
+						relaciones.graph.addEdge(curedges[e]);
+					}
+
+					relaciones.refresh();
+				}
+				
+			});
+		});
+
 </script>
 
 <script id="relations-template" type="x-tmpl-mustache">

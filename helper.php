@@ -107,6 +107,7 @@ class ModPamTimelineHelper
 	public static function makeEdges($nodes, $tax) {
 		$matchids = [];
 		$edges = [];
+		$edgeids = [];
 		foreach($nodes as $node) {
 			if(count($node[$tax]) >= 1):
 				foreach($nodes as $innernode) {
@@ -114,13 +115,19 @@ class ModPamTimelineHelper
 						$intersect = array_intersect($node[$tax], $innernode[$tax]);
 						if(count($intersect) >= 1):
 							foreach($intersect as $match){
-								$edges[] = array(
-									'id' => 'edge-' . $node['id'] . '-' . $innernode['id'],
-									'label' => $match,
-									'source' => $node['id'],
-									'target' => $innernode['id'],
-									'color' => '#ccc'
-								);
+								$curedgeid = 'edge-' . $node['id'] . '-' . $innernode['id'];
+								if(!in_array($curedgeid, $edgeids)):
+									$edges[] = array(
+										'id' => $curedgeid,
+										'label' => self::translateFieldtoLabel($match),
+										'source' => $node['id'],
+										'target' => $innernode['id'],
+										'color' => '#ccc',
+										'size' => 1,
+										'state' => 'default'
+									);
+									$edgeids[] = $curedgeid;
+								endif;
 							}
 						endif;
 					endif;

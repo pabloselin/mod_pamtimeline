@@ -11,6 +11,10 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+
+
+////////// OLD STUFF
+
 function pamsigmaGlobal(instance, persons, containerID, tax, singleperson, ymult) {
 
 	var singlematchedpersons = [];
