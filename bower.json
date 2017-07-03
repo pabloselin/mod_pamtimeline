@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "TimelineJS3": "https://github.com/NUKnightLab/TimelineJS3.git#3.4.7",
-    "sigma.js": "*"
+    "sigma.js": "*",
+    "alchemyjs": "^0.4.2"
   }
 }
