@@ -13,12 +13,13 @@ error_reporting(1);
 //Scripts and styles
 $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.min.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.plugins.animate.min.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/sigma.layout.noverlap.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/alchemyjs/dist/scripts/vendor.js' );
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/alchemyjs/dist/alchemy.js' );
+$document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/bower_components/alchemyjs/dist/alchemy.css' );
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
+
 ?>
 
 <div class="pam-relations-global">
@@ -50,9 +51,9 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 			$graph_items['nodes'][] = array(
 				'id' => $person['id'],
-				'label' => $person['title'],
-				'x' => rand(-980,-200),
-				'y' => rand(-380,-100),
+				'caption' => $person['title'],
+				// 'x' => rand(-980,-200),
+				// 'y' => rand(-380,-100),
 				'languages' => $languages['languages'],
 				'themes' => $themes['themes'],
 				'tools' => $tools['tools'],
@@ -151,95 +152,13 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		var json_edgeobj = JSON.parse(json_edges);
 		var curedges = json_edgeobj[curtax];
 
-		sigma.classes.graph.addMethod('neighbors', function(nodeId) {
-			var k,
-			neighbors = {},
-			index = this.allNeighborsIndex[nodeId] || {};
-
-			for (k in index)
-			neighbors[k] = this.nodesIndex[k];
-
-			return neighbors;
-			});
-
-		relaciones = new sigma({
-			graph: json_obj,
-			container: 'relations-container',
-			settings: {
-				mouseWheelEnabled: false,
-				enableEdgeHovering: true,
-				edgeHoverPrecision: 6,
-				defaultEdgeHoverColor: '#ff0000',
-				edgeHoverColor: '#ff0000',
-				minNodeSize: 10,
-				maxNodeSize: 10,
-				labelThreshold: 6,
-				autoRescale: false
-			},
-			renderers: [
-				{
-					container: document.getElementById('relations-container'),
-					type: 'canvas'
-				}
-			]
-		});
-
 		var config = {
-			nodeMargin: 10.0,
-			scaleNodes: 1.3,
-			gridSize: 100,
-			maxIterations: 500
-		};
-		
-		var listener = relaciones.configNoverlap(config);
-
-		listener.bind('start stop interpolate', function(event) {
-			//console.log(event.type);
-		});
-
-		for(var e = 0; e < curedges.length; e++) {
-			relaciones.graph.addEdge(curedges[e]);
+			"divSelector": '#relations-container',
+			"dataSource": json_obj
 		}
+
+		var relaciones = new Alchemy(config);
 		
-		//var neighbors = new sigma.plugins.neighborhoods();
-
-		relaciones.startNoverlap();
-
-
-		relaciones.bind('clickNode', function(event) {
-			//console.log('clickNode');
-		});
-
-		relaciones.bind('overEdge', function(event) {
-			console.log(event.data.edge);			
-		});
-
-		relaciones.bind('overNode', function(event) {
-			//console.log(event.data.node.x, event.data.node.y);
-			var nodeId = event.data.node.id;
-			var neighbors = relaciones.graph.neighbors(nodeId);
-			
-			
-
-			neighbors[nodeId] = event.data.node;
-			
-			relaciones.graph.nodes().forEach(function(n){
-				if(neighbors[n.id])
-					n.active = true;
-			});
-
-			relaciones.graph.edges().forEach(function(e) {
-				if(neighbors[e.source] && neighbors[e.target]) {
-					e.active = true;
-				}
-			});
-
-			relaciones.refresh();
-		});
-
-		instance.bind('outNode', function(e) {
-			
-		});
 
 		//DOM Interactions
 		jQuery(document).ready(function($) {
@@ -254,19 +173,6 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 					$('#taxitems ul[data-tax="' + curtax + '"]').addClass('active');
 					
-					prevedges = relaciones.graph.edges();
-					
-					for(var i = 0; i < prevedges.length; i++) {
-						relaciones.graph.dropEdge(prevedges[i].id);
-					}
-
-					var curedges = json_edgeobj[curtax];
-
-					for(var e = 0; e < curedges.length; e++) {
-						relaciones.graph.addEdge(curedges[e]);
-					}
-
-					relaciones.refresh();
 				}
 				
 			});
