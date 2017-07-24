@@ -5,6 +5,7 @@
   width: 100%;
   max-width: 1000px;
   margin-left: 200px;
+  margin-right: 0;
 }
 #relations-container.inartist {
   margin-left: 0;
@@ -12,6 +13,8 @@
 .pam-relaciones,
 .pam-relaciones-global {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   clear: both;
   background-color: white;
   padding: 0;
@@ -153,11 +156,16 @@ span.tagtax.matched {
   border-bottom: 1px solid #ff0000;
 }
 #taxitems {
-  display: none;
+  position: absolute;
+  top: 0;
+  height: 450px;
+  left: -200px;
+  -webkit-transition: all ease-in 0.5s;
+  transition: all ease-in 0.5s;
 }
 @media screen and (min-width: 960px) {
   #taxitems.visible {
-    display: block;
+    left: 0;
   }
 }
 #taxitems > ul {

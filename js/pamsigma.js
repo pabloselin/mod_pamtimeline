@@ -12,6 +12,24 @@ function getRandomArbitrary(min, max) {
 }
 
 
+function pamPutData(data) {
+
+	var canvas = jQuery('#relations-container');
+	var container = jQuery('.pam-relaciones-global');
+	var ficha = jQuery('.relations-info', container);
+	
+	var fichatemplate = jQuery('#relations-template').html();
+	Mustache.parse(fichatemplate);
+	var rendered_content = Mustache.render(fichatemplate, data);
+	
+	jQuery('.content', ficha).empty().append(rendered_content);
+	
+	ficha.addClass('active');
+	canvas.addClass('active');
+
+	
+
+}
 
 ////////// OLD STUFF
 
@@ -382,24 +400,7 @@ function pamFindPerson(persons, personID) {
 	);
 }
 
-function pamsigmaPutData(data) {
 
-	var canvas = jQuery('#relations-container');
-	var container = jQuery('.pam-relaciones-global');
-	var ficha = jQuery('.relations-info', container);
-	
-	var fichatemplate = jQuery('#relations-template').html();
-	Mustache.parse(fichatemplate);
-	var rendered_content = Mustache.render(fichatemplate, data);
-	
-	jQuery('.content', ficha).empty().append(rendered_content);
-	
-	ficha.addClass('active');
-	canvas.addClass('active');
-
-	
-
-}
 
 function pamsigmaToggleInfo(elements) {
 	elements.removeClass('active');

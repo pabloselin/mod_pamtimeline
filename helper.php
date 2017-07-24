@@ -109,22 +109,22 @@ class ModPamTimelineHelper
 		$edges = [];
 		$edgeids = [];
 		foreach($nodes as $node) {
-			if(count($node[$tax]) >= 1):
+			if(count($node['data'][$tax]) >= 1):
 				foreach($nodes as $innernode) {
-					if(count($innernode[$tax]) >= 1 && $innernode['id'] != $node['id']):
-						$intersect = array_intersect($node[$tax], $innernode[$tax]);
+					if(count($innernode['data'][$tax]) >= 1 && $innernode['data']['id'] != $node['data']['id']):
+						$intersect = array_intersect($node['data'][$tax], $innernode['data'][$tax]);
 						if(count($intersect) >= 1):
 							foreach($intersect as $match){
-								$curedgeid = 'edge-' . $node['id'] . '-' . $innernode['id'];
+								$curedgeid = 'edge-' . $node['data']['id'] . '-' . $innernode['data']['id'];
 								if(!in_array($curedgeid, $edgeids)):
+									$label = self::valuesToNames($match, $tax);
 									$edges[] = array(
-										'id' => $curedgeid,
-										'label' => self::translateFieldtoLabel($match),
-										'source' => $node['id'],
-										'target' => $innernode['id'],
-										'color' => '#ccc',
-										'size' => 1,
-										'state' => 'default'
+										'data' => array(
+												'id' => $curedgeid,
+												'label' => $label,
+												'source' => $node['data']['id'],
+												'target' => $innernode['data']['id']
+											)
 									);
 									$edgeids[] = $curedgeid;
 								endif;
