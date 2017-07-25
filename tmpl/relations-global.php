@@ -14,9 +14,11 @@ error_reporting(1);
 $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-styles.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape/dist/cytoscape.js');
 $document->addScript( 'http://weaver.js.org/api/weaver.js-1.2.0/weaver.min.js' );
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-spread/cytoscape-spread.js');
+
 // $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-cola/cola.js');
 // $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-cola/cytoscape-cola.js');
 
@@ -24,13 +26,7 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/c
 
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
-
-?>
-
-<div class="pam-relations-global">
-	
-	<?php 
-		$article_id = JFactory::getApplication()->input->get('id');
+$article_id = JFactory::getApplication()->input->get('id');
 
 		$field_id = ModPamTimelineHelper::getFieldIdByName( 'ID Persona' );
 		$current_person_id = ModPamTimelineHelper::getItemField( $article_id, 'personid' );
@@ -102,10 +98,9 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
 		$json_edges = json_encode($edges, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
 		$json_nodes = json_encode($graph_items, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_AMP);
-	?>
+?>
 
-	<div class="pam-relaciones-global">
-
+	<div class="global-relations-wrapper">
 		<div class="relations-switcher">
 			<a class="active" href="#" data-tax="languages">Lenguajes</a>
 			<a href="#" data-tax="themes">Temáticas</a>
@@ -138,27 +133,22 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 
     	<div id="relations-container">
 		</div>
+	</div>
 
-		<div class="relations-info">	
-			<div class="content">			
-			</div>
-		</div>
-
-		</div>
-
+	<div class="single-relations-wrapper">
+				<div id="single-relations">
+		
+				</div>
+				
+				<div class="relations-info">	
+					<div class="content">			
+					</div>
+				</div>
 	</div>
 
 	<script type="text/javascript">
 		
 		var curtax = 'languages';
-		
-		var pamcolors = {
-			black: '#000',
-			red: '#ff0000',
-			gray: '#808080',
-			lightgray: '#ccc',
-			white: '#ffffff'
-		}
 
 		var json_nodes = cleanJson('<?php echo $json_nodes;?>');
 		var json_edges = cleanJson('<?php echo $json_edges;?>');
@@ -169,101 +159,53 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 		//DOM Interactions
 		jQuery(document).ready(function($) {
 			var relcont = $('#relations-container');
+			var artistcont = $('#single-relations');
+			var globalwrapcont = $('.global-relations-wrapper')
+			var artistwrapcont = $('.single-relations-wrapper');
 			var taxitems = $('#taxitems');
-			//var json_graph = $.extend(json_obj, curedges);
-			//console.log(json_graph);
+
+
 			var cy = cytoscape({
 				container: relcont,
 				elements: json_obj,
 				zoomingEnabled: false,
-				minZoom: 1,
-				maxZoom: 1,
-				style: [
-					{
-						selector: 'node',
-						style: {
-							'background-color': pamcolors.gray,
-							'text-background-color': 'white',
-							'text-background-opacity': 1,
-							'width': '10px',
-							'height': '10px',
-							'label': 'data(caption)',
-							'text-valign': 'bottom',
-							'font-family': 'Open Sans, sans-serif',
-							'color': '#555',
-							'text-transform': 'uppercase',
-							'font-size': '11px',
-							'text-margin-y': '4px',
-							'text-wrap': 'wrap',
-							'text-max-width': '90px'
-						}
-					},
-					{
-						selector: 'node.hover',
-						style: {
-							'background-color': pamcolors.red,
-							'font-size': '12px',
-							'color': '#000',
-							'width': '15px',
-							'height': '15px'
-						}
-					},
-					{
-						selector: 'node.selected',
-						style: {
-							'background-color': pamcolors.red
-						}
-					},
-					{
-						selector: 'node.under',
-						style: {
-							'label': ''
-						}
-					},
-					{
-						selector: 'edge',
-						style: {
-							'width': '1px'
-						}
-					},
-					{
-						selector: 'edge.hover',
-						style: {
-							
-							'line-color': pamcolors.red
-						}
-					},
-					{
-						selector: 'edge.hoveredge',
-						style: {
-							'font-size': '10px',
-							'font-family': 'Open Sans, sans-serif',
-							'text-background-color': pamcolors.red,
-							'text-background-opacity': 1,
-							'text-background-shape': 'rectangle',
-							'text-background-padding': '2px',
-							'color': 'white',
-							'label': 'data(label)',
-							'line-color': pamcolors.red
-						}
-					}
-				]
 			});
 
-			var layout = cy.layout({
-							name: 'spread',
-							animate: true,
-							randomize: false,
-							fit: true,
-							padding:40,
-							minDist: 40
-						});
+			var spreadlayout = cy.layout({
+				name: 'spread',
+				animate: true,
+				randomize: true,
+				fit: true,
+				padding:60,
+				minDist: 160,
+				animationEasing: 'ease-in',
+				animationDuration: 500
+			});
 
-			layout.run();
+			var singlecy = cytoscape({
+					container: artistcont,
+					zoomingEnabled: true,
+					maxZoom: 1.2,
+					minZoom: 0.6
+				});
 
-			var oldnodes = [];
+			var singlelayout = singlecy.layout({
+					name: 'grid',
+					animate: true,
+					randomize: true,
+					fit: true,
+					padding:30,
+					//minDist: 60,
+					animationEasing: 'ease-in',
+					animationDuration: 500
+			});
 
+			singlecy.style(generalstyle);
+
+			cy.style(generalstyle);
 			cy.add(json_edgeobj[curtax]);
+			//spreadlayout.run();
+			
 			var curtaxedges = cy.elements('edge');
 			
 
@@ -294,8 +236,9 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				var edgeTarget = edge.target();
 				
 				cy.$('edge#' + edgeId).addClass('hoveredge');
-				cy.$('node').addClass('under');
+				cy.$('node, edge').addClass('under');
 				edge.connectedNodes().removeClass('under');
+				cy.$('edge#' + edgeId).removeClass('under');
 				cy.$('node#' + edgeSource.id() + ', ' + 'node#' + edgeTarget.id()).addClass('hover');
 			});
 
@@ -310,26 +253,36 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 			});
 
 			cy.on('click', 'node', function(event) {
-				var node = event.target;
-				var neighbors = cy.$('node#' + node.id()).closedNeighborhood();
-				relcont.addClass('inartist');
-				taxitems.removeClass('visible');
-				pamPutData(node.data());
-				
-				
-				$('.relations-info').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-					cy.$('node').removeClass('hover').remove();
-					cy.$('edge').removeClass('hover');
-					cy.add(neighbors);	
-					cy.$('node#' + node.id()).addClass('selected');
-					cy.animate({
-						center: cy.$('node#' + node.id()),
-						fit: {
-							eles: cy.$('edge'),
-							padding: '40px'
-						}
-				});
+				singlecy.$('node').remove();
+				globalwrapcont.hide();
+				artistwrapcont.show();
 
+				var node = event.target;
+				var nodeId = node.id();
+				var neighbors = cy.$('node#' + nodeId).closedNeighborhood();
+				
+				pamPutData(node.data());
+				singlecy.add(neighbors);
+				singlelayout.run();
+				singlecy.center(singlecy.$('node#' + node.id()));
+				singlecy.$('node, edge').removeClass('hover');
+				singlecy.$('node').addClass('bigger');
+				singlecy.$('node#' + nodeId).addClass('selected');
+				singlecy.$('node')
+				singlecy.resize();
+				singlecy.fit();
+
+				$('.relations-info').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
+					// cy.$('node').removeClass('hover').addClass('hidden');
+					// cy.$('edge').removeClass('hover');
+					// neighbors.removeClass('hidden');
+					// cy.$('node#' + node.id()).addClass('selected');
+					// spreadlayout.run();
+					// cy.animate({
+					// 	center: {
+					// 		eles: cy.$('node#' + node.id())
+					// 	}
+					// });
 				});
 				
 			});
@@ -343,12 +296,15 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 					$(this).addClass('active');
 
 					$('#taxitems ul[data-tax="' + curtax + '"]').addClass('active');
+
 					cy.elements('node').removeClass('hover');
 					cy.remove( curtaxedges );
 					cy.add(json_edgeobj[curtax]);
 					
 					curtaxedges = cy.elements('edge');
 					taxlinks.removeClass('active');
+
+
 				}
 			});
 
@@ -366,28 +322,17 @@ $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones
 				}
 			});
 
-			$('.pam-relaciones-global').on('click', 'a.back', function(e) {
+			artistwrapcont.on('click', 'a.back', function(e) {
 				e.preventDefault;
 				
-				cy.$('node').remove();
-				cy.$('edge').remove();
-				relcont.removeClass('inartist');
-				taxitems.addClass('visible');
-				cy.add(json_obj);
-				cy.add(json_edgeobj[curtax]);
-				$('.relations-info').removeClass('active');
-				relcont.removeClass('active');
-				cy.resize();
-				$('.relations-info').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {	
-					cy.center();
-					cy.resize();
-					cy.fit();
-					layout.run();
-					
-				});	
+				globalwrapcont.show();
+				artistwrapcont.hide();
+				
+				// $('.relations-info').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {	
+				// 	cy.nodes().removeClass('hidden');	
+				// 	gridlayout.run();
+				// });	
 			});
-			
-
 
 		});
 </script>
