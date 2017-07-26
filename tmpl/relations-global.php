@@ -15,19 +15,14 @@ $document = JFactory::getDocument();
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pam_common.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-styles.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-functions.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-documentready.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape/dist/cytoscape.js');
 $document->addScript( 'http://weaver.js.org/api/weaver.js-1.2.0/weaver.min.js' );
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-spread/cytoscape-spread.js');
-
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-cola/cola.js');
-// $document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-cola/cytoscape-cola.js');
-
-
-
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/pamsigma.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
-$article_id = JFactory::getApplication()->input->get('id');
-
+		
+		$article_id = JFactory::getApplication()->input->get('id');
 		$field_id = ModPamTimelineHelper::getFieldIdByName( 'ID Persona' );
 		$current_person_id = ModPamTimelineHelper::getItemField( $article_id, 'personid' );
 	
@@ -106,6 +101,13 @@ $article_id = JFactory::getApplication()->input->get('id');
 			<a href="#" data-tax="themes">Temáticas</a>
 			<a href="#" data-tax="tools">Herramientas</a>
 		</div>
+		
+		<div class="layout-switcher">
+			<a href="#" data-layout="circle"><i class="fa fa-circle-o fa-fw"></i></a>
+			<a href="#" data-layout="grid"><i class="fa fa-th fa-fw"></i></a>
+			<a href="#" data-layout="random"><i class="fa fa-random fa-fw"></i></a>
+			<a href="#" data-class="nolabels"><i class="fa fa-font fa-fw"></i></a>
+		</div>
 
 		<div id="taxitems" class="visible">
 			<ul data-tax="languages" class="active">
@@ -149,195 +151,19 @@ $article_id = JFactory::getApplication()->input->get('id');
 	<script type="text/javascript">
 		
 		var curtax = 'languages';
-
+		var insingle = false;
 		var json_nodes = cleanJson('<?php echo $json_nodes;?>');
 		var json_edges = cleanJson('<?php echo $json_edges;?>');
 		var json_obj = JSON.parse(json_nodes);
 		var json_edgeobj = JSON.parse(json_edges);
 		var curedges = json_edgeobj[curtax];
 		
-		//DOM Interactions
-		jQuery(document).ready(function($) {
-			var relcont = $('#relations-container');
-			var artistcont = $('#single-relations');
-			var globalwrapcont = $('.global-relations-wrapper')
-			var artistwrapcont = $('.single-relations-wrapper');
-			var taxitems = $('#taxitems');
-
-
-			var cy = cytoscape({
-				container: relcont,
-				elements: json_obj,
-				zoomingEnabled: false,
-			});
-
-			var spreadlayout = cy.layout({
-				name: 'spread',
-				animate: true,
-				randomize: true,
-				fit: true,
-				padding:60,
-				minDist: 160,
-				animationEasing: 'ease-in',
-				animationDuration: 500
-			});
-
-			var singlecy = cytoscape({
-					container: artistcont,
-					zoomingEnabled: true,
-					maxZoom: 1.2,
-					minZoom: 0.6
-				});
-
-			var singlelayout = singlecy.layout({
-					name: 'grid',
-					animate: true,
-					randomize: true,
-					fit: true,
-					padding:30,
-					//minDist: 60,
-					animationEasing: 'ease-in',
-					animationDuration: 500
-			});
-
-			singlecy.style(generalstyle);
-
-			cy.style(generalstyle);
-			cy.add(json_edgeobj[curtax]);
-			//spreadlayout.run();
-			
-			var curtaxedges = cy.elements('edge');
-			
-
-			cy.on('mouseover', 'node', function(event) {
-				var node = event.target;
-				var nodeId = node.id();
-				var neighbors = cy.$('node#' + nodeId).closedNeighborhood();
-				neighbors.map(function(neighnode) {
-					cy.$('#' + neighnode.id()).addClass('hover');	
-				});
-			});
-
-			cy.on('mouseout', 'node', function(event) {
-				var node = event.target;
-				var nodeId = node.id();
-				
-				var neighbors = cy.$('node#' + nodeId).closedNeighborhood();
-
-				neighbors.map(function(neighnode) {
-					cy.$('#' + neighnode.id()).removeClass('hover');	
-				});
-			});
-
-			cy.on('mouseover', 'edge', function(event) {
-				var edge = event.target;
-				var edgeId = edge.id();
-				var edgeSource = edge.source();
-				var edgeTarget = edge.target();
-				
-				cy.$('edge#' + edgeId).addClass('hoveredge');
-				cy.$('node, edge').addClass('under');
-				edge.connectedNodes().removeClass('under');
-				cy.$('edge#' + edgeId).removeClass('under');
-				cy.$('node#' + edgeSource.id() + ', ' + 'node#' + edgeTarget.id()).addClass('hover');
-			});
-
-			cy.on('mouseout', 'edge', function(event) {
-				var edge = event.target;
-				var edgeId = edge.id();
-				var edgeSource = edge.source();
-				var edgeTarget = edge.target();
-				cy.$('node').removeClass('under');
-				cy.$('edge#' + edgeId).removeClass('hoveredge');
-				cy.$('node#' + edgeSource.id() + ', ' + 'node#' + edgeTarget.id()).removeClass('hover');
-			});
-
-			cy.on('click', 'node', function(event) {
-				singlecy.$('node').remove();
-				globalwrapcont.hide();
-				artistwrapcont.show();
-
-				var node = event.target;
-				var nodeId = node.id();
-				var neighbors = cy.$('node#' + nodeId).closedNeighborhood();
-				
-				pamPutData(node.data());
-				singlecy.add(neighbors);
-				singlelayout.run();
-				singlecy.center(singlecy.$('node#' + node.id()));
-				singlecy.$('node, edge').removeClass('hover');
-				singlecy.$('node').addClass('bigger');
-				singlecy.$('node#' + nodeId).addClass('selected');
-				singlecy.$('node')
-				singlecy.resize();
-				singlecy.fit();
-
-				$('.relations-info').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-					// cy.$('node').removeClass('hover').addClass('hidden');
-					// cy.$('edge').removeClass('hover');
-					// neighbors.removeClass('hidden');
-					// cy.$('node#' + node.id()).addClass('selected');
-					// spreadlayout.run();
-					// cy.animate({
-					// 	center: {
-					// 		eles: cy.$('node#' + node.id())
-					// 	}
-					// });
-				});
-				
-			});
-			
-			$('.relations-switcher a').on('click', function(e) {
-				e.preventDefault;
-				if(!$(this).hasClass('active')) {
-					curtax = $(this).attr('data-tax');
-					var taxlinks = $('#taxitems ul li a');
-					$('.relations-switcher a, #taxitems ul.active').removeClass('active');
-					$(this).addClass('active');
-
-					$('#taxitems ul[data-tax="' + curtax + '"]').addClass('active');
-
-					cy.elements('node').removeClass('hover');
-					cy.remove( curtaxedges );
-					cy.add(json_edgeobj[curtax]);
-					
-					curtaxedges = cy.elements('edge');
-					taxlinks.removeClass('active');
-
-
-				}
-			});
-
-			$('#taxitems ul li a').on('click', function(e) {
-				e.preventDefault;
-				if(!$(this).hasClass('active')) {
-					var others = $('#taxitems ul li a');
-					var tax = $(this).attr('data-tax');
-					var taxid = $(this).attr('data-taxid');
-					els = cy.elements('node[dt-' + tax + '-' + taxid +']');
-					cy.elements('node').removeClass('hover');
-					els.addClass('hover');
-					others.removeClass('active');
-					$(this).addClass('active');
-				}
-			});
-
-			artistwrapcont.on('click', 'a.back', function(e) {
-				e.preventDefault;
-				
-				globalwrapcont.show();
-				artistwrapcont.hide();
-				
-				// $('.relations-info').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {	
-				// 	cy.nodes().removeClass('hidden');	
-				// 	gridlayout.run();
-				// });	
-			});
-
-		});
-</script>
+		
+	</script>
 
 <script id="relations-template" type="x-tmpl-mustache">
+				<div class="header-info">
+				<img class="mobile-img" src={{thumbnail}} alt={{caption}}>
 				<h2 class="artist-title"><a href={{link}}>{{caption}}</a></h2>
 				
 				{{#type}}
@@ -348,31 +174,34 @@ $article_id = JFactory::getApplication()->input->get('id');
 					<a class="infomobile" href="#">+ info</a>
 					<a class="back backmobile" href="#">Volver</a>
 				</div>
+
+				</div>
+
 				
 				
 				<div class="info-wrapper">
-					<img src={{thumbnail}} alt={{caption}}>
+					<img class="artist-img" src={{thumbnail}} alt={{caption}}>
 					
 					<div class="introtext">{{introtext}}</div>	
 					
-					<div class="taxsection">
-						<h3>Lenguajes</h3>
+					<div class="taxsection" data-tax="languages">
+						<h3 class="taxswitch" data-tax="languages" data-nodeid="{{id}}">Lenguajes</h3>
 						
 						{{#st-languages}}
 							<span class="taxtip" data-tax="languages" data-taxid="{{id}}">{{label}}</span>
 						{{/st-languages}}
 					</div>
 					
-					<div class="taxsection">
-						<h3>Temáticas</h3>
+					<div class="taxsection" data-tax="themes">
+						<h3 class="taxswitch" data-tax="themes" data-nodeid="{{id}}">Temáticas</h3>
 						
 						{{#st-themes}}
 							<span class="taxtip" data-tax="themes" data-taxid="{{id}}">{{label}}</span>
 						{{/st-themes}}
 					</div>
 					
-					<div class="taxsection">
-					<h3>Herramientas</h3>
+					<div class="taxsection" data-tax="tools">
+					<h3 class="taxswitch" data-tax="tools" data-nodeid="{{id}}">Herramientas</h3>
 					
 					{{#st-tools}}
 						<span class="taxtip" data-tax="tools" data-taxid="{{id}}">{{label}}</span>

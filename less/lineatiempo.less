@@ -30,6 +30,11 @@
     max-height:560px;
     height:560px;
 
+    @media screen and (max-width:480px) {
+        max-height:600px;
+        height:600px;
+    }
+
     img.tl-media-shadow {
         box-shadow:none;
     }
@@ -74,6 +79,10 @@
                     color:white;
                     border:none;
                     
+                }
+
+                @media screen and (max-width:480px) {
+                   margin-top:4px; 
                 }
             }
             
@@ -120,6 +129,7 @@
     }
 
     .tl-message-full {
+        background-color:rgba(255,255,255,0.95);
         .tl-icon-swipe-left {
             font-size:18px;
         }

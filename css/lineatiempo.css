@@ -703,10 +703,10 @@
   content: "";
   width: 10px;
   height: 10px;
-  color: #ff0000;
+  color: #555;
   border-radius: 5px;
   display: block;
-  background-color: #ff0000;
+  background-color: #555;
 }
 .tl-icon-vimeo:after {
   content: "\e606";
@@ -1580,6 +1580,50 @@ span.mtype {
 .leyenda_hitos ul li .tl-icon-image {
   display: inline-block;
   margin-right: 6px;
+}
+ul.zonahitos {
+  display: none;
+}
+@media screen and (max-width: 640px) {
+  .leyenda_hitos ul.zonahitos {
+    display: block;
+  }
+  .leyenda_hitos ul.zonahitos li {
+    display: block;
+    padding: 3px 6px;
+    width: 100%;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  .leyenda_hitos ul.zonahitos li.zonahito-1 {
+    background-color: #F2F2F2;
+  }
+  .leyenda_hitos ul.zonahitos li.zonahito-2 {
+    background-color: #E5E5E5;
+  }
+  .leyenda_hitos ul.zonahitos li.zonahito-3 {
+    background-color: #DBDBDB;
+  }
+  .leyenda_hitos ul.tipohitos {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .leyenda_hitos ul.tipohitos li {
+    text-align: center;
+    line-height: 14px;
+    font-size: 12px;
+    padding: 6px 0;
+  }
+  .leyenda_hitos ul.tipohitos li span.tl-icon-image {
+    display: block;
+    margin: 0 0 6px 0;
+  }
+  .leyenda_hitos ul.tipohitos li span.tl-icon-image:after {
+    margin: 0 auto;
+  }
 }
 /* TL.TimeMarker
 ================================================== */
@@ -3117,6 +3161,12 @@ span.mtype {
   max-height: 560px;
   height: 560px;
 }
+@media screen and (max-width: 480px) {
+  #pam-timeline {
+    max-height: 600px;
+    height: 600px;
+  }
+}
 #pam-timeline img.tl-media-shadow {
   box-shadow: none;
 }
@@ -3167,6 +3217,11 @@ span.mtype {
   color: white;
   border: none;
 }
+@media screen and (max-width: 480px) {
+  #pam-timeline .era-nav ul li a {
+    margin-top: 4px;
+  }
+}
 #pam-timeline .tl-slide-content-container h2.tl-headline {
   font-family: 'Dosis', sans-serif !important;
   color: #cc0000;
@@ -3194,6 +3249,9 @@ span.mtype {
 #pam-timeline .tl-text-content p {
   font-size: 14px;
   color: #000;
+}
+#pam-timeline .tl-message-full {
+  background-color: rgba(255, 255, 255, 0.95);
 }
 #pam-timeline .tl-message-full .tl-icon-swipe-left {
   font-size: 18px;

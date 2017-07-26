@@ -11,7 +11,7 @@ var generalstyle = [{
 						style: {
 							'background-color': pamcolors.gray,
 							'text-background-color': 'white',
-							'text-background-opacity': 1,
+							'text-background-opacity': 0.8,
 							'width': '10px',
 							'height': '10px',
 							'label': 'data(caption)',
@@ -34,7 +34,19 @@ var generalstyle = [{
 							'width': '15px',
 							'height': '15px'
 						}
-                    },
+					},
+					{
+						selector: 'node.nolabels',
+						style: {
+							label:''
+						}
+					},
+					{
+						selector: 'node.nolabels.hover',
+						style: {
+							label: 'data(caption)'
+						}
+					},
                     {
                         selector: 'node.bigger',
                         style: {
@@ -45,7 +57,9 @@ var generalstyle = [{
 					{
 						selector: 'node.selected',
 						style: {
-							'background-color': pamcolors.red
+							'background-color': pamcolors.red,
+							'width': '15px',
+							'height': '15px'
 						}
 					},
 					{
@@ -86,4 +100,11 @@ var generalstyle = [{
 							'label': 'data(label)',
 							'line-color': pamcolors.red
 						}
-					}];
+					},
+					{
+						selector: 'edge:selected, edge:active',
+						style: {
+							'line-color': pamcolors.gray
+						}
+					}
+				];

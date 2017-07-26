@@ -631,3 +631,48 @@ span.mtype {
 		margin-right:6px;
 	}
 }
+
+ul.zonahitos {
+	display:none;
+}
+
+@media screen and (max-width:640px) {
+	.leyenda_hitos {
+		ul.zonahitos {
+			display:block;
+			li {
+				display:block;
+				padding:3px 6px;
+				width:100%;
+				text-align:left;
+				text-transform:uppercase;
+				font-size:10px;
+				&.zonahito-1 {
+					background-color:#F2F2F2;
+				}
+				&.zonahito-2 {
+					background-color:#E5E5E5;
+				}
+				&.zonahito-3 {
+					background-color:#DBDBDB;
+				}
+			}
+		}
+		ul.tipohitos {
+			display:flex;
+			li {
+				text-align:center;
+				line-height:14px;
+				font-size:12px;
+				padding:6px 0;
+				span.tl-icon-image {
+					display:block;
+					margin:0 0 6px 0;
+					&:after {
+						margin:0 auto;
+					}
+				}
+			}
+		}
+	}
+}

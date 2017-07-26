@@ -1,3 +1,5 @@
+//Overrides
+
 #relations-container {
   height: 400px;
   float:left;
@@ -8,9 +10,22 @@
   margin-right:0;
 }
 
+ .layout-switcher {
+    position:absolute;
+    right:4px;
+    bottom:4px;
+    z-index:40;
+    a {
+      color:#ccc;
+      &:hover, &.active {
+        color:#ff0000
+      }
+    }
+  }
+
 .single-relations-wrapper {
   width:100%;
-  height:400px;
+  height:450px;
   background-color:white;
   display:none;
   clear:both;
@@ -35,6 +50,46 @@
   border-top:1px solid #ccc;
   border-bottom:1px solid #ccc;
   overflow:hidden;
+}
+
+.single-relations-wrapper.insingle-relations-wrapper {
+  display:block;
+  border:1px solid #ccc;
+
+  #single-relations {
+    height:340px;
+    width:100%;
+    margin-top:105px
+  }
+
+  .relations-info {
+    width:100%;
+    height:105px;
+    border:0;
+    .content {
+      padding:0;
+      
+      .taxsection {
+        padding:3px;
+        span.taxtip-single {
+          text-decoration:none;
+          &:hover {
+            color:black;
+          }
+        }
+      }
+
+      h3 {
+        padding:0;
+        margin-bottom:0;
+      }
+    }
+
+  }
+}
+
+#relations-container.hidden {
+  display:none;
 }
 
 .pam-relaciones {
@@ -97,6 +152,13 @@
    overflow:hidden;
    padding:6px;
    border-bottom:1px solid #ccc;
+   cursor:pointer;
+   &.active, &:hover {
+     background-color:#f6f6f6;
+     h3 {
+        color:#ff0000;
+     }
+   }
 }
 
 .taxsection span {
@@ -106,9 +168,15 @@
   margin:0 3px;
   font-size:14px;
   text-decoration:underline;
+  cursor:pointer;
+  &:hover {
+    color:#ff0000;
+  }
 }
 
-.relations-info .content p.link a {
+.relations-info .content p.link a,
+.mobile-nav a
+{
   display:inline-block;
   padding:6px 12px;
   margin:12px 0 12px 0;
@@ -118,13 +186,15 @@
   border-radius:5px;
 }
 
-.relations-info .content p.link a.back {
+.relations-info .content p.link a.back,
+.mobile-nav .back.backmobile
+{
   background-color:white;
   color:#333;
   border:1px solid #808080;
 }
 
-.relations-info img {
+.relations-info img.artist-img {
   max-width:100px;
   height:auto;
 }
@@ -228,64 +298,113 @@ span.tagtax.matched {
     }
 }
 
-.mobile-nav {
+.mobile-nav, .mobile-img {
   display:none;
 }
 
 
-@media screen and (max-width:480px) {
+@media screen and (max-width:640px) {
+  #relations-container {
+    margin-left:0;
+    height:300px;
+  }
+
+  .global-relations-wrapper,
+  .single-relations-wrapper
+  {
+    height:360px;
+  }
+
   .mobile-nav {
     display:block;
-    margin-bottom:3px;
     a {
-      display:inline-block;
+      margin:0 6px 0 0;
+      padding:3px 8px;
+      line-height:18px;
       text-transform:lowercase;
-      border:1px solid #ccc;
-      border-radius:4px;
-      margin-right:4px;
-      padding:3px;
     }
+  }
+
+  .mobile-img {
+      display:block;
+      position:absolute;
+      top:0;
+      left:0;
+      width:84px;
+    }
+
+  .single-relations-wrapper #single-relations
+   {
+    margin-top:100px;
+    height:260px;
+    width:100%;
   }
 
   .relations-info {
-    right:-100%;
-    .persontype {
-      margin-bottom:0;
+    width:100%;
+    height:100px;
+    border-left:none;
+    border-bottom:1px solid #ccc;
+    .content {
+      padding:0;
+      p.link {
+        padding-left:12px;
+        a {
+          padding:3px 6px;
+        }
+      }
+    }
+
+    .info-wrapper {
+      position:absolute;
+      top:100px;
+      max-height:260px;
+      overflow-x: scroll;
+      padding-top:12px;
+      width:100%;
+      img {
+        display:none;
+      }
+    }
+
+    .header-info {
+      padding-left:100px;
+      overflow:hidden;
+      .persontype {
+        margin-bottom:3px;
+      }
+    }
+
+    h2, h2 a {
+      font-size:17px;
+    }
+
+    h2 {
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
   }
 
-  .relations-info.active {
-    width:100%;
-    background-color:white;
-    top:333px;
-    .info-wrapper {
-      display:none;
+  //Single
+
+  .single-relations-wrapper.insingle-relations-wrapper {
+    height:400px;
+    
+    #single-relations {
+      height:300px;
     }
-    &.expanded {
-      top:0;
-      .info-wrapper {
-        display:block;
+
+    .single-info-wrapper {
+      padding-left:18px;
+    }
+
+    .taxsection {
+      span.taxtip-single {
+        display:none;
       }
     }
   }
 
-  .taxsection {
-    height:45px;
-  }
-
-  .taxsection span {
-    float:left;
-    overflow-x:scroll;
-  }
-
-
-  #relations-container {
-    margin-left:0;
-  }
-
-  .relations-switcher {
-    position: absolute;
-    bottom:0;
-  }
-
+  
 }
