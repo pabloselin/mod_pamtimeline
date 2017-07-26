@@ -157,6 +157,7 @@
 
 				var node = event.target;
 				var nodeId = node.id();
+				cy.elements('node, edge').removeClass('under hover hoveredge selected');
 				var neighbors = cy.$('node#' + nodeId).closedNeighborhood();
 				
                 pamPutData(node.data());
@@ -256,11 +257,19 @@
 
 			artistwrapcont.on('click', 'a.back', function(e) {
 				e.preventDefault;
+
 				
 				globalwrapcont.show();
 				artistwrapcont.hide();
 				
 				singlelayout.run();
+				
+				var infob = $('.single-relations-wrapper .mobile-nav a.infomobile');
+				if(infob.hasClass('expanded')) {
+                    $('.relations-info').removeClass('expanded');
+                    infob.removeClass('expanded');
+                    infob.text('+ info');
+                }
             });
             
             artistwrapcont.on('click', '.taxsection .taxtip', function(e) {
@@ -280,23 +289,30 @@
                 
                 others.removeClass('active');
                 var selected =  $('#taxitems ul[data-tax="' + dataTax + '"] li a[data-taxid="' + dataId + '"]'); 
-                selected.addClass('active');
+				selected.addClass('active');
 
-
+				var taxcontainer = $('#taxitems ul.active');
+				
+				taxcontainer.animate({
+					scrollTop: selected.offset().top - taxcontainer.offset().top + taxcontainer.scrollTop()
+				});
+				
+				var infob = $('.single-relations-wrapper .mobile-nav a.infomobile');
+				if(infob.hasClass('expanded')) {
+                    $('.relations-info').removeClass('expanded');
+                    infob.removeClass('expanded');
+                    infob.text('+ info');
+                }
             });
 
             $('.single-relations-wrapper').on('click', '.mobile-nav a.infomobile',  function(e) {
                 var infob = $(this);
                 if(infob.hasClass('expanded')) {
-                    $('.relations-info').css({
-                        height: '100px'
-                    });
+                    $('.relations-info').removeClass('expanded');
                     infob.removeClass('expanded');
                     infob.text('+ info');
                 } else {
-                    $('.relations-info').css({
-                        height: '360px'
-                    });
+                    $('.relations-info').addClass('expanded');
                     infob.addClass('expanded');
                     infob.text('- info');
                 }

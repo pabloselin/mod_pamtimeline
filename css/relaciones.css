@@ -302,6 +302,11 @@ span.tagtax.matched {
     height: 100px;
     border-left: none;
     border-bottom: 1px solid #ccc;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s;
+  }
+  .relations-info.expanded {
+    height: 360px;
   }
   .relations-info .content {
     padding: 0;
