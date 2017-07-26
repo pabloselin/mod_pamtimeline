@@ -17,9 +17,9 @@ $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/mustache.min.js
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-styles.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-functions.js');
 $document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cy-documentready.js');
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape/dist/cytoscape.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cytoscape.js');
 $document->addScript( 'http://weaver.js.org/api/weaver.js-1.2.0/weaver.min.js' );
-$document->addScript( Juri::base() . 'modules/mod_pamtimeline/bower_components/cytoscape-spread/cytoscape-spread.js');
+$document->addScript( Juri::base() . 'modules/mod_pamtimeline/js/cytoscape-spread.js');
 $document->addStyleSheet( Juri::base() . 'modules/mod_pamtimeline/css/relaciones.css');
 		
 		$article_id = JFactory::getApplication()->input->get('id');
