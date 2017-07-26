@@ -127,6 +127,14 @@ class ModPamTimelineHelper
 											)
 									);
 									$edgeids[] = $curedgeid;
+								else:
+									foreach($edges as $key=>$edge) {
+										if($edge['data']['id'] == $curedgeid) {
+											$secondlabel = self::valuesToNames($match, $tax);
+											$oldlabel = $edge['data']['label'];
+											$edges[$key]['data']['label'] = $label . ' ' . $secondlabel;
+										}
+									}
 								endif;
 							}
 						endif;

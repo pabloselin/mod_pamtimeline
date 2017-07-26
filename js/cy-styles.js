@@ -98,7 +98,9 @@ var generalstyle = [{
 							'text-background-padding': '2px',
 							'color': 'white',
 							'label': 'data(label)',
-							'line-color': pamcolors.red
+							'line-color': pamcolors.red,
+							'text-max-width': '90px',
+							'text-wrap': 'wrap'
 						}
 					},
 					{
