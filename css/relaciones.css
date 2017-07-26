@@ -357,3 +357,13 @@ span.tagtax.matched {
     display: none;
   }
 }
+@media screen and (min-height: 900px) {
+  #relations-container,
+  .single-relations-wrapper #single-relations {
+    height: 700px;
+  }
+  .global-relations-wrapper,
+  .single-relations-wrapper {
+    height: 750px;
+  }
+}

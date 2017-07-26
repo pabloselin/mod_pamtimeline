@@ -157,7 +157,7 @@
 
 				var node = event.target;
 				var nodeId = node.id();
-				cy.elements('node, edge').removeClass('under hover hoveredge selected');
+				cy.elements('node, edge').removeClass('under hover hoveredge selected nolabels');
 				var neighbors = cy.$('node#' + nodeId).closedNeighborhood();
 				
                 pamPutData(node.data());
